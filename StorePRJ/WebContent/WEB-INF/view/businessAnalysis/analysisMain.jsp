@@ -35,15 +35,15 @@
 
 
 
+
 <!-- 다음 지도 API -->
 <script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4e0b6e3ccf43ded1cf750365cdf521d0&libraries=services,clusterer,drawing"></script>
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=42ff495b96a0548bc815a587a9e4fd80&libraries=services,clusterer,drawing"></script>
 <script>
 	$(document).ready(function(){
 	
 		var lat = 0;
 		var lng = 0;
-
 		function getLocation() {
 			  if (navigator.geolocation) { // GPS를 지원하면
 			    navigator.geolocation.getCurrentPosition(function(position) {
@@ -56,30 +56,24 @@
 			  		level : 5
 			  	// 지도의 확대 레벨  
 			  	};
-
 			  	var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
 			  	var drawingFlag = false; // 원이 그려지고 있는 상태를 가지고 있을 변수입니다
 			  	var centerPosition; // 원의 중심좌표 입니다
 			  	var drawingCircle; // 그려지고 있는 원을 표시할 원 객체입니다
 			  	var drawingLine; // 그려지고 있는 원의 반지름을 표시할 선 객체입니다
 			  	var drawingOverlay; // 그려지고 있는 원의 반경을 표시할 커스텀오버레이 입니다
 			  	var drawingDot; // 그려지고 있는 원의 중심점을 표시할 커스텀오버레이 입니다
-
 			  	var circles = []; // 클릭으로 그려진 원과 반경 정보를 표시하는 선과 커스텀오버레이를 가지고 있을 배열입니다
-
 			  	//지도에 클릭 이벤트를 등록합니다
 			  	daum.maps.event.addListener(map, 'click', function(mouseEvent) {
-
+			  		//원 하나만 그리게 하기
+			  		removeCircles();
 			  		// 클릭 이벤트가 발생했을 때 원을 그리고 있는 상태가 아니면 중심좌표를 클릭한 지점으로 설정합니다
 			  		if (!drawingFlag) {
-
 			  			// 상태를 그리고있는 상태로 변경합니다
 			  			drawingFlag = true;
-
 			  			// 원이 그려질 중심좌표를 클릭한 위치로 설정합니다 
 			  			centerPosition = mouseEvent.latLng;
-
 			  			// 그려지고 있는 원의 반경을 표시할 선 객체를 생성합니다
 			  			if (!drawingLine) {
 			  				drawingLine = new daum.maps.Polyline({
@@ -89,7 +83,6 @@
 			  					strokeStyle : 'solid' // 선의 스타일입니다
 			  				});
 			  			}
-
 			  			// 그려지고 있는 원을 표시할 원 객체를 생성합니다
 			  			if (!drawingCircle) {
 			  				drawingCircle = new daum.maps.Circle({
@@ -102,7 +95,6 @@
 			  				// 채우기 불투명도입니다 
 			  				});
 			  			}
-
 			  			// 그려지고 있는 원의 반경 정보를 표시할 커스텀오버레이를 생성합니다
 			  			if (!drawingOverlay) {
 			  				drawingOverlay = new daum.maps.CustomOverlay({
@@ -113,81 +105,71 @@
 			  			}
 			  		}
 			  	});
-
 			  	//지도에 마우스무브 이벤트를 등록합니다
 			  	//원을 그리고있는 상태에서 마우스무브 이벤트가 발생하면 그려질 원의 위치와 반경정보를 동적으로 보여주도록 합니다
+			  	
 			  	daum.maps.event
 			  			.addListener(
 			  					map,
 			  					'mousemove',
 			  					function(mouseEvent) {
-
+			  						
 			  						// 마우스무브 이벤트가 발생했을 때 원을 그리고있는 상태이면
 			  						if (drawingFlag) {
-
+			  							//최대 반경을 설정합니다.
+			  							var maxLength = 1200;
 			  							// 마우스 커서의 현재 위치를 얻어옵니다 
 			  							var mousePosition = mouseEvent.latLng;
-
 			  							// 그려지고 있는 선을 표시할 좌표 배열입니다. 클릭한 중심좌표와 마우스커서의 위치로 설정합니다
 			  							var linePath = [ centerPosition, mousePosition ];
-
 			  							// 그려지고 있는 선을 표시할 선 객체에 좌표 배열을 설정합니다
 			  							drawingLine.setPath(linePath);
-
 			  							// 원의 반지름을 선 객체를 이용해서 얻어옵니다 
 			  							var length = drawingLine.getLength();
-
-			  							if (length > 0) {
-
+			  							if (length < maxLength) {
 			  								// 그려지고 있는 원의 중심좌표와 반지름입니다
 			  								var circleOptions = {
 			  									center : centerPosition,
 			  									radius : length,
 			  								};
-
 			  								// 그려지고 있는 원의 옵션을 설정합니다
 			  								drawingCircle.setOptions(circleOptions);
-
 			  								// 반경 정보를 표시할 커스텀오버레이의 내용입니다
 			  								var radius = Math.round(drawingCircle
 			  										.getRadius()), content = '<div class="info">반경 <span class="number">'
 			  										+ radius + '</span>m</div>';
-
+			  								
 			  								// 반경 정보를 표시할 커스텀 오버레이의 좌표를 마우스커서 위치로 설정합니다
 			  								drawingOverlay.setPosition(mousePosition);
-
 			  								// 반경 정보를 표시할 커스텀 오버레이의 표시할 내용을 설정합니다
 			  								drawingOverlay.setContent(content);
-
 			  								// 그려지고 있는 원을 지도에 표시합니다
 			  								drawingCircle.setMap(map);
-
 			  								// 그려지고 있는 선을 지도에 표시합니다
 			  								drawingLine.setMap(map);
-
 			  								// 그려지고 있는 원의 반경정보 커스텀 오버레이를 지도에 표시합니다
 			  								drawingOverlay.setMap(map);
-
-			  							} else {
-
+			  								// 반경 1000 제한
+			  							}else if(length > maxLength){
+			  								alert("반경은"+maxLength+"M 미만으로 설정해 주세요.");
+			  								daum.maps.event.trigger(map,'rightclick',mouseEvent);
+			  								removeCircles();
+			  								length = 0;
+			  							}else {
 			  								drawingCircle.setMap(null);
 			  								drawingLine.setMap(null);
 			  								drawingOverlay.setMap(null);
-
 			  							}
 			  						}
 			  					});
-
+			  	
 			  	//지도에 마우스 오른쪽 클릭이벤트를 등록합니다
 			  	//원을 그리고있는 상태에서 마우스 오른쪽 클릭 이벤트가 발생하면
 			  	//마우스 오른쪽 클릭한 위치를 기준으로 원과 원의 반경정보를 표시하는 선과 커스텀 오버레이를 표시하고 그리기를 종료합니다
 			  	daum.maps.event.addListener(map, 'rightclick', function(mouseEvent) {
-
 			  		if (drawingFlag) {
-
 			  			// 마우스로 오른쪽 클릭한 위치입니다 
 			  			var rClickPosition = mouseEvent.latLng;
-
 			  			// 원의 반경을 표시할 선 객체를 생성합니다
 			  			var polyline = new daum.maps.Polyline({
 			  				path : [ centerPosition, rClickPosition ], // 선을 구성하는 좌표 배열입니다. 원의 중심좌표와 클릭한 위치로 설정합니다
@@ -196,7 +178,6 @@
 			  				strokeOpacity : 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
 			  				strokeStyle : 'solid' // 선의 스타일입니다
 			  			});
-
 			  			// 원 객체를 생성합니다
 			  			var circle = new daum.maps.Circle({
 			  				center : centerPosition, // 원의 중심좌표입니다
@@ -209,10 +190,9 @@
 			  				fillOpacity : 0.2
 			  			// 채우기 불투명도입니다 
 			  			});
-
 			  			var radius = Math.round(circle.getRadius()), // 원의 반경 정보를 얻어옵니다
-			  			content = getTimeHTML(radius); // 커스텀 오버레이에 표시할 반경 정보입니다
-
+			  			content = '<div class="info">반경 <span class="number">'
+								+ radius + '</span>m</div>'; // 커스텀 오버레이에 표시할 반경 정보입니다
 			  			// 반경정보를 표시할 커스텀 오버레이를 생성합니다
 			  			var radiusOverlay = new daum.maps.CustomOverlay({
 			  				content : content, // 표시할 내용입니다
@@ -221,40 +201,31 @@
 			  				yAnchor : 0,
 			  				zIndex : 1
 			  			});
-
 			  			// 원을 지도에 표시합니다
 			  			circle.setMap(map);
-
 			  			// 선을 지도에 표시합니다
 			  			polyline.setMap(map);
-
 			  			// 반경 정보 커스텀 오버레이를 지도에 표시합니다
 			  			radiusOverlay.setMap(map);
-
 			  			// 배열에 담을 객체입니다. 원, 선, 커스텀오버레이 객체를 가지고 있습니다
 			  			var radiusObj = {
 			  				'polyline' : polyline,
 			  				'circle' : circle,
 			  				'overlay' : radiusOverlay
 			  			};
-
 			  			// 배열에 추가합니다
 			  			// 이 배열을 이용해서 "모두 지우기" 버튼을 클릭했을 때 지도에 그려진 원, 선, 커스텀오버레이들을 지웁니다
 			  			circles.push(radiusObj);
-
 			  			// 그리기 상태를 그리고 있지 않는 상태로 바꿉니다
 			  			drawingFlag = false;
-
 			  			// 중심 좌표를 초기화 합니다  
 			  			centerPosition = null;
-
 			  			// 그려지고 있는 원, 선, 커스텀오버레이를 지도에서 제거합니다
 			  			drawingCircle.setMap(null);
 			  			drawingLine.setMap(null);
 			  			drawingOverlay.setMap(null);
 			  		}
 			  	});
-
 			  	//지도에 표시되어 있는 모든 원과 반경정보를 표시하는 선, 커스텀 오버레이를 지도에서 제거합니다
 			  	function removeCircles() {
 			  		for (var i = 0; i < circles.length; i++) {
@@ -264,34 +235,28 @@
 			  		}
 			  		circles = [];
 			  	}
-
 			  	//마우스 우클릭 하여 원 그리기가 종료됐을 때 호출하여 
 			  	//그려진 원의 반경 정보와 반경에 대한 도보, 자전거 시간을 계산하여
 			  	//HTML Content를 만들어 리턴하는 함수입니다
-			  	function getTimeHTML(distance) {
-
+			  	/* function getTimeHTML(distance) {
 			  		// 도보의 시속은 평균 4km/h 이고 도보의 분속은 67m/min입니다
 			  		var walkkTime = distance / 67 | 0;
 			  		var walkHour = '', walkMin = '';
-
 			  		// 계산한 도보 시간이 60분 보다 크면 시간으로 표시합니다
 			  		if (walkkTime > 60) {
 			  			walkHour = '<span class="number">' + Math.floor(walkkTime / 60)
 			  					+ '</span>시간 '
 			  		}
 			  		walkMin = '<span class="number">' + walkkTime % 60 + '</span>분'
-
 			  		// 자전거의 평균 시속은 16km/h 이고 이것을 기준으로 자전거의 분속은 267m/min입니다
 			  		var bycicleTime = distance / 227 | 0;
 			  		var bycicleHour = '', bycicleMin = '';
-
 			  		// 계산한 자전거 시간이 60분 보다 크면 시간으로 표출합니다
 			  		if (bycicleTime > 60) {
 			  			bycicleHour = '<span class="number">'
 			  					+ Math.floor(bycicleTime / 60) + '</span>시간 '
 			  		}
 			  		bycicleMin = '<span class="number">' + bycicleTime % 60 + '</span>분'
-
 			  		// 거리와 도보 시간, 자전거 시간을 가지고 HTML Content를 만들어 리턴합니다
 			  		var content = '<ul class="info">';
 			  		content += '    <li>';
@@ -306,22 +271,21 @@
 			  				+ bycicleMin;
 			  		content += '    </li>';
 			  		content += '</ul>'
-
 			  		return content;
+			  	} */
+			  	
+			  	function setRadius(rad){
+			  		var radius = rad;
 			  	}
 			  	
 			  	$('#test').click(function() {
 					console.log("test");
 					var geocoder = new daum.maps.services.Geocoder();
-
 				// 주소로 좌표를 검색합니다
 				geocoder.addressSearch('경기도 수원시 권선구', function(result, status) {
-
 				    // 정상적으로 검색이 완료됐으면 
 				     if (status === daum.maps.services.Status.OK) {
-
 				        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-
 				        // 결과값으로 받은 위치를 마커로 표시합니다
 				        var marker = new daum.maps.Marker({
 				            map: map,
@@ -348,7 +312,6 @@
 			    alert('GPS를 지원하지 않습니다');
 			  }
 			}
-
 		getLocation();	
 		
 		
@@ -361,7 +324,6 @@
 
 
 
-
 <script>
 	window.onload = function() {
 		var analysisCategory = document.getElementById("analysisCategory");
@@ -371,19 +333,24 @@
 		selectNation.text("시,도 선택");
 		var selectCity = $("#selectCity");
 		selectCity.text("시,군,구 선택");
-
-		$('#test').click(function() {
-			/* console.log($('.card.border-primary.mb-3').attr('class'));
-			$('#selectNationDiv').attr('class', 'card bg-light mb-3');
-			$('#selectNation').attr("disabled", "disabled");
-			$('#selectCity').attr("disabled", "disabled");
-			$('#selectNationDrop').attr("disabled", "disabled");
-			$('#selectCityDrop').attr("disabled", "disabled"); */
-			
+		
+		var selectBusiness1 = $('#selectBusiness1');
+		selectBusiness1.text("업종 대분류");
+		var selectBusiness2 = $('#selectBusiness2');
+		selectBusiness2.text("업종 소분류");
+		
+		
+		$.ajax({
+				url:"searchSigungu.do",
+				sucess:function(data){
+					console.log(data);
+				}
+		
 			
 		});
-		/* card text-white bg-secondary mb-3 */
 	}
+	
+	
 </script>
 
 <title>우리 동네 상권 분석</title>
@@ -449,21 +416,25 @@
 							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
 								x-placement="bottom-start"
 								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
-								<a class="dropdown-item" href="#">Dropdown link</a> 
-								<a class="dropdown-item" href="#">Dropdown link</a>
-								<a class="dropdown-item" href="#">Dropdown link</a> 
-								<a class="dropdown-item" href="#">Dropdown link</a>
-								<a class="dropdown-item" href="#">Dropdown link</a> 
-								<a class="dropdown-item" href="#">Dropdown link</a>
-								<a class="dropdown-item" href="#">Dropdown link</a> 
-								<a class="dropdown-item" href="#">Dropdown link</a>
-								<a class="dropdown-item" href="#">Dropdown link</a> 
-								<a class="dropdown-item" href="#">Dropdown link</a>
-								
-								
+								<a class="dropdown-item" href="#">서울특별시</a> 
+								<a class="dropdown-item" href="#">부산광역시</a>
+								<a class="dropdown-item" href="#">대구광역시</a> 
+								<a class="dropdown-item" href="#">인천광역시</a>
+								<a class="dropdown-item" href="#">광주광역시</a> 
+								<a class="dropdown-item" href="#">대전광역시</a>
+								<a class="dropdown-item" href="#">울산광역시</a> 
+								<a class="dropdown-item" href="#">세종특별자치시</a>
+								<a class="dropdown-item" href="#">충청북도</a> 
+								<a class="dropdown-item" href="#">충청남도</a>
+								<a class="dropdown-item" href="#">전라북도</a>
+								<a class="dropdown-item" href="#">전라남도</a>
+								<a class="dropdown-item" href="#">경상북도</a>
+								<a class="dropdown-item" href="#">경상남도</a>
+								<a class="dropdown-item" href="#">제주특별자치도</a>
 							</div>
 						</div>
 					</div>
+					
 
 					<div class="btn-group" role="group" id="selectCityDiv"
 						aria-label="Button group with nested dropdown" style="padding-top:5px">
@@ -482,7 +453,57 @@
 					</div>
 				</div>
 			</div>
+			<div class="card border-primary mb-3" id=""
+				style="max-width: 20rem;max-height:150px;width:300px">
+				<div class="card-header">업종 선택</div>
+				<div class="card-body">
+					<div class="btn-group" role="group"
+						aria-label="Button group with nested dropdown">
+						<button type="button" class="btn btn-info" id="selectBusiness1"></button>
+						<div class="btn-group" role="group">
+							<button id="selectNationDrop" type="button"
+								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"></button>
+							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
+								x-placement="bottom-start"
+								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
+								<a class="dropdown-item" href="#">Dropdown link</a> 
+								<a class="dropdown-item" href="#">Dropdown link</a>
+								<a class="dropdown-item" href="#">Dropdown link</a> 
+								<a class="dropdown-item" href="#">Dropdown link</a>
+								<a class="dropdown-item" href="#">Dropdown link</a> 
+								<a class="dropdown-item" href="#">Dropdown link</a>
+								<a class="dropdown-item" href="#">Dropdown link</a> 
+								<a class="dropdown-item" href="#">Dropdown link</a>
+								<a class="dropdown-item" href="#">Dropdown link</a> 
+								<a class="dropdown-item" href="#">Dropdown link</a>
+								
+								
+							</div>
+						</div>
+					</div>
+					
+
+					<div class="btn-group" role="group" id=""
+						aria-label="Button group with nested dropdown" style="padding-top:5px">
+						<button type="button" class="btn btn-info" id="selectBusiness2"></button>
+						<div class="btn-group" role="group">
+							<button id="selectCityDrop" type="button"
+								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"></button>
+							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
+								x-placement="bottom-start"
+								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
+								<a class="dropdown-item" href="#">Dropdown link</a> <a
+									class="dropdown-item" href="#">Dropdown link</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+		
+			
 		
 		<div style="margin-top: 5%;">	
 			<div class="card border-primary mb-3"
