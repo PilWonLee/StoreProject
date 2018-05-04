@@ -41,7 +41,20 @@
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=42ff495b96a0548bc815a587a9e4fd80&libraries=services,clusterer,drawing"></script>
 <script>
 	$(document).ready(function(){
+		
+		var analysisCategory = document.getElementById("analysisCategory");
+		analysisCategory.className = "nav-item px-lg-4 active"; //카테고리 활성화
 	
+		var selectNation = $('#selectNation');//버튼 만들기
+		selectNation.text("시,도 선택");
+		var selectCity = $("#selectCity");
+		selectCity.text("시,군,구 선택");
+		
+		var selectBusiness1 = $('#selectBigInds');
+		selectBusiness1.text("업종 대분류");
+		var selectBusiness2 = $('#selectMidInds');
+		selectBusiness2.text("업종 중분류");
+		
 		var lat = 0;
 		var lng = 0;
 		function getLocation() {
@@ -49,6 +62,7 @@
 			    navigator.geolocation.getCurrentPosition(function(position) {
 			      lat = position.coords.latitude;
 			      lng = position.coords.longitude;
+			      
 			      //지도 시작
 			      var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
 			  	mapOption = {
@@ -235,54 +249,19 @@
 			  		}
 			  		circles = [];
 			  	}
-			  	//마우스 우클릭 하여 원 그리기가 종료됐을 때 호출하여 
-			  	//그려진 원의 반경 정보와 반경에 대한 도보, 자전거 시간을 계산하여
-			  	//HTML Content를 만들어 리턴하는 함수입니다
-			  	/* function getTimeHTML(distance) {
-			  		// 도보의 시속은 평균 4km/h 이고 도보의 분속은 67m/min입니다
-			  		var walkkTime = distance / 67 | 0;
-			  		var walkHour = '', walkMin = '';
-			  		// 계산한 도보 시간이 60분 보다 크면 시간으로 표시합니다
-			  		if (walkkTime > 60) {
-			  			walkHour = '<span class="number">' + Math.floor(walkkTime / 60)
-			  					+ '</span>시간 '
-			  		}
-			  		walkMin = '<span class="number">' + walkkTime % 60 + '</span>분'
-			  		// 자전거의 평균 시속은 16km/h 이고 이것을 기준으로 자전거의 분속은 267m/min입니다
-			  		var bycicleTime = distance / 227 | 0;
-			  		var bycicleHour = '', bycicleMin = '';
-			  		// 계산한 자전거 시간이 60분 보다 크면 시간으로 표출합니다
-			  		if (bycicleTime > 60) {
-			  			bycicleHour = '<span class="number">'
-			  					+ Math.floor(bycicleTime / 60) + '</span>시간 '
-			  		}
-			  		bycicleMin = '<span class="number">' + bycicleTime % 60 + '</span>분'
-			  		// 거리와 도보 시간, 자전거 시간을 가지고 HTML Content를 만들어 리턴합니다
-			  		var content = '<ul class="info">';
-			  		content += '    <li>';
-			  		content += '        <span class="label">총거리</span><span class="number">'
-			  				+ distance + '</span>m';
-			  		content += '    </li>';
-			  		content += '    <li>';
-			  		content += '        <span class="label">도보</span>' + walkHour + walkMin;
-			  		content += '    </li>';
-			  		content += '    <li>';
-			  		content += '        <span class="label">자전거</span>' + bycicleHour
-			  				+ bycicleMin;
-			  		content += '    </li>';
-			  		content += '</ul>'
-			  		return content;
-			  	} */
+			  
 			  	
 			  	function setRadius(rad){
 			  		var radius = rad;
 			  	}
 			  	
-			  	$('#test').click(function() {
-					console.log("test");
+			  //시,군,구 선택시 지도 이동
+			  	function moveLocation(sido, sigungu) {
+					console.log(sido+' '+sigungu);
+					var loc =sido+' '+sigungu;
 					var geocoder = new daum.maps.services.Geocoder();
 				// 주소로 좌표를 검색합니다
-				geocoder.addressSearch('경기도 수원시 권선구', function(result, status) {
+				geocoder.addressSearch(loc, function(result, status) {
 				    // 정상적으로 검색이 완료됐으면 
 				     if (status === daum.maps.services.Status.OK) {
 				        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
@@ -296,9 +275,68 @@
 				 
 				        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 				        map.setCenter(coords);
+				        map.setLevel(5);
 				     }
 					});
+				}
+			  	
+			  	
+			  	
+				//시,도 불러오기
+				$.ajax({
+						url:"searchSido.do",
+						dataType:"json",
+						success:function(data){
+							var contents = ""
+							$.each(data,function(key,value){
+								contents += "<a class='dropdown-item' href='#' id='N"+value.ctprvnCd+"'>"+value.ctprvnNm+"</a> ";
+							});
+							$('#selectNationDrop').html(contents);
+							addClickEventNation();
+						},	
+						error: function(request,status,error){
+				        		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				       	}
+				}); 
+			
+			
+			//시,도 드랍다운에 이벤트 추가 함수
+			function addClickEventNation(){
+				$('#selectNationDrop').children('.dropdown-item').click(function(event){
+					event.preventDefault();//a태그 href 막음
+					var ctprvnCd = $(this).attr('id').substring(1,3);
+					$('#selectNation').text($(this).text());
+					
+					$.ajax({
+						data : {'ctprvnCd' : ctprvnCd},
+						url:"searchSigungu.do",
+						dataType:"json",
+						success:function(data){
+							var contents = ""
+							$.each(data,function(key,value){
+								contents += "<a class='dropdown-item' href='#' id='S"+value.signguCd+"'>"+value.signguNm+"</a> ";
+							});
+							$('#selectCityDrop').html(contents);
+							$("#selectCity").text("시,군,구 선택");
+							addClickEventCity();
+						},	
+						error: function(request,status,error){
+				        		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				       	}
+					}); 
 				});
+			}
+
+			//시,군,구 드랍다운 이벤트 추가 함수
+			function addClickEventCity(){
+				$('#selectCityDrop').children('.dropdown-item').click(function(event){
+					event.preventDefault();//a태그 href 막음
+					$('#selectCity').text($(this).text());
+					
+					moveLocation($('#selectNation').text(),$('#selectCity').text());
+					
+				});
+			}
 			  	
 			  	
 			    }, function(error) {
@@ -315,38 +353,58 @@
 		getLocation();	
 		
 		
+		//업종 대분류 불러오기
+	$.ajax({
+				url:"searchBigInds.do",
+				dataType:"json",
+				success:function(data){
+					var contents = "";
+					$.each(data,function(key,value){
+						contents += "<a class='dropdown-item' href='#' id='"+value.indsLclsCd+"'>"+value.indsLclsNm+"</a> ";
+					});
+					$('#selectBigIndsDrop').html(contents);
+					addClickEventBigInds();
+				},	
+				error: function(request,status,error){
+		        		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		       	}
+		}); 
 		
-	});
+	});		
 	
-	
-	
-</script>
-
-
-
-<script>
-	window.onload = function() {
-		var analysisCategory = document.getElementById("analysisCategory");
-		analysisCategory.className = "nav-item px-lg-4 active"; //카테고리 활성화
-
-		var selectNation = $('#selectNation');//버튼 만들기
-		selectNation.text("시,도 선택");
-		var selectCity = $("#selectCity");
-		selectCity.text("시,군,구 선택");
-		
-		var selectBusiness1 = $('#selectBusiness1');
-		selectBusiness1.text("업종 대분류");
-		var selectBusiness2 = $('#selectBusiness2');
-		selectBusiness2.text("업종 소분류");
-		
-		
-		$.ajax({
-				url:"searchSigungu.do",
-				sucess:function(data){
-					console.log(data);
-				}
-		
+	//업종 대분류 드랍다운에 이벤트 추가 함수
+	function addClickEventBigInds(){
+		$('#selectBigIndsDrop').children('.dropdown-item').click(function(event){
+			event.preventDefault();//a태그 href 막음
+			var indsLclsCd = $(this).attr('id');
+			console.log(indsLclsCd);
+			$('#selectBigInds').text($(this).text());
 			
+			$.ajax({
+				data : {'indsLclsCd' : indsLclsCd},
+				url:"searchMidInds.do",
+				dataType:"json",
+				success:function(data){
+					var contents = ""
+					$.each(data,function(key,value){
+						contents += "<a class='dropdown-item' href='#' id='"+value.indsMclsCd+"'>"+value.indsMclsNm+"</a> ";
+					});
+					$('#selectMidIndsDrop').html(contents);
+					$("#selectMidInds").text("업종 중분류");
+					addClickEventMidInds();
+				},	
+				error: function(request,status,error){
+		        		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		       	}
+			}); 
+		});
+	}
+	
+	//시,군,구 드랍다운 이벤트 추가 함수
+	function addClickEventMidInds(){
+		$('#selectMidIndsDrop').children('.dropdown-item').click(function(event){
+			event.preventDefault();//a태그 href 막음
+			$('#selectMidInds').text($(this).text());
 		});
 	}
 	
@@ -401,101 +459,80 @@
 		<div class="intro">
 			<!-- <img class="intro-img img-fluid mb-3 mb-lg-0 rounded"
 				src="" alt=""> -->
+		<!-- 지역선택 박스 -->				
 		<div style="margin-top: 5%">	
 			<div class="card border-primary mb-3" id="selectNationDiv"
 				style="max-width: 20rem;max-height:150px;width:300px">
 				<div class="card-header">지역 선택</div>
 				<div class="card-body">
+				
+					<!-- 시,도 선택 셀렉트 박스 -->
 					<div class="btn-group" role="group"
 						aria-label="Button group with nested dropdown">
 						<button type="button" class="btn btn-info" id="selectNation"></button>
 						<div class="btn-group" role="group">
-							<button id="selectNationDrop" type="button"
+							<button  type="button" id="selectNationBtn"
 								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false"></button>
+							<!-- 드랍다운 부분 -->
 							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
-								x-placement="bottom-start"
+								x-placement="bottom-start" id="selectNationDrop"
 								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
-								<a class="dropdown-item" href="#">서울특별시</a> 
-								<a class="dropdown-item" href="#">부산광역시</a>
-								<a class="dropdown-item" href="#">대구광역시</a> 
-								<a class="dropdown-item" href="#">인천광역시</a>
-								<a class="dropdown-item" href="#">광주광역시</a> 
-								<a class="dropdown-item" href="#">대전광역시</a>
-								<a class="dropdown-item" href="#">울산광역시</a> 
-								<a class="dropdown-item" href="#">세종특별자치시</a>
-								<a class="dropdown-item" href="#">충청북도</a> 
-								<a class="dropdown-item" href="#">충청남도</a>
-								<a class="dropdown-item" href="#">전라북도</a>
-								<a class="dropdown-item" href="#">전라남도</a>
-								<a class="dropdown-item" href="#">경상북도</a>
-								<a class="dropdown-item" href="#">경상남도</a>
-								<a class="dropdown-item" href="#">제주특별자치도</a>
 							</div>
 						</div>
 					</div>
-					
-
+					<br>
+					<!-- 시,군,구 선택 셀렉트 박스 -->
 					<div class="btn-group" role="group" id="selectCityDiv"
 						aria-label="Button group with nested dropdown" style="padding-top:5px">
 						<button type="button" class="btn btn-info" id="selectCity"></button>
 						<div class="btn-group" role="group">
-							<button id="selectCityDrop" type="button"
+							<button  type="button"
 								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false"></button>
+							<!-- 드랍다운 부분 -->	
 							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
-								x-placement="bottom-start"
+								x-placement="bottom-start"  id="selectCityDrop"
 								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
-								<a class="dropdown-item" href="#">Dropdown link</a> <a
-									class="dropdown-item" href="#">Dropdown link</a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<!-- 업정선택 박스 -->
 			<div class="card border-primary mb-3" id=""
 				style="max-width: 20rem;max-height:150px;width:300px">
 				<div class="card-header">업종 선택</div>
 				<div class="card-body">
+				
+					<!-- 업종 대분류 -->
 					<div class="btn-group" role="group"
 						aria-label="Button group with nested dropdown">
-						<button type="button" class="btn btn-info" id="selectBusiness1"></button>
+						<button type="button" class="btn btn-info" id="selectBigInds"></button>
 						<div class="btn-group" role="group">
-							<button id="selectNationDrop" type="button"
+							<button  type="button"
 								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false"></button>
+							<!-- 드랍다운 부분 -->	
 							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
-								x-placement="bottom-start"
+								x-placement="bottom-start" id="selectBigIndsDrop"
 								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
-								<a class="dropdown-item" href="#">Dropdown link</a> 
-								<a class="dropdown-item" href="#">Dropdown link</a>
-								<a class="dropdown-item" href="#">Dropdown link</a> 
-								<a class="dropdown-item" href="#">Dropdown link</a>
-								<a class="dropdown-item" href="#">Dropdown link</a> 
-								<a class="dropdown-item" href="#">Dropdown link</a>
-								<a class="dropdown-item" href="#">Dropdown link</a> 
-								<a class="dropdown-item" href="#">Dropdown link</a>
-								<a class="dropdown-item" href="#">Dropdown link</a> 
-								<a class="dropdown-item" href="#">Dropdown link</a>
-								
-								
 							</div>
 						</div>
 					</div>
-					
-
+					<br>
+					<!-- 업종 소분류 -->
 					<div class="btn-group" role="group" id=""
 						aria-label="Button group with nested dropdown" style="padding-top:5px">
-						<button type="button" class="btn btn-info" id="selectBusiness2"></button>
+						<button type="button" class="btn btn-info" id="selectMidInds"></button>
 						<div class="btn-group" role="group">
-							<button id="selectCityDrop" type="button"
+							<button  type="button"
 								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false"></button>
+							<!-- 드랍다운 부분 -->	
 							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
-								x-placement="bottom-start"
+								x-placement="bottom-start" id="selectMidIndsDrop"
 								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
-								<a class="dropdown-item" href="#">Dropdown link</a> <a
-									class="dropdown-item" href="#">Dropdown link</a>
 							</div>
 						</div>
 					</div>
@@ -514,11 +551,12 @@
 			</div>
 		</div>
 		
-		<button id="test"></button>
+		</div>
 		
+		<div style="text-align:center;margin-top:3%">
+			<button type="button" class="btn btn-info" style="width:350px;height:50px" ><h3>상권 분석</h3></button>
 		</div>
 	
-
 	</div>
 
 
