@@ -53,11 +53,11 @@ public class AnalysisController {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("resId", "dong");
 		map.put("catId", "mega");
-
+		//API결과를 String 변환 
 		ApiResultToString apiResult = new ApiResultToString();
 		String result = apiResult.getString(map);
 
-		// String을 xml로 파싱하는 부분
+		// String을 xml로 파싱하고 List에 담기
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		XmlPullParser parser = factory.newPullParser(); // 연결하는거 담고
 		parser.setInput(new StringReader(result));
@@ -168,7 +168,7 @@ public class AnalysisController {
 		ApiResultToString apiResult = new ApiResultToString();
 		String result = apiResult.getString(map);
 
-		// String을 xml로 파싱하는 부분
+		// String을 xml로 파싱하고 List에 담기
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		XmlPullParser parser = factory.newPullParser(); // 연결하는거 담고
 		parser.setInput(new StringReader(result));
@@ -226,7 +226,7 @@ public class AnalysisController {
 		ApiResultToString apiResult = new ApiResultToString();
 		String result = apiResult.getString(map);
 
-		// String을 xml로 파싱하는 부분
+		// String을 xml로 파싱하고 List에 담기
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		XmlPullParser parser = factory.newPullParser(); // 연결하는거 담고
 		parser.setInput(new StringReader(result));
@@ -270,11 +270,12 @@ public class AnalysisController {
 	}
 	
 	@RequestMapping(value = "getStoreInfo", method = RequestMethod.GET)
-	public @ResponseBody List<apiDTO> getStoreInfo(HttpServletRequest request, HttpServletResponse response,
+	public List<apiDTO> getStoreInfo(HttpServletRequest request, HttpServletResponse response,
 			 @RequestParam("radius")String radius,@RequestParam("cx")String cx,
 			 @RequestParam("cy")String cy,ModelMap model) throws Exception {
-		log.info("come into searchMidInds");
-
+		log.info("come into getStoreInfo");
+		
+		
 		HashMap<String, String> map = new HashMap<>();
 		map.put("resId", "store");
 		map.put("catId", "radius");
@@ -284,8 +285,10 @@ public class AnalysisController {
 		
 		ApiResultToString apiResult = new ApiResultToString();
 		String result = apiResult.getString(map);
-
-		// String을 xml로 파싱하는 부분
+		
+		System.out.println("result : "+result);
+		
+		// String을 xml로 파싱하고 List에 담기
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		XmlPullParser parser = factory.newPullParser(); // 연결하는거 담고
 		parser.setInput(new StringReader(result));
@@ -320,46 +323,49 @@ public class AnalysisController {
 					dto.setBizesNm(parser.nextText());
 					break;
 				case "indsLclsCd":
-					dto.setBizesNm(parser.nextText());
+					dto.setIndsLclsCd(parser.nextText());
 					break;
 				case "indsLclsNm":
-					dto.setBizesNm(parser.nextText());
+					dto.setIndsLclsNm(parser.nextText());
 					break;
 				case "indsMclsCd":
-					dto.setBizesNm(parser.nextText());
+					dto.setIndsMclsCd(parser.nextText());
 					break;
 				case "indsMclsNm":
-					dto.setBizesNm(parser.nextText());
+					dto.setIndsMclsNm(parser.nextText());
 					break;
 				case "indsSclsCd":
-					dto.setBizesNm(parser.nextText());
+					dto.setIndsSclsCd(parser.nextText());
 					break;
 				case "indsSclsNm":
-					dto.setBizesNm(parser.nextText());
+					dto.setIndsSclsNm(parser.nextText());
 					break;	
 				case "ctprvnCd":
-					dto.setBizesNm(parser.nextText());
+					dto.setCtprvnCd(parser.nextText());
 					break;
 				case "ctprvnNm":
-					dto.setBizesNm(parser.nextText());
+					dto.setCtprvnNm(parser.nextText());
 					break;
 				case "signguCd":
-					dto.setBizesNm(parser.nextText());
+					dto.setSignguCd(parser.nextText());
 					break;
 				case "signguNm":
-					dto.setBizesNm(parser.nextText());
+					dto.setSignguNm(parser.nextText());
 					break;
 				case "lon":
-					dto.setBizesNm(parser.nextText());
+					dto.setLon(parser.nextText());
 					break;	
 				case "lat":
-					dto.setBizesNm(parser.nextText());
+					dto.setLat(parser.nextText());
 					break;		
 				}
 				break;
 			}
 			}
 			eventType = parser.next();
+		}
+		for(apiDTO d : list) {
+			System.out.println(d.getBizesNm());
 		}
 		return list;
 	}

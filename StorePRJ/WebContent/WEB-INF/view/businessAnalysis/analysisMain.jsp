@@ -33,7 +33,17 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 
+<script>
+$(function(){
+	$('h1.site-heading.text-center.text-white.d-none.d-lg-block').click(function(){
+		location.href = 'main.do';
+	});
+	 $('h1.site-heading.text-center.text-white.d-none.d-lg-block > span').mouseover(function(event){
+		$(this).css('cursor','pointer');
+	}) 
+});
 
+</script>
 
 
 <!-- 다음 지도 API -->
@@ -55,6 +65,7 @@
 		var selectBusiness2 = $('#selectMidInds');
 		selectBusiness2.text("업종 중분류");
 		
+		var sendRadius = 0;
 		var lat = 0;
 		var lng = 0;
 		function getLocation() {
@@ -207,6 +218,7 @@
 			  			var radius = Math.round(circle.getRadius()), // 원의 반경 정보를 얻어옵니다
 			  			content = '<div class="info">반경 <span class="number">'
 								+ radius + '</span>m</div>'; // 커스텀 오버레이에 표시할 반경 정보입니다
+						sendRadius = radius; //전연변수에 담기		
 			  			// 반경정보를 표시할 커스텀 오버레이를 생성합니다
 			  			var radiusOverlay = new daum.maps.CustomOverlay({
 			  				content : content, // 표시할 내용입니다
@@ -319,6 +331,9 @@
 							$('#selectCityDrop').html(contents);
 							$("#selectCity").text("시,군,구 선택");
 							addClickEventCity();
+			
+						
+							
 						},	
 						error: function(request,status,error){
 				        		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -351,6 +366,16 @@
 			  }
 			}
 		getLocation();	
+		
+		//상권분석 시작
+		$("#startAnalysis").click(function(){
+			console.log("sendRadius: "+sendRadius);
+			console.log("cx :"+lng);
+			console.log("cy :"+lat);
+			location.href="getStoreInfo.do?radius="+sendRadius+"&cx="+lng+"&cy="+lat;
+		});	
+		
+		
 		
 		
 		//업종 대분류 불러오기
@@ -407,6 +432,8 @@
 			$('#selectMidInds').text($(this).text());
 		});
 	}
+	
+	
 	
 	
 </script>
@@ -554,7 +581,7 @@
 		</div>
 		
 		<div style="text-align:center;margin-top:3%">
-			<button type="button" class="btn btn-info" style="width:350px;height:50px" ><h3>상권 분석</h3></button>
+			<button type="button" class="btn btn-info" id="startAnalysis" style="width:350px;height:50px" ><h3>상권 분석</h3></button>
 		</div>
 	
 	</div>

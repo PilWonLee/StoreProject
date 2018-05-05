@@ -268,10 +268,24 @@ $(document).ready(function(){
 	grid.setData(gridData);
 	grid.disableRow(6);
 	tui.Grid.applyTheme('striped');
-
+	
+	
 });
+	
 </script>
 
+
+<script>
+$(function(){
+	$('h1.site-heading.text-center.text-white.d-none.d-lg-block').click(function(){
+		location.href = 'main.do';
+	});
+	 $('h1.site-heading.text-center.text-white.d-none.d-lg-block > span').mouseover(function(event){
+		$(this).css('cursor','pointer');
+	}) 
+});
+
+</script>
 <title>우리 동네 상권 분석</title>
 </head>
 <body>
@@ -283,10 +297,10 @@ $(document).ready(function(){
 	<div style="display: inline">
 		<div id="umbrella"></div>
 
-		<h1 class="site-heading text-center text-white d-none d-lg-block"
+		<h1 class="site-heading text-center text-white d-none d-lg-block"  
 			style="z-index: 20; position: relative;">
-			<span class="site-heading-upper text-primary mb-3">우리동네 상권 분석</span>
-			<span class="site-heading-lower">Business Analysis</span>
+			<span class="site-heading-upper text-primary mb-3" >우리동네 상권 분석</span>
+			<span class="site-heading-lower" >Business Analysis</span>
 		</h1>
 	</div>
 
@@ -304,7 +318,7 @@ $(document).ready(function(){
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav mx-auto">
 				<li class="nav-item px-lg-4"><a
-					class="nav-link text-uppercase text-expanded" href="index.html">상권
+					class="nav-link text-uppercase text-expanded" href="analysisMain.do">상권
 						분석 <span class="sr-only">(current)</span>
 				</a></li>
 				<li class="nav-item px-lg-4"><a

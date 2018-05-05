@@ -18,6 +18,18 @@ public class apiDTO {
 	String brchNm;
 	
 	
+	public String getIndsSclsCd() {
+		return indsSclsCd;
+	}
+	public void setIndsSclsCd(String indsSclsCd) {
+		this.indsSclsCd = indsSclsCd;
+	}
+	public String getIndsSclsNm() {
+		return indsSclsNm;
+	}
+	public void setIndsSclsNm(String indsSclsNm) {
+		this.indsSclsNm = indsSclsNm;
+	}
 	public String getBrchNm() {
 		return brchNm;
 	}
