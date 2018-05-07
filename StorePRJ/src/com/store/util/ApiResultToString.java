@@ -25,14 +25,14 @@ public class ApiResultToString {
 		Iterator iterator = set.iterator();
 		
 		
-		//¸ÊÀÇ °´Ã¼¸¦ ÀÎÀÚ·Î ³Ö¾îÁØ´Ù!
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½Ö¾ï¿½ï¿½Ø´ï¿½!
 		while (iterator.hasNext()) {
 			String key = (String) iterator.next();
 			urlBuilder.append("&" + URLEncoder.encode(key, "UTF-8") + "="
-					+ URLEncoder.encode(map.get(key), "UTF-8")); /* ¸®¼Ò½º¸¦ ½Äº°ÇÏ±â À§ÇÑ id. */
+					+ URLEncoder.encode(map.get(key), "UTF-8")); /* ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½ ï¿½Äºï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ id. */
 		} /*
-			 * ¸®¼Ò½ºÀÇ Ä«Å×°í¸®¸¦ ±¸ºÐ baroApi¿¡¼­ resId, catId Ç×¸ñÀº ´Ù¸¥ ¿ÀÆÛ·¹ÀÌ¼ÇÀ» ±¸º°ÇÏ±â À§ÇÑ ÁÖ¿äÇÑ Ç×¸ñÀÌ°í ¿ÀÆÛ·¹ÀÌ¼Çº° ´Ù¸¥
-			 * Ç×¸ñÀº ¿ÀÆÛ·¹ÀÌ¼Çº°·Î ¸í¼¼¿¡ ÀÛ¼ºµÈ Ç×¸ñÀ» »ç¿ëÇÏ¸é µÈ´Ù.
+			 * ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½ Ä«ï¿½×°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ baroApiï¿½ï¿½ï¿½ï¿½ resId, catId ï¿½×¸ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Û·ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¿ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½Û·ï¿½ï¿½Ì¼Çºï¿½ ï¿½Ù¸ï¿½
+			 * ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û·ï¿½ï¿½Ì¼Çºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½È´ï¿½.
 			 */
 		URL url = new URL(urlBuilder.toString());
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -49,6 +49,7 @@ public class ApiResultToString {
 		String line;
 		while ((line = rd.readLine()) != null) {
 			sb.append(line);
+			System.out.println(line);
 		}
 		rd.close();
 		conn.disconnect();

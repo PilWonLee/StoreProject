@@ -16,8 +16,14 @@ public class apiDTO {
 	String lat;
 	String bizesId;
 	String brchNm;
+	String numOfRows;
 	
-	
+	public String getNumOfRows() {
+		return numOfRows;
+	}
+	public void setNumOfRows(String numOfRows) {
+		this.numOfRows = numOfRows;
+	}
 	public String getIndsSclsCd() {
 		return indsSclsCd;
 	}
@@ -108,5 +114,6 @@ public class apiDTO {
 	public void setCtprvnNm(String ctprvnNm) {
 		this.ctprvnNm = ctprvnNm;
 	}
+	
 	
 }

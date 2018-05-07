@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -269,24 +270,22 @@ public class AnalysisController {
 		return list;
 	}
 	
-	@RequestMapping(value = "getStoreInfo", method = RequestMethod.GET)
-	public List<apiDTO> getStoreInfo(HttpServletRequest request, HttpServletResponse response,
-			 @RequestParam("radius")String radius,@RequestParam("cx")String cx,
-			 @RequestParam("cy")String cy,ModelMap model) throws Exception {
-		log.info("come into getStoreInfo");
-		
-		
+	
+	
+	public List<apiDTO> startApi(String radius,String cx,String cy) throws Exception{
+
 		HashMap<String, String> map = new HashMap<>();
 		map.put("resId", "store");
 		map.put("catId", "radius");
 		map.put("radius", radius);
 		map.put("cx", cx);
 		map.put("cy", cy);
+		map.put("numOfRows", "500");
 		
 		ApiResultToString apiResult = new ApiResultToString();
 		String result = apiResult.getString(map);
 		
-		System.out.println("result : "+result);
+		System.out.println("length : "+result.length());
 		
 		// String을 xml로 파싱하고 List에 담기
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -295,6 +294,9 @@ public class AnalysisController {
 		int eventType = parser.getEventType();
 		apiDTO dto = null;
 		List<apiDTO> list = null;
+		String pageNo = "";
+		String totalCount = "";
+		
 		while (eventType != XmlPullParser.END_DOCUMENT) {
 			switch (eventType) {
 			case XmlPullParser.END_DOCUMENT:// 문서의 끝
@@ -357,16 +359,30 @@ public class AnalysisController {
 					break;	
 				case "lat":
 					dto.setLat(parser.nextText());
-					break;		
+					break;
+				case "totalCount":
+					totalCount = parser.nextText();
+					break;
 				}
 				break;
 			}
 			}
 			eventType = parser.next();
 		}
-		for(apiDTO d : list) {
-			System.out.println(d.getBizesNm());
-		}
+		System.out.println(totalCount);
+		return list;
+	}
+	
+	@RequestMapping(value = "getStoreInfo", method = RequestMethod.GET)
+	public List<apiDTO> getStoreInfo(HttpServletRequest request, HttpServletResponse response,
+			 @RequestParam("radius")String radius,@RequestParam("cx")String cx,
+			 @RequestParam("cy")String cy,ModelMap model) throws Exception {
+		log.info("come into getStoreInfo");
+		
+		List<apiDTO> list = startApi(radius, cx, cy);
+		
+		
+		
 		return list;
 	}
 }
