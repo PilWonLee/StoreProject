@@ -25,14 +25,14 @@ public class ApiResultToString {
 		Iterator iterator = set.iterator();
 		
 		
-		//���� ��ü�� ���ڷ� �־��ش�!
+		//占쏙옙占쏙옙 占쏙옙체占쏙옙 占쏙옙占쌘뤄옙 占쌍억옙占쌔댐옙!
 		while (iterator.hasNext()) {
 			String key = (String) iterator.next();
 			urlBuilder.append("&" + URLEncoder.encode(key, "UTF-8") + "="
-					+ URLEncoder.encode(map.get(key), "UTF-8")); /* ���ҽ��� �ĺ��ϱ� ���� id. */
+					+ URLEncoder.encode(map.get(key), "UTF-8")); /* 占쏙옙占쌀쏙옙占쏙옙 占식븝옙占싹깍옙 占쏙옙占쏙옙 id. */
 		} /*
-			 * ���ҽ��� ī�װ��� ���� baroApi���� resId, catId �׸��� �ٸ� ���۷��̼��� �����ϱ� ���� �ֿ��� �׸��̰� ���۷��̼Ǻ� �ٸ�
-			 * �׸��� ���۷��̼Ǻ��� ���� �ۼ��� �׸��� ����ϸ� �ȴ�.
+			 * 占쏙옙占쌀쏙옙占쏙옙 카占쌓곤옙占쏙옙 占쏙옙占쏙옙 baroApi占쏙옙占쏙옙 resId, catId 占쌓몌옙占쏙옙 占쌕몌옙 占쏙옙占쌜뤄옙占싱쇽옙占쏙옙 占쏙옙占쏙옙占싹깍옙 占쏙옙占쏙옙 占쌍울옙占쏙옙 占쌓몌옙占싱곤옙 占쏙옙占쌜뤄옙占싱션븝옙 占쌕몌옙
+			 * 占쌓몌옙占쏙옙 占쏙옙占쌜뤄옙占싱션븝옙占쏙옙 占쏙옙占쏙옙 占쌜쇽옙占쏙옙 占쌓몌옙占쏙옙 占쏙옙占쏙옙玖占� 占싫댐옙.
 			 */
 		URL url = new URL(urlBuilder.toString());
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -49,7 +49,6 @@ public class ApiResultToString {
 		String line;
 		while ((line = rd.readLine()) != null) {
 			sb.append(line);
-			System.out.println(line);
 		}
 		rd.close();
 		conn.disconnect();

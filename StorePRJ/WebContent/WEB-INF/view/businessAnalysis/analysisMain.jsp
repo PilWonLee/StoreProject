@@ -91,6 +91,10 @@ $(function(){
 			  	var circles = []; // 클릭으로 그려진 원과 반경 정보를 표시하는 선과 커스텀오버레이를 가지고 있을 배열입니다
 			  	//지도에 클릭 이벤트를 등록합니다
 			  	daum.maps.event.addListener(map, 'click', function(mouseEvent) {
+			  		//클릭한 지도의 좌표 구하는 객체 가져오기
+			  		 var latlng = mouseEvent.latLng;
+			  		lat = latlng.getLat();
+			  		lng = latlng.getLng();
 			  		//원 하나만 그리게 하기
 			  		removeCircles();
 			  		// 클릭 이벤트가 발생했을 때 원을 그리고 있는 상태가 아니면 중심좌표를 클릭한 지점으로 설정합니다

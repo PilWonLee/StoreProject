@@ -28,6 +28,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import com.store.dto.apiDTO;
+import com.store.dto.apiWrappedDTO;
 import com.store.service.IAnalysisService;
 import com.store.util.ApiResultToString;
 
@@ -272,7 +273,7 @@ public class AnalysisController {
 	
 	
 	
-	public List<apiDTO> startApi(String radius,String cx,String cy) throws Exception{
+	public apiWrappedDTO startApi(String radius,String cx,String cy,int page) throws Exception{
 
 		HashMap<String, String> map = new HashMap<>();
 		map.put("resId", "store");
@@ -281,6 +282,7 @@ public class AnalysisController {
 		map.put("cx", cx);
 		map.put("cy", cy);
 		map.put("numOfRows", "500");
+		map.put("pageNo", String.valueOf(page));
 		
 		ApiResultToString apiResult = new ApiResultToString();
 		String result = apiResult.getString(map);
@@ -294,7 +296,6 @@ public class AnalysisController {
 		int eventType = parser.getEventType();
 		apiDTO dto = null;
 		List<apiDTO> list = null;
-		String pageNo = "";
 		String totalCount = "";
 		
 		while (eventType != XmlPullParser.END_DOCUMENT) {
@@ -369,8 +370,13 @@ public class AnalysisController {
 			}
 			eventType = parser.next();
 		}
-		System.out.println(totalCount);
-		return list;
+		
+		apiWrappedDTO wDto = new apiWrappedDTO();
+		wDto.setList(list);
+		wDto.setPage(String.valueOf(page));
+		wDto.setTotalPage(totalCount);
+		
+		return wDto;
 	}
 	
 	@RequestMapping(value = "getStoreInfo", method = RequestMethod.GET)
@@ -379,10 +385,20 @@ public class AnalysisController {
 			 @RequestParam("cy")String cy,ModelMap model) throws Exception {
 		log.info("come into getStoreInfo");
 		
-		List<apiDTO> list = startApi(radius, cx, cy);
+		apiWrappedDTO wDTO = startApi(radius, cx, cy,1);
+		List<apiDTO> list = wDTO.getList();
+		int totalPage = Integer.parseInt(wDTO.getTotalPage());
+		while(totalPage - (500*Integer.parseInt(wDTO.getPage())) > 0){
+			int inc = Integer.parseInt(wDTO.getPage());
+			inc++;
+			wDTO = startApi(radius, cx, cy, inc);
+			list.addAll(wDTO.getList());
+		}
+		System.out.println("totalCount: "+totalPage);
+		System.out.println("list size: "+list.size());
+		for(apiDTO a : list)
+			System.out.println(a.getBizesNm());
 		
-		
-		
-		return list;
+		return null;
 	}
 }
