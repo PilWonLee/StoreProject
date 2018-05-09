@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//WebContent/common/nav.jsp=UTF-8
 encoding//src/com/health/util/AES256Util.java=UTF-8
 encoding//src/com/health/util/MailUtil.java=UTF-8
 encoding//src/com/store/controller/AnalysisController.java=UTF-8

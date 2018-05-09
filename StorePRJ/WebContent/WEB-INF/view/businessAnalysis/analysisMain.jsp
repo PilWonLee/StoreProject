@@ -53,7 +53,7 @@ $(function(){
 	$(document).ready(function(){
 		
 		var analysisCategory = document.getElementById("analysisCategory");
-		analysisCategory.className = "nav-item px-lg-4 active"; //카테고리 활성화
+		analysisCategory.className = "nav-item px-lg-4 active"; //카테고리 활성화 
 	
 		var selectNation = $('#selectNation');//버튼 만들기
 		selectNation.text("시,도 선택");
@@ -437,53 +437,14 @@ $(function(){
 		});
 	}
 	
-	
-	
-	
 </script>
 
 <title>우리 동네 상권 분석</title>
 </head>
 <body>
-	<div style="text-align: right">
-		<span>로그인</span> <span>회원가입</span>
-	</div>
-	<div style="display: inline">
-		<div id="umbrella"></div>
-
-		<h1 class="site-heading text-center text-white d-none d-lg-block"
-			style="z-index: 20; position: relative;">
-			<span class="site-heading-upper text-primary mb-3">우리동네 상권 분석</span>
-			<span class="site-heading-lower">Business Analysis</span>
-		</h1>
-	</div>
+	<%@include file="/common/top.jsp"%>
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
-	<div class="container">
-		<a
-			class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none"
-			href="#">Start Bootstrap</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarResponsive" aria-controls="navbarResponsive"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarResponsive">
-			<ul class="navbar-nav mx-auto">
-				<li class="nav-item px-lg-4" id="analysisCategory"><a
-					class="nav-link text-uppercase text-expanded" href="index.html">상권
-						분석 <span class="sr-only">(current)</span>
-				</a></li>
-				<li class="nav-item px-lg-4" id="compareCategory"><a
-					class="nav-link text-uppercase text-expanded" href="about.html">상권
-						비교</a></li>
-				<li class="nav-item px-lg-4" id="recommendCategory"><a
-					class="nav-link text-uppercase text-expanded" href="products.html">상권
-						추천</a></li>
-			</ul>
-		</div>
-	</div>
-	</nav>
+	<%@include file="/common/nav.jsp"%>
 
 	<section class="page-section clearfix">
 	<div class="container">

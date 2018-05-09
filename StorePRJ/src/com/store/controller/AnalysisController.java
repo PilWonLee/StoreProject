@@ -388,17 +388,29 @@ public class AnalysisController {
 		apiWrappedDTO wDTO = startApi(radius, cx, cy,1);
 		List<apiDTO> list = wDTO.getList();
 		int totalPage = Integer.parseInt(wDTO.getTotalPage());
+		
+		//페이지가 여러페이지일경우 계속해서 값을 추가한다.
 		while(totalPage - (500*Integer.parseInt(wDTO.getPage())) > 0){
 			int inc = Integer.parseInt(wDTO.getPage());
 			inc++;
 			wDTO = startApi(radius, cx, cy, inc);
 			list.addAll(wDTO.getList());
 		}
+		
 		System.out.println("totalCount: "+totalPage);
 		System.out.println("list size: "+list.size());
-		for(apiDTO a : list)
-			System.out.println(a.getBizesNm());
+		
 		
 		return null;
 	}
+	
+	@RequestMapping(value = "analysisDetail", method = RequestMethod.GET)
+	public String analysisDetail(HttpServletRequest request, HttpServletResponse response,
+			 @RequestParam("radius")String radius,@RequestParam("cx")String cx,
+			 @RequestParam("cy")String cy,ModelMap model) throws Exception {
+		log.info("come into analysisDetail");
+		
+		return "businessAnalysis/analysisDetail";
+	}
+	
 }
