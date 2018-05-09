@@ -399,7 +399,9 @@ public class AnalysisController {
 		
 		System.out.println("totalCount: "+totalPage);
 		System.out.println("list size: "+list.size());
-		
+		for(apiDTO a : list){
+			System.out.println(a.getBizesNm());
+		}
 		
 		return null;
 	}
