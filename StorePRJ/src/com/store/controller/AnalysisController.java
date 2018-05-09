@@ -404,7 +404,7 @@ public class AnalysisController {
 		return null;
 	}
 	
-<<<<<<< Upstream, based on origin/Pilwon
+
 	@RequestMapping(value = "analysisDetail", method = RequestMethod.GET)
 	public String analysisDetail(HttpServletRequest request, HttpServletResponse response,
 			 @RequestParam("radius")String radius,@RequestParam("cx")String cx,
@@ -414,14 +414,5 @@ public class AnalysisController {
 		return "businessAnalysis/analysisDetail";
 	}
 	
-=======
-	@RequestMapping(value = "viewTest", method = RequestMethod.GET)
-	public String viewTest(HttpServletRequest request, HttpServletResponse response,
-			 ModelMap model) throws Exception {
-		log.info("come into viewTest");
-		
-		
-		return "businessAnalysis/getStoreInfo";
-	}
->>>>>>> 391007a ss
+
 }
