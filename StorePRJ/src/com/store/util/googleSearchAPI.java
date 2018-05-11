@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -18,15 +19,16 @@ import org.json.simple.parser.JSONParser;
 
 public class googleSearchAPI {
 
-	public String getInfo(String searchWord) throws Exception {
+	public Map<String, Integer> getInfo(String searchWord) throws Exception {
 		StringBuilder urlBuilder = new StringBuilder("https://www.googleapis.com/customsearch/v1"); /* URL */
-		urlBuilder.append("?" + URLEncoder.encode("key", "UTF-8") + "=AIzaSyBfYaGgeo9QaIljnq0Gr3RLg18xy28uZNM")
+		urlBuilder.append("?" + URLEncoder.encode("key", "UTF-8") + "=AIzaSyAjUrn1OLRA837AZnvWpg-ue2ceopbsbYQ")
 				.append("&" + URLEncoder.encode("cx", "UTF-8") + "=011859457498976593040:cqqcv0nq3ri")
 				.append("&" + URLEncoder.encode("q", "UTF-8") + "=" + URLEncoder.encode(searchWord, "UTF-8")); /*
 																												 * Service
 																												 */
 		String result = "";
 		String result2 = "";
+
 		// 占쏙옙占쏙옙 占쏙옙체占쏙옙 占쏙옙占쌘뤄옙 占쌍억옙占쌔댐옙!
 		for (int i = 0; i <= 4; i++) {
 			String index = Integer.toString(i * 10);
@@ -51,7 +53,7 @@ public class googleSearchAPI {
 			}
 			rd.close();
 			conn.disconnect();
-
+			//검색결과 Json으로 Parsing
 			JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObj = (JSONObject) jsonParser.parse(sb.toString());
 			JSONArray itemsArray = (JSONArray) jsonObj.get("items");
@@ -62,21 +64,25 @@ public class googleSearchAPI {
 				result2 += tempObj.get("snippet");
 			}
 		}
-
+		//검색결과 한글만 리스트에 담기
 		List<String> list = new ArrayList<>();
 
 		String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]";
 		for (String word : result.split("\\s")) {
-			if (word.replaceAll(match, "").length() > 1) {
-				list.add(word.replaceAll(match, ""));
+			if (Pattern.matches("^[ㄱ-ㅎ가-힣]*$", word.replaceAll(match, ""))) {
+				if (word.replaceAll(match, "").length() > 1) {
+					list.add(word.replaceAll(match, ""));
+				}	
 			}
 		}
 		for (String word : result2.split("\\s")) {
-			if (word.replaceAll(match, "").length() > 1) {
-				list.add(word.replaceAll(match, ""));
+			if (Pattern.matches("^[ㄱ-ㅎ가-힣]*$", word.replaceAll(match, ""))) {
+				if (word.replaceAll(match, "").length() > 1) {
+					list.add(word.replaceAll(match, ""));
+				}	
 			}
 		}
-
+		//검색결과 WordCount
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		for (String s : list) {
 
@@ -88,12 +94,7 @@ public class googleSearchAPI {
 			}
 		}
 		
-		for (String key : map.keySet()) {
-			System.out.println(" key : " + key + " / value : " + map.get(key));
-		}
-
-
-		return null;
+		return map;
 	}
 
 }

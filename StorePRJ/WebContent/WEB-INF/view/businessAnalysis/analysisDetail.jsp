@@ -31,101 +31,56 @@
 <link href="/bootstrap/css/myStyle.css" rel="stylesheet">
 <style>
 h2.flh {
-	font-family: 'Arial';
-	text-transform: uppercase;
-	font-weight: bold;
-	font-size: 3rem;
-	line-height: 0.75;
-	margin-top: 50px;
+  font-family: 'Arial';
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 3rem;
+  line-height: 0.75;
+  margin-top:50px;
 }
 
 #good {
-	color: green
+  color : green
 }
 
-#normal {
-	margin-top: 20px;
-	margin-bottom: 20px;
-	color: gold;
+#normal{
+  margin-top:20px;
+  margin-bottom:20px;
+  color : gold;
 }
 
-#bad {
-	color: red
+#bad{
+  color : red
 }
 
 .flh>span {
-	display: block;
+  display: block;
 }
 
-.flh
->
-span
-
-
-:not
-
- 
-
-(
-.light
-
- 
-
-)
-{
-opacity
-
-
-:
-
- 
-
-0;
-animation
-
-
-:
-
- 
-
-flashText
-
- 
-
-.5s
-
- 
-
-ease-out
-
- 
-
-alternate
-
- 
-
-infinite
-
-
-;
+.flh>span:not(.light) {
+  opacity: 0;
+  animation: flashText .5s ease-out alternate infinite;
 }
+
 .flh>span.light {
-	position: relative;
-	display: inline-block;
+  position: relative;
+  display: inline-block;
+}
+  
+
+@keyframes flash{
+  to {
+    opacity: 1;
+  }
 }
 
-@
-keyframes flash {to { opacity:1;
-	
+@keyframes flashText {
+  to {
+    opacity: 0.15;
+  }
 }
 
-}
-@
-keyframes flashText {to { opacity:0.15;
-	
-}
 
-}
 .map_wrap, .map_wrap * {
 	margin: 0;
 	padding: 0;
@@ -291,59 +246,6 @@ keyframes flashText {to { opacity:0.15;
 	margin-top: 0;
 }
 
-
-
-
-
-h2.flh {
-  font-family: 'Arial';
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 3rem;
-  line-height: 0.75;
-  margin-top:50px;
-}
-
-#good {
-  color : green
-}
-
-#normal{
-  margin-top:20px;
-  margin-bottom:20px;
-  color : gold;
-}
-
-#bad{
-  color : red
-}
-
-.flh>span {
-  display: block;
-}
-
-.flh>span:not(.light) {
-  opacity: 0;
-  animation: flashText .5s ease-out alternate infinite;
-}
-
-.flh>span.light {
-  position: relative;
-  display: inline-block;
-}
-  
-
-@keyframes flash{
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes flashText {
-  to {
-    opacity: 0.15;
-  }
-}
 </style>
 <script src="/common/js/jquery-3.3.1.min.js" charset="utf-8"></script>
 <script src="/common/js/Chart.bundle.js"></script>
@@ -352,26 +254,60 @@ h2.flh {
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 <script>
 	$(function() {
-		//차트 그리기
-		new Chart(document.getElementById("myChart").getContext("2d"), {
-			type : 'pie',
-			data : {
-				labels : [ "한식", "중식", "유흥주점", "노래방" ],
-				datasets : [ {
-					label : "Population (millions)",
-					backgroundColor : [ "#3e95cd", "#8e5ea2", "#3cba9f",
-							"#e8c3b9" ],
-					data : [ 24, 20, 30, 50 ]
-				} ]
-			},
-			options : {
-				title : {
-					display : true,
-					fontSize : 20
-				}
-			}
-		});
+		
 
+		//상권활성도 나타내기
+		document.getElementById("normal").className="light";
+		
+		var labelData = new Array;
+		var setData = new Array;
+		var colorArr = ["#FE2E2E","#FE9A2E","#FFFF00","#BFFF00","#00FFFF","#2E9AFE"
+						,"#FE2EF7","#FF0040","#81DAF5","#9A2EFE","#BDBDBD","#D0FA58"
+						];
+		var radius = <%=request.getParameter("radius")%>;
+		var cx = <%=request.getParameter("cx")%>;
+		var cy = <%=request.getParameter("cy")%>;
+		 $.ajax({
+			url:"getStoreInfo.do",
+			type:"POST",
+			data:{radius:radius, cx:cx, cy:cy},
+			dataType:"json",
+			error:function(error){console.log(error)},
+			success: function(data){
+				$.each(data,function(key, value){
+					labelData.push(key);
+					setData.push(value);
+				})
+				var fitColorArr = new Array;
+				for(var i = 0; i < setData.length ; i++){
+					fitColorArr.push(colorArr[i]);
+				}
+			//차트 그리기
+			new Chart(document.getElementById("myChart").getContext("2d"), {
+				type : 'pie',
+				data : {
+					labels : labelData,
+					datasets : [ {
+						backgroundColor : fitColorArr,
+						data : setData
+					} ]
+				},
+				options : {
+					legend:{
+						labels:{
+							fontSize :12
+						}
+					},
+					title : {
+						display : true,
+						fontSize : 12
+					}
+				}
+			});
+			}
+		}); 
+		
+		
 		var MONTHS = [ 'January', 'February', 'March', 'April', 'May', 'June',
 				'July', 'August', 'September', 'October', 'November',
 				'December' ];
@@ -422,8 +358,6 @@ h2.flh {
 		});
 	
 		
-		//상권활성도 나타내기
-		document.getElementById("normal").className="light";
 		
 	});
 </script>
@@ -683,27 +617,30 @@ h2.flh {
 						}
 					});
 </script>
-<script src="/common/js/jqcloud.js" charset="utf-8"></script>
 <link rel="stylesheet" href="/bootstrap/css/jqcloud.css">
 <script>
 
-var words = [
-	{text: "10.99.94.53",	weight:1},
-	{text: "10.99.95.116",	weight:1},
-	{text: "10.99.95.132",	weight:1},
-	{text: "10.99.95.213",	weight:39},
-	{text: "10.99.95.22",	weight:1},
-	{text: "10.99.96.129",	weight:1},
-	{text: "10.99.96.193",	weight:1},
-	{text: "10.99.96.220",	weight:1}
-		];
-
-$(function() {
-	$("#keywords").jQCloud(words, {
-		width:500,
-		height:350
+var words = new Array;
+/* 
+ $(function() {
+	$.ajax({
+		url:"getCrawling.do",
+		dataType:"json",
+		success:function(data){
+			$.each(data,function(key,value){
+				var pushData = {text: key, weight: value};
+				words.push(pushData);
+			});
+			
+			console.log(words);
+			
+			$("#keywords").jQCloud(words, {
+				width:600,
+				height:300
+			});
+		}
 	});
-});
+});   */
 
 
 </script>
@@ -729,27 +666,16 @@ $(function() {
 
 
 			</div>
-
+			
 			<div
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
-				style="height: 430px">
-				<h2>업종 비율</h2>
-
-				<canvas id="myChart" width="600" height="400"></canvas>
-
-			</div>
-		</div>
-
-		<div class="intro" style="margin-top: 5%">
-			<div
-				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
-				style="height: 430px; width: 70%; margin: auto;">
+				style="height: 430px; width: 70%;">
 				<h2>인구 현황</h2>
 				<canvas id="barChart" width="600" height="270"></canvas>
 
 			</div>
-
-
+			
+			
 		</div>
 
 		<div class="intro" style="margin-top: 5%">
@@ -777,33 +703,48 @@ $(function() {
 				</div>
 			</div>
 		</div>
+		
+
+		<div class="intro" style="margin-top: 5%;margin-left:0px">
+			<div
+				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
+				style="width:600px;height: 600px;margin-left:0px">
+				<h2>업종 비율</h2>
+				
+				<canvas id="myChart" width="100%" height="100%"></canvas>
+
+			</div>
+			
+			
+			<div
+				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
+				style="width: 65%; height: 600px">
+				<h2>해당 지역 키워드</h2>
+				<div id="keywords" style="width: 100%; height: 100%"></div>
+
+			</div>
+		</div>
+
+		
 
 		<div class="intro">
 			<!-- <img class="intro-img img-fluid mb-3 mb-lg-0 rounded"
 				src="" alt=""> -->
 			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp"
-				style="width:28%;height: 430px">
+				style="width: 28%; height: 430px">
 				<h2>상권 활성도</h2>
-				
+
 				<h2 class="flh">
-					<span id="good">좋음</span>
-					<span id="normal">보통</span>
-					<span id="bad">나쁨</span> 
+					<span id="good">좋음</span> <span id="normal">보통</span> <span
+						id="bad">나쁨</span>
 				</h2>
 
 
 			</div>
 
-			<div
-				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
-				style="width:65%;height: 430px">
-				<h2>해당 지역 키워드</h2>
-				<div id="keywords"></div>
-		
-			</div>
 		</div>
 
-		
+
 
 	</div>
 	</section>
@@ -819,7 +760,7 @@ $(function() {
 	<!-- Bootstrap core JavaScript -->
 	<script src="bootstrap/vendor/jquery/jquery.min.js"></script>
 	<script src="bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+	<script src="/common/js/jqcloud.js" charset="utf-8"></script>
 
 </body>
 </html>

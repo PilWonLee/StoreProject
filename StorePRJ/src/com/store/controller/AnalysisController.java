@@ -32,6 +32,7 @@ import com.store.dto.apiDTO;
 import com.store.dto.apiWrappedDTO;
 import com.store.service.IAnalysisService;
 import com.store.util.ApiResultToString;
+import com.store.util.googleSearchAPI;
 
 @Controller
 public class AnalysisController {
@@ -380,8 +381,8 @@ public class AnalysisController {
 		return wDto;
 	}
 	
-	@RequestMapping(value = "getStoreInfo", method = RequestMethod.GET)
-	public List<apiDTO> getStoreInfo(HttpServletRequest request, HttpServletResponse response,
+	@RequestMapping(value = "getStoreInfo", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Integer> getStoreInfo(HttpServletRequest request, HttpServletResponse response,
 			 @RequestParam("radius")String radius,@RequestParam("cx")String cx,
 			 @RequestParam("cy")String cy,ModelMap model) throws Exception {
 		log.info("come into getStoreInfo");
@@ -400,11 +401,30 @@ public class AnalysisController {
 		
 		System.out.println("totalCount: "+totalPage);
 		System.out.println("list size: "+list.size());
-		for(apiDTO a : list){
+		
+		/*for(apiDTO a : list){
 			System.out.println(a.getBizesNm());
+		}*/
+		
+		List<String> strArr = new ArrayList<>();
+		for(apiDTO a : list) {
+			if(a.getIndsMclsCd().equals("Q01")) {
+				strArr.add(a.getIndsSclsNm());
+			}
 		}
 		
-		return null;
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		for (String s : strArr) {
+
+			if (!map.containsKey(s)) { // first time we've seen this string
+				map.put(s, 1);
+			} else {
+				int count = map.get(s);
+				map.put(s, count + 1);
+			}
+		}
+		
+		return map;
 	}
 	
 
@@ -418,11 +438,12 @@ public class AnalysisController {
 	}
 	
 	@RequestMapping(value = "getCrawling")
-	public @ResponseBody List<String> getCrawling() throws Exception{
+	public @ResponseBody Map<String,Integer> getCrawling() throws Exception{
 			
-			
+		googleSearchAPI searchAPI = new googleSearchAPI();
+		Map<String,Integer> map = searchAPI.getInfo("강서구");
 		
-		return null;
+		return map;
 	}
 	
 
