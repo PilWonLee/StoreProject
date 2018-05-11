@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -414,6 +415,14 @@ public class AnalysisController {
 		log.info("come into analysisDetail");
 		
 		return "businessAnalysis/analysisDetail";
+	}
+	
+	@RequestMapping(value = "getCrawling")
+	public @ResponseBody List<String> getCrawling() throws Exception{
+			
+			
+		
+		return null;
 	}
 	
 

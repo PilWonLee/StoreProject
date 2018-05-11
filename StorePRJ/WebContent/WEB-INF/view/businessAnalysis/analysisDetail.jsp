@@ -345,7 +345,7 @@ h2.flh {
   }
 }
 </style>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/common/js/jquery-3.3.1.min.js" charset="utf-8"></script>
 <script src="/common/js/Chart.bundle.js"></script>
 <script src="/common/js/utils.js"></script>
 <script
@@ -683,6 +683,30 @@ h2.flh {
 						}
 					});
 </script>
+<script src="/common/js/jqcloud.js" charset="utf-8"></script>
+<link rel="stylesheet" href="/bootstrap/css/jqcloud.css">
+<script>
+
+var words = [
+	{text: "10.99.94.53",	weight:1},
+	{text: "10.99.95.116",	weight:1},
+	{text: "10.99.95.132",	weight:1},
+	{text: "10.99.95.213",	weight:39},
+	{text: "10.99.95.22",	weight:1},
+	{text: "10.99.96.129",	weight:1},
+	{text: "10.99.96.193",	weight:1},
+	{text: "10.99.96.220",	weight:1}
+		];
+
+$(function() {
+	$("#keywords").jQCloud(words, {
+		width:500,
+		height:350
+	});
+});
+
+
+</script>
 <script src="/common/js/main.js"></script>
 
 <title>우리 동네 상권 분석</title>
@@ -758,7 +782,7 @@ h2.flh {
 			<!-- <img class="intro-img img-fluid mb-3 mb-lg-0 rounded"
 				src="" alt=""> -->
 			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp"
-				style="height: 430px">
+				style="width:28%;height: 430px">
 				<h2>상권 활성도</h2>
 				
 				<h2 class="flh">
@@ -772,21 +796,14 @@ h2.flh {
 
 			<div
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
-				style="height: 430px">
+				style="width:65%;height: 430px">
 				<h2>해당 지역 키워드</h2>
-
-
+				<div id="keywords"></div>
+		
 			</div>
 		</div>
 
-		<div class="intro" style="margin-top: 5%">
-			<div
-				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
-				style="height: 430px; width: 70%; margin: auto;">
-				<h2>추천 상권</h2>
-
-			</div>
-		</div>
+		
 
 	</div>
 	</section>
