@@ -440,14 +440,20 @@ public class AnalysisController {
 		log.info("cy"+cy);
 		log.info("locName"+locName);
 		
+		model.addAttribute("cx",cx);
+		model.addAttribute("cy",cy);
+		model.addAttribute("radius",radius);
+		model.addAttribute("locName",locName);
+		
 		return "businessAnalysis/analysisDetail";
 	}
 	
-	@RequestMapping(value = "getCrawling")
-	public @ResponseBody Map<String,Integer> getCrawling() throws Exception{
-			
+	@RequestMapping(value = "getCrawling",method= RequestMethod.POST)
+	public @ResponseBody Map<String,Integer> getCrawling(@RequestParam(value="locName")String locName) throws Exception{
+		log.info("come into getCrawling");
+		System.out.println(locName);
 		googleSearchAPI searchAPI = new googleSearchAPI();
-		Map<String,Integer> map = searchAPI.getInfo("강서구");
+		Map<String,Integer> map = searchAPI.getInfo(locName);
 		
 		return map;
 	}

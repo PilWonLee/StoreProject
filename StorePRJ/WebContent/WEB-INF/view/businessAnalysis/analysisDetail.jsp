@@ -621,10 +621,13 @@ h2.flh {
 <script>
 
 var words = new Array;
+var locName = "<%=(String)request.getAttribute("locName")%>";
 /* 
  $(function() {
 	$.ajax({
 		url:"getCrawling.do",
+		data:{locName : locName},
+		type:'POST',
 		dataType:"json",
 		success:function(data){
 			$.each(data,function(key,value){
@@ -641,8 +644,8 @@ var words = new Array;
 		}
 	});
 });   
-
  */
+ 
 </script>
 <script src="/common/js/main.js"></script>
 

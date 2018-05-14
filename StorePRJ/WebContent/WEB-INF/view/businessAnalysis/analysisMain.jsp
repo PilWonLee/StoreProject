@@ -378,17 +378,25 @@ $(function(){
 			geocoder.coord2Address(lng, lat, function(result, status) {
 		            var detailAddr = result[0].address.address_name; 
 		            var res = detailAddr.split(" ");
+		            var locName = '';
 		            
-		            console.log("sendRadius: "+sendRadius);
+		            
+					for(var i = 0; i < res.length; i ++){
+						if(res[i].indexOf('구') == (res[i].length -1)){
+							locName = res[i];
+						}
+					}
+		            
+					console.log("sendRadius: "+sendRadius);
 					console.log("cx :"+lng);
 					console.log("cy :"+lat);
-		            console.log(res[1]);
-		            
+					console.log("locName :"+locName);
+					/* 
 		            $("#radiusId").attr("value" , sendRadius);
 		            $("#locNameId").attr("value" , res[1]);
 		            $("#cxId").attr("value" , lng);
 		        	$("#cyId").attr("value" , lat);
-		        	$("#transPage").attr({action:"analysisDetail.do", method:'post'}).submit();
+		        	$("#transPage").attr({action:"analysisDetail.do", method:'post'}).submit(); */
 		            
 			});
 			
