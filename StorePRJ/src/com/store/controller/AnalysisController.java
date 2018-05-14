@@ -428,11 +428,17 @@ public class AnalysisController {
 	}
 	
 
-	@RequestMapping(value = "analysisDetail", method = RequestMethod.GET)
+	@RequestMapping(value = "analysisDetail", method = RequestMethod.POST)
 	public String analysisDetail(HttpServletRequest request, HttpServletResponse response,
 			 @RequestParam("radius")String radius,@RequestParam("cx")String cx,
-			 @RequestParam("cy")String cy,ModelMap model) throws Exception {
+			 @RequestParam("cy")String cy,@RequestParam("locName")String locName, 
+			 ModelMap model) throws Exception {
 		log.info("come into analysisDetail");
+		
+		log.info("radius"+radius);
+		log.info("cx"+cx);
+		log.info("cy"+cy);
+		log.info("locName"+locName);
 		
 		return "businessAnalysis/analysisDetail";
 	}

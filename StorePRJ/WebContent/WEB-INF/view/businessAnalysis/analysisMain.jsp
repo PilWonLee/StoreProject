@@ -373,10 +373,28 @@ $(function(){
 		
 		//상권분석 시작
 		$("#startAnalysis").click(function(){
-			console.log("sendRadius: "+sendRadius);
-			console.log("cx :"+lng);
-			console.log("cy :"+lat);
-			location.href="getStoreInfo.do?radius="+sendRadius+"&cx="+lng+"&cy="+lat;
+			var sigungu;
+			var geocoder = new daum.maps.services.Geocoder();
+			geocoder.coord2Address(lng, lat, function(result, status) {
+		            var detailAddr = result[0].address.address_name; 
+		            var res = detailAddr.split(" ");
+		            
+		            console.log("sendRadius: "+sendRadius);
+					console.log("cx :"+lng);
+					console.log("cy :"+lat);
+		            console.log(res[1]);
+		            
+		            $("#radiusId").attr("value" , sendRadius);
+		            $("#locNameId").attr("value" , res[1]);
+		            $("#cxId").attr("value" , lng);
+		        	$("#cyId").attr("value" , lat);
+		        	$("#transPage").attr({action:"analysisDetail.do", method:'post'}).submit();
+		            
+			});
+			
+			
+			
+			/* location.href="getStoreInfo.do?radius="+sendRadius+"&cx="+lng+"&cy="+lat; */
 		});	
 		
 		
@@ -445,6 +463,13 @@ $(function(){
 	<%@include file="/common/top.jsp"%>
 	<!-- Navigation -->
 	<%@include file="/common/nav.jsp"%>
+
+	<form id="transPage" >
+		<input type="hidden" name="cx" id="cxId" value="">
+		<input type="hidden" name="cy" id="cyId" value="">
+		<input type="hidden" name="radius" id="radiusId" value="">
+		<input type="hidden" name="locName" id="locNameId" value="">
+	</form>
 
 	<section class="page-section clearfix">
 	<div class="container">

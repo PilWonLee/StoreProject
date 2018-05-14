@@ -640,9 +640,9 @@ var words = new Array;
 			});
 		}
 	});
-});   */
+});   
 
-
+ */
 </script>
 <script src="/common/js/main.js"></script>
 
@@ -719,7 +719,7 @@ var words = new Array;
 			<div
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
 				style="width: 65%; height: 600px">
-				<h2>해당 지역 키워드</h2>
+				<h2 style="padding-bottom: 2em;">해당 지역 키워드</h2>
 				<div id="keywords" style="width: 100%; height: 100%"></div>
 
 			</div>
