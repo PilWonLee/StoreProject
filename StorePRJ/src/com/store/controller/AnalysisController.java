@@ -38,7 +38,8 @@ import com.store.util.googleSearchAPI;
 @Controller
 public class AnalysisController {
 	private Logger log = Logger.getLogger(this.getClass());
-
+	
+	
 	@Resource(name = "AnalysisService")
 	private IAnalysisService AnalysisService;
 
@@ -407,10 +408,24 @@ public class AnalysisController {
 			System.out.println(a.getBizesNm());
 		}*/
 		
+		//해당되는업종만 리스트에 담기
 		List<String> strArr = new ArrayList<>();
 		for(apiDTO a : list) {
 			if(a.getIndsMclsCd().equals("Q01")) {
 				strArr.add(a.getIndsSclsNm());
+			}
+		}
+		
+		//주요상권 리스트에 담기
+		for(apiDTO a : list) {
+			if(a.getBizesNm().indexOf("베스킨") >= 0) {
+				System.out.println(a.getBizesNm());
+			}else if(a.getBizesNm().indexOf("롯데리아") >= 0){
+				System.out.println(a.getBizesNm());
+			}else if(a.getBizesNm().indexOf("스타벅스") >= 0){
+				System.out.println(a.getBizesNm());
+			}else if(a.getBizesNm().indexOf("파리바게뜨") >= 0){
+				System.out.println(a.getBizesNm());
 			}
 		}
 		
@@ -463,6 +478,7 @@ public class AnalysisController {
 	public @ResponseBody List<populationDTO> getPopulation(@RequestParam(value="locName")String locName) throws Exception{
 		log.info("come into getPopulation");
 		System.out.println(locName);
+		
 		List<populationDTO> list = AnalysisService.getPopulation(locName);
 		
 		return list;

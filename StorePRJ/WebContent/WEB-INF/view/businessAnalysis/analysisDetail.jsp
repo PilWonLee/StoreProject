@@ -252,6 +252,8 @@ h2.flh {
 <script src="/common/js/utils.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=42ff495b96a0548bc815a587a9e4fd80&libraries=services,clusterer,drawing"></script>
 <script>
 	$(function() {
 		
@@ -265,6 +267,7 @@ h2.flh {
 						,"#FE2EF7","#FF0040","#81DAF5","#9A2EFE","#BDBDBD","#D0FA58"
 						];
 		var locName = '<%=request.getParameter("locName")%>';
+		console.log("locName: "+locName);
 		var radius = <%=request.getParameter("radius")%>;
 		var cx = <%=request.getParameter("cx")%>;
 		var cy = <%=request.getParameter("cy")%>;
@@ -327,11 +330,9 @@ h2.flh {
 			$.each(data,function(key, value){
 				womanData.push(value.totalWoman);
 				manData.push(value.totalMan);
-				console.log(value.totalWoman);
-				console.log(value.totalMan);
 			})
-		  }	
-		});	
+		  
+		
 		
 		var barChartData = {
 			labels : [ '10대', '20대', '30대', '40대', '50대', '60대',
@@ -378,15 +379,11 @@ h2.flh {
 				}
 			}
 		});
-	
-	
+      }	
+	});	
 		
-	});
-</script>
-<!-- 다음 지도 API -->
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=42ff495b96a0548bc815a587a9e4fd80&libraries=services,clusterer,drawing"></script>
-<script>
+	
+
 	var cx =
 <%=request.getParameter("cx")%>
 	var cy =
@@ -401,9 +398,7 @@ h2.flh {
 	} else {
 		level = 6;
 	}
-	$(document)
-			.ready(
-					function() {
+	
 
 						var analysisCategory = document
 								.getElementById("analysisCategory");
@@ -638,13 +633,14 @@ h2.flh {
 							}
 						}
 					});
+
 </script>
 <link rel="stylesheet" href="/bootstrap/css/jqcloud.css">
 <script>
 
 var words = new Array;
 var locName = "<%=(String)request.getAttribute("locName")%>";
-
+ /* 
  $(function() {
 	$.ajax({
 		url:"getCrawling.do",
@@ -666,7 +662,7 @@ var locName = "<%=(String)request.getAttribute("locName")%>";
 		}
 	});
 });   
- 
+   */
  
 </script>
 <script src="/common/js/main.js"></script>
@@ -695,7 +691,7 @@ var locName = "<%=(String)request.getAttribute("locName")%>";
 			<div
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
 				style="height: 430px; width: 70%;">
-				<h2>인구 현황</h2>
+				<h2><%=request.getParameter("locName") %> 인구 현황</h2>
 				<canvas id="barChart" width="600" height="270"></canvas>
 
 			</div>

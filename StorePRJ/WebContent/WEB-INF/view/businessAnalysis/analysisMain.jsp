@@ -401,10 +401,10 @@ $(function(){
 					console.log("locName :"+locName);
 					
 		            $("#radiusId").attr("value" , sendRadius);
-		            $("#locNameId").attr("value" , res[1]);
+		            $("#locNameId").attr("value" , locName);
 		            $("#cxId").attr("value" , lng);
 		        	$("#cyId").attr("value" , lat);
-		        	$("#transPage").attr({action:"analysisDetail.do", method:'post'}).submit(); 
+		        	$("#transPage").attr({action:"analysisDetail.do", method:'post'}).submit();  
 		            
 			});
 			

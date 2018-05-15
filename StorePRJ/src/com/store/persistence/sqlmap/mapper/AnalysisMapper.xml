@@ -4,7 +4,7 @@
 <mapper namespace="com.store.persistence.mapper.AnalysisMapper">
 
 <select resultType="populationDTO" parameterType="String" id="getPopulation">
- SELECT TMP.AGE_CODE AS ageCode, SUM(TMP.MAN) AS totalMan, SUM(TMP.WOMAN) AS totalWowan
+ SELECT TMP.AGE_CODE AS ageCode, SUM(TMP.MAN) AS totalMan, SUM(TMP.WOMAN) AS totalWoman
    FROM(
  		SELECT ROUND(CAST(SUBSTRING(AGE_CD, 2, 3) AS UNSIGNED), -1) AS AGE_CODE,
  			   SUM(MAN) AS MAN, SUM(WOMAN) AS WOMAN
