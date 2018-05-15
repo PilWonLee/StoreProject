@@ -387,16 +387,24 @@ $(function(){
 						}
 					}
 		            
+					if(locName == ''){
+						for(var i = 0; i < res.length; i ++){
+							if(res[i].indexOf('시') == (res[i].length -1)){
+								locName = res[i];
+							}
+						}
+					}
+					
 					console.log("sendRadius: "+sendRadius);
 					console.log("cx :"+lng);
 					console.log("cy :"+lat);
 					console.log("locName :"+locName);
-					/* 
+					
 		            $("#radiusId").attr("value" , sendRadius);
 		            $("#locNameId").attr("value" , res[1]);
 		            $("#cxId").attr("value" , lng);
 		        	$("#cyId").attr("value" , lat);
-		        	$("#transPage").attr({action:"analysisDetail.do", method:'post'}).submit(); */
+		        	$("#transPage").attr({action:"analysisDetail.do", method:'post'}).submit(); 
 		            
 			});
 			

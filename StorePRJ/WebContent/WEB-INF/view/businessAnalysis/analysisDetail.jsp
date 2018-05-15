@@ -264,6 +264,7 @@ h2.flh {
 		var colorArr = ["#FE2E2E","#FE9A2E","#FFFF00","#BFFF00","#00FFFF","#2E9AFE"
 						,"#FE2EF7","#FF0040","#81DAF5","#9A2EFE","#BDBDBD","#D0FA58"
 						];
+		var locName = '<%=request.getParameter("locName")%>';
 		var radius = <%=request.getParameter("radius")%>;
 		var cx = <%=request.getParameter("cx")%>;
 		var cy = <%=request.getParameter("cy")%>;
@@ -307,14 +308,34 @@ h2.flh {
 			}
 		}); 
 		
+		 
+		var MONTHS = [ '10대', '20대', '30대', '40대', '50대', '60대',
+				'70대', '80대', '90대'];
 		
-		var MONTHS = [ 'January', 'February', 'March', 'April', 'May', 'June',
-				'July', 'August', 'September', 'October', 'November',
-				'December' ];
 		var color = Chart.helpers.color;
+		
+		var womanData = new Array();
+		var manData = new Array();
+		
+		$.ajax({
+		url:"getPopulation.do",
+		type:"POST",
+		data:{locName:locName},
+		dataType:"json",
+		error:function(error){console.log(error)},
+		success: function(data){
+			$.each(data,function(key, value){
+				womanData.push(value.totalWoman);
+				manData.push(value.totalMan);
+				console.log(value.totalWoman);
+				console.log(value.totalMan);
+			})
+		  }	
+		});	
+		
 		var barChartData = {
-			labels : [ 'January', 'February', 'March', 'April', 'May', 'June',
-					'July' ],
+			labels : [ '10대', '20대', '30대', '40대', '50대', '60대',
+				'70대', '80대', '90대' ],
 			datasets : [
 					{
 						label : '여성',
@@ -322,7 +343,7 @@ h2.flh {
 								0.5).rgbString(),
 						borderColor : window.chartColors.red,
 						borderWidth : 1,
-						data : [ 3, 3, 4 ]
+						data : womanData
 					},
 					{
 						label : '남성',
@@ -330,10 +351,11 @@ h2.flh {
 								0.5).rgbString(),
 						borderColor : window.chartColors.blue,
 						borderWidth : 1,
-						data : [ 3, 5, 6 ]
+						data :manData
 					} ]
 
-		};
+			};
+		
 
 		var ctx = document.getElementById('barChart').getContext('2d');
 		window.myBar = new Chart(ctx, {
@@ -357,7 +379,7 @@ h2.flh {
 			}
 		});
 	
-		
+	
 		
 	});
 </script>
@@ -622,7 +644,7 @@ h2.flh {
 
 var words = new Array;
 var locName = "<%=(String)request.getAttribute("locName")%>";
-/* 
+
  $(function() {
 	$.ajax({
 		url:"getCrawling.do",
@@ -644,7 +666,7 @@ var locName = "<%=(String)request.getAttribute("locName")%>";
 		}
 	});
 });   
- */
+ 
  
 </script>
 <script src="/common/js/main.js"></script>

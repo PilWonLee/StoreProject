@@ -30,6 +30,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import com.store.dto.apiDTO;
 import com.store.dto.apiWrappedDTO;
+import com.store.dto.populationDTO;
 import com.store.service.IAnalysisService;
 import com.store.util.ApiResultToString;
 import com.store.util.googleSearchAPI;
@@ -456,6 +457,15 @@ public class AnalysisController {
 		Map<String,Integer> map = searchAPI.getInfo(locName);
 		
 		return map;
+	}
+	
+	@RequestMapping(value = "getPopulation",method= RequestMethod.POST)
+	public @ResponseBody List<populationDTO> getPopulation(@RequestParam(value="locName")String locName) throws Exception{
+		log.info("come into getPopulation");
+		System.out.println(locName);
+		List<populationDTO> list = AnalysisService.getPopulation(locName);
+		
+		return list;
 	}
 	
 

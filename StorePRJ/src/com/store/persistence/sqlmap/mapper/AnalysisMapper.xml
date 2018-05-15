@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.persistence.mapper.AnalysisMapper">
+
+<select resultType="populationDTO" parameterType="String" id="getPopulation">
+ SELECT TMP.AGE_CODE AS ageCode, SUM(TMP.MAN) AS totalMan, SUM(TMP.WOMAN) AS totalWowan
+   FROM(
+ 		SELECT ROUND(CAST(SUBSTRING(AGE_CD, 2, 3) AS UNSIGNED), -1) AS AGE_CODE,
+ 			   SUM(MAN) AS MAN, SUM(WOMAN) AS WOMAN
+  		  FROM pil_db.POPULATION_INFO
+ 		 WHERE TRIM(LOC_NM) = #{locName} AND LENGTH(TRIM(AGE_CD)) > 4
+ 		 GROUP BY SUBSTRING(AGE_CD, 2, 3)) TMP
+   GROUP BY TMP.AGE_CODE HAVING TMP.AGE_CODE <![CDATA[ < ]]> 100
+</select>
+
+
+</mapper>
