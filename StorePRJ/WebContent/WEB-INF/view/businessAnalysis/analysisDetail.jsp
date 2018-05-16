@@ -257,9 +257,23 @@ h2.flh {
 <script>
 	$(function() {
 		
-
-		//상권활성도 나타내기
-		document.getElementById("normal").className="light";
+		$.ajax({
+			url:"getActivityRate.do",
+			dataType:'text',
+			error:function(error){console.log(error)},
+			success:function(data){
+				console.log("data :"+data);
+				if(data > 3){
+					document.getElementById("good").className="light";
+				}else if(data > 0){
+					document.getElementById("normal").className="light";
+				}else{
+					document.getElementById("bad").className="light";
+				}
+			}
+		});
+		/* //상권활성도 나타내기
+		document.getElementById("normal").className="light"; */
 		
 		var labelData = new Array;
 		var setData = new Array;
@@ -447,7 +461,40 @@ h2.flh {
 
 						// 지도를 생성합니다    
 						var map = new daum.maps.Map(mapContainer, mapOption);
-
+						
+						//주요 상권을 반경 50m원으로 표시
+						var circles = new Array;
+						$.ajax({
+							url:"getImportantInfo.do",
+							dataType:"json",
+							error:function(error){console.log(error)},
+							success:function(data){
+								$.each(data,function(key,value){
+									var circle = new daum.maps.Circle({
+										center : new daum.maps.LatLng(value.lat, value.lon), // 원의 중심좌표 입니다 
+										radius : 140, // 미터 단위의 원의 반지름입니다 
+										strokeWeight : 1, // 선의 두께입니다 
+										strokeColor : '#BF00FF', // 선의 색깔입니다
+										strokeOpacity : 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+										strokeStyle : 'solid', // 선의 스타일 입니다
+										fillColor : '#CCD1FF', // 채우기 색깔입니다
+										fillOpacity : 0.3
+									// 채우기 불투명도 입니다   
+									});
+									circles.push(circle);
+								});
+								
+								for(var i =0;i <circles.length;i++){
+									console.log(circles[i]);
+									// 지도에 원을 표시합니다 
+									circles[i].setMap(map);	
+								}
+								
+							},
+							error:function(error){console.log(error)}
+						});
+						
+						
 						// 장소 검색 객체를 생성합니다
 						var ps = new daum.maps.services.Places(map);
 
@@ -640,7 +687,7 @@ h2.flh {
 
 var words = new Array;
 var locName = "<%=(String)request.getAttribute("locName")%>";
- /* 
+/*  
  $(function() {
 	$.ajax({
 		url:"getCrawling.do",
@@ -661,8 +708,8 @@ var locName = "<%=(String)request.getAttribute("locName")%>";
 			});
 		}
 	});
-});   
-   */
+});       */
+   
  
 </script>
 <script src="/common/js/main.js"></script>

@@ -32,6 +32,7 @@ import com.store.dto.apiDTO;
 import com.store.dto.apiWrappedDTO;
 import com.store.dto.populationDTO;
 import com.store.service.IAnalysisService;
+import com.store.util.ApiProcess;
 import com.store.util.ApiResultToString;
 import com.store.util.googleSearchAPI;
 
@@ -42,7 +43,8 @@ public class AnalysisController {
 	
 	@Resource(name = "AnalysisService")
 	private IAnalysisService AnalysisService;
-
+	private static List<apiDTO> importantStore;
+	private Map<String, Integer> storeInfoMap;
 	// 嚥≪뮄�젃占쎌뵥 占쎌읈
 	@RequestMapping(value = "analysisMain", method = RequestMethod.GET)
 	public String main(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
@@ -59,6 +61,7 @@ public class AnalysisController {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("resId", "dong");
 		map.put("catId", "mega");
+		
 		//API결과를 String 변환 
 		ApiResultToString apiResult = new ApiResultToString();
 		String result = apiResult.getString(map);
@@ -275,121 +278,55 @@ public class AnalysisController {
 		return list;
 	}
 	
-	
-	
-	public apiWrappedDTO startApi(String radius,String cx,String cy,int page) throws Exception{
-
-		HashMap<String, String> map = new HashMap<>();
-		map.put("resId", "store");
-		map.put("catId", "radius");
-		map.put("radius", radius);
-		map.put("cx", cx);
-		map.put("cy", cy);
-		map.put("numOfRows", "500");
-		map.put("pageNo", String.valueOf(page));
-		
-		ApiResultToString apiResult = new ApiResultToString();
-		String result = apiResult.getString(map);
-		
-		System.out.println("length : "+result.length());
-		
-		// String을 xml로 파싱하고 List에 담기
-		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-		XmlPullParser parser = factory.newPullParser(); // 연결하는거 담고
-		parser.setInput(new StringReader(result));
-		int eventType = parser.getEventType();
-		apiDTO dto = null;
-		List<apiDTO> list = null;
-		String totalCount = "";
-		
-		while (eventType != XmlPullParser.END_DOCUMENT) {
-			switch (eventType) {
-			case XmlPullParser.END_DOCUMENT:// 문서의 끝
-				break;
-			case XmlPullParser.START_DOCUMENT:
-				list = new ArrayList<apiDTO>();
-				break;
-			case XmlPullParser.END_TAG: {
-				String tag = parser.getName();
-				if (tag.equals("item")) {
-					list.add(dto);
-					dto = null;
-				}
-			}
-			case XmlPullParser.START_TAG: { // 무조건 시작하면 만남
-				String tag = parser.getName();
-				switch (tag) {
-				case "item": // item가 열렸다는것은 새로운 책이 나온다는것
-					dto = new apiDTO();
-					break;
-				case "bizesId":
-					if (dto != null)
-						dto.setBizesId(parser.nextText());
-					break;
-				case "bizesNm":
-					dto.setBizesNm(parser.nextText());
-					break;
-				case "indsLclsCd":
-					dto.setIndsLclsCd(parser.nextText());
-					break;
-				case "indsLclsNm":
-					dto.setIndsLclsNm(parser.nextText());
-					break;
-				case "indsMclsCd":
-					dto.setIndsMclsCd(parser.nextText());
-					break;
-				case "indsMclsNm":
-					dto.setIndsMclsNm(parser.nextText());
-					break;
-				case "indsSclsCd":
-					dto.setIndsSclsCd(parser.nextText());
-					break;
-				case "indsSclsNm":
-					dto.setIndsSclsNm(parser.nextText());
-					break;	
-				case "ctprvnCd":
-					dto.setCtprvnCd(parser.nextText());
-					break;
-				case "ctprvnNm":
-					dto.setCtprvnNm(parser.nextText());
-					break;
-				case "signguCd":
-					dto.setSignguCd(parser.nextText());
-					break;
-				case "signguNm":
-					dto.setSignguNm(parser.nextText());
-					break;
-				case "lon":
-					dto.setLon(parser.nextText());
-					break;	
-				case "lat":
-					dto.setLat(parser.nextText());
-					break;
-				case "totalCount":
-					totalCount = parser.nextText();
-					break;
-				}
-				break;
-			}
-			}
-			eventType = parser.next();
-		}
-		
-		apiWrappedDTO wDto = new apiWrappedDTO();
-		wDto.setList(list);
-		wDto.setPage(String.valueOf(page));
-		wDto.setTotalPage(totalCount);
-		
-		return wDto;
-	}
-	
 	@RequestMapping(value = "getStoreInfo", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Integer> getStoreInfo(HttpServletRequest request, HttpServletResponse response,
 			 @RequestParam("radius")String radius,@RequestParam("cx")String cx,
 			 @RequestParam("cy")String cy,ModelMap model) throws Exception {
 		log.info("come into getStoreInfo");
 		
-		apiWrappedDTO wDTO = startApi(radius, cx, cy,1);
+		return storeInfoMap;
+	}
+	
+	public void setImpt(apiDTO a) {
+		apiDTO tmpDto = new apiDTO();
+		tmpDto.setLat((a.getLat()));
+		tmpDto.setLon((a.getLon()));
+		tmpDto.setBizesNm((a.getBizesNm()));
+		importantStore.add(tmpDto);
+		tmpDto = null;
+	}
+	
+	@RequestMapping(value = "getImportantInfo", method = RequestMethod.GET)
+	public @ResponseBody List<apiDTO> getImportantInfo(HttpServletRequest request,
+			HttpServletResponse response,ModelMap model)throws Exception {
+		log.info("come into getImportantInfo");
+		
+		List<apiDTO> list = importantStore;
+		
+		for(apiDTO a : list) {
+			System.out.println("bizname: "+a.getBizesNm());
+		}
+		
+		return list;
+	}
+	
+	@RequestMapping(value = "analysisDetail", method = RequestMethod.POST)
+	public String analysisDetail(HttpServletRequest request, HttpServletResponse response,
+			 @RequestParam("radius")String radius,@RequestParam("cx")String cx,
+			 @RequestParam("cy")String cy,@RequestParam("locName")String locName, 
+			 @RequestParam("midCd")String midCd,ModelMap model) throws Exception {
+		log.info("come into analysisDetail");
+		
+		log.info("radius"+radius);
+		log.info("cx"+cx);
+		log.info("cy"+cy);
+		log.info("locName"+locName);
+		
+		importantStore = new ArrayList<>();
+		storeInfoMap = new HashMap<String, Integer>();
+		
+		ApiProcess apiProc = new ApiProcess();
+		apiWrappedDTO wDTO = apiProc.startApi(radius, cx, cy,1);
 		List<apiDTO> list = wDTO.getList();
 		int totalPage = Integer.parseInt(wDTO.getTotalPage());
 		
@@ -397,7 +334,7 @@ public class AnalysisController {
 		while(totalPage - (500*Integer.parseInt(wDTO.getPage())) > 0){
 			int inc = Integer.parseInt(wDTO.getPage());
 			inc++;
-			wDTO = startApi(radius, cx, cy, inc);
+			wDTO = apiProc.startApi(radius, cx, cy, inc);
 			list.addAll(wDTO.getList());
 		}
 		
@@ -411,50 +348,43 @@ public class AnalysisController {
 		//해당되는업종만 리스트에 담기
 		List<String> strArr = new ArrayList<>();
 		for(apiDTO a : list) {
-			if(a.getIndsMclsCd().equals("Q01")) {
+			if(a.getIndsMclsCd().equals(midCd)) {
 				strArr.add(a.getIndsSclsNm());
 			}
 		}
 		
+		
 		//주요상권 리스트에 담기
 		for(apiDTO a : list) {
+			
 			if(a.getBizesNm().indexOf("베스킨") >= 0) {
-				System.out.println(a.getBizesNm());
+				setImpt(a);
 			}else if(a.getBizesNm().indexOf("롯데리아") >= 0){
-				System.out.println(a.getBizesNm());
+				setImpt(a);
 			}else if(a.getBizesNm().indexOf("스타벅스") >= 0){
-				System.out.println(a.getBizesNm());
+				setImpt(a);
 			}else if(a.getBizesNm().indexOf("파리바게뜨") >= 0){
-				System.out.println(a.getBizesNm());
+				setImpt(a);
 			}
 		}
 		
-		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		for(apiDTO a : importantStore) {
+			System.out.println(a.getBizesNm());
+			System.out.println(a.getLon());
+			System.out.println(a.getLat());
+		}
+		
+		
 		for (String s : strArr) {
 
-			if (!map.containsKey(s)) { // first time we've seen this string
-				map.put(s, 1);
+			if (!storeInfoMap.containsKey(s)) { // first time we've seen this string
+				storeInfoMap.put(s, 1);
 			} else {
-				int count = map.get(s);
-				map.put(s, count + 1);
+				int count = storeInfoMap.get(s);
+				storeInfoMap.put(s, count + 1);
 			}
 		}
-		
-		return map;
-	}
-	
-
-	@RequestMapping(value = "analysisDetail", method = RequestMethod.POST)
-	public String analysisDetail(HttpServletRequest request, HttpServletResponse response,
-			 @RequestParam("radius")String radius,@RequestParam("cx")String cx,
-			 @RequestParam("cy")String cy,@RequestParam("locName")String locName, 
-			 ModelMap model) throws Exception {
-		log.info("come into analysisDetail");
-		
-		log.info("radius"+radius);
-		log.info("cx"+cx);
-		log.info("cy"+cy);
-		log.info("locName"+locName);
 		
 		model.addAttribute("cx",cx);
 		model.addAttribute("cy",cy);
@@ -468,8 +398,8 @@ public class AnalysisController {
 	public @ResponseBody Map<String,Integer> getCrawling(@RequestParam(value="locName")String locName) throws Exception{
 		log.info("come into getCrawling");
 		System.out.println(locName);
-		googleSearchAPI searchAPI = new googleSearchAPI();
-		Map<String,Integer> map = searchAPI.getInfo(locName);
+		ApiProcess apiProc = new ApiProcess();
+		Map<String,Integer> map = apiProc.getInfo(locName);
 		
 		return map;
 	}
@@ -484,5 +414,10 @@ public class AnalysisController {
 		return list;
 	}
 	
-
+	@RequestMapping(value = "getActivityRate",method= RequestMethod.GET)
+	public @ResponseBody String getActivityRate() throws Exception{
+		log.info("come into getActivityRate");
+		
+		return String.valueOf(importantStore.size());
+	}
 }

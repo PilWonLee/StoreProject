@@ -50,6 +50,7 @@ $(function(){
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=42ff495b96a0548bc815a587a9e4fd80&libraries=services,clusterer,drawing"></script>
 <script>
+var MidCd = '';
 	$(document).ready(function(){
 		
 		var analysisCategory = document.getElementById("analysisCategory");
@@ -399,12 +400,23 @@ $(function(){
 					console.log("cx :"+lng);
 					console.log("cy :"+lat);
 					console.log("locName :"+locName);
+					console.log("MidCd :"+MidCd);
+					
+					if(sendRadius == 0){
+						alert("지도에 원하는 지역을 선택해 주세여");
+						return;
+					}
+					if(MidCd == ''){
+						alert("업종을 선택해 주세요");
+						return;
+					}
 					
 		            $("#radiusId").attr("value" , sendRadius);
 		            $("#locNameId").attr("value" , locName);
 		            $("#cxId").attr("value" , lng);
 		        	$("#cyId").attr("value" , lat);
-		        	$("#transPage").attr({action:"analysisDetail.do", method:'post'}).submit();  
+		        	$("#midCd").attr("value" , MidCd);
+		        	$("#transPage").attr({action:"analysisDetail.do", method:'post'}).submit();    
 		            
 			});
 			
@@ -463,11 +475,13 @@ $(function(){
 		});
 	}
 	
-	//시,군,구 드랍다운 이벤트 추가 함수
+	//중분류 드랍다운 이벤트 추가 함수
 	function addClickEventMidInds(){
 		$('#selectMidIndsDrop').children('.dropdown-item').click(function(event){
 			event.preventDefault();//a태그 href 막음
 			$('#selectMidInds').text($(this).text());
+			MidCd = $(this).attr("id");
+			
 		});
 	}
 	
@@ -479,12 +493,13 @@ $(function(){
 	<%@include file="/common/top.jsp"%>
 	<!-- Navigation -->
 	<%@include file="/common/nav.jsp"%>
-
+	
 	<form id="transPage" >
 		<input type="hidden" name="cx" id="cxId" value="">
 		<input type="hidden" name="cy" id="cyId" value="">
 		<input type="hidden" name="radius" id="radiusId" value="">
 		<input type="hidden" name="locName" id="locNameId" value="">
+		<input type="hidden" name="midCd" id="midCd" value="">
 	</form>
 
 	<section class="page-section clearfix">
