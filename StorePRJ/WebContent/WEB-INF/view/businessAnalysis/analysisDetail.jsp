@@ -277,9 +277,11 @@ h2.flh {
 		
 		var labelData = new Array;
 		var setData = new Array;
-		var colorArr = ["#FE2E2E","#FE9A2E","#FFFF00","#BFFF00","#00FFFF","#2E9AFE"
-						,"#FE2EF7","#FF0040","#81DAF5","#9A2EFE","#BDBDBD","#D0FA58"
-						];
+		var colorArr = ["#ff6384","#ff9f40","#ffcd56","#4bc0c0","#36a2eb","#9966ff","#c9cbcf"
+		                ,"#ff6384","#ff9f40","#ffcd56","#4bc0c0","#36a2eb","#9966ff","#c9cbcf"
+		                ,"#ff6384","#ff9f40","#ffcd56","#4bc0c0","#36a2eb","#9966ff","#c9cbcf"
+		                ,"#ff6384","#ff9f40","#ffcd56","#4bc0c0","#36a2eb","#9966ff","#c9cbcf"
+		                ];
 		var locName = '<%=request.getParameter("locName")%>';
 		console.log("locName: "+locName);
 		var radius = <%=request.getParameter("radius")%>;
@@ -302,7 +304,7 @@ h2.flh {
 				}
 			//차트 그리기
 			new Chart(document.getElementById("myChart").getContext("2d"), {
-				type : 'pie',
+				type : 'doughnut',
 				data : {
 					labels : labelData,
 					datasets : [ {
@@ -687,28 +689,33 @@ h2.flh {
 
 var words = new Array;
 var locName = "<%=(String)request.getAttribute("locName")%>";
-/*  
+ 
  $(function() {
-	$.ajax({
-		url:"getCrawling.do",
-		data:{locName : locName},
-		type:'POST',
-		dataType:"json",
-		success:function(data){
-			$.each(data,function(key,value){
-				var pushData = {text: key, weight: value};
-				words.push(pushData);
+	 $('#couldStart').mouseover(function(event){
+			$(this).css('cursor','pointer');
+		}) 
+	 $('#couldStart').click(function(){
+		 $("#keywords").html('');
+		 $.ajax({
+				url:"getCrawling.do",
+				data:{locName : locName},
+				type:'POST',
+				dataType:"json",
+				success:function(data){
+					$.each(data,function(key,value){
+						var pushData = {text: key, weight: value};
+						words.push(pushData);
+					});
+					console.log(words);
+					$("#keywords").jQCloud(words, {
+						width:600,
+						height:300
+					});
+				}
 			});
-			
-			console.log(words);
-			
-			$("#keywords").jQCloud(words, {
-				width:600,
-				height:300
-			});
-		}
-	});
-});       */
+	 })
+	
+});       
    
  
 </script>
@@ -788,7 +795,9 @@ var locName = "<%=(String)request.getAttribute("locName")%>";
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
 				style="width: 65%; height: 600px">
 				<h2 style="padding-bottom: 2em;">해당 지역 키워드</h2>
-				<div id="keywords" style="width: 100%; height: 100%"></div>
+				<div id="keywords" style="width: 100%; height: 100%">
+				<span id='couldStart' style="color:blue;margin-top:3rem"><h3>내용 보기</h3></span>
+				</div>
 
 			</div>
 		</div>

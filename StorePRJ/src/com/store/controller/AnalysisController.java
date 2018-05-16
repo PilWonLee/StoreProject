@@ -348,8 +348,8 @@ public class AnalysisController {
 		//해당되는업종만 리스트에 담기
 		List<String> strArr = new ArrayList<>();
 		for(apiDTO a : list) {
-			if(a.getIndsMclsCd().equals(midCd)) {
-				strArr.add(a.getIndsSclsNm());
+			if(a.getIndsLclsCd().equals(midCd)) {
+				strArr.add(a.getIndsMclsNm());
 			}
 		}
 		

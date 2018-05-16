@@ -454,8 +454,8 @@ var MidCd = '';
 			var indsLclsCd = $(this).attr('id');
 			console.log(indsLclsCd);
 			$('#selectBigInds').text($(this).text());
-			
-			$.ajax({
+			MidCd = $(this).attr("id");
+			/* $.ajax({
 				data : {'indsLclsCd' : indsLclsCd},
 				url:"searchMidInds.do",
 				dataType:"json",
@@ -471,7 +471,7 @@ var MidCd = '';
 				error: function(request,status,error){
 		        		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		       	}
-			}); 
+			});  */
 		});
 	}
 	
@@ -480,7 +480,7 @@ var MidCd = '';
 		$('#selectMidIndsDrop').children('.dropdown-item').click(function(event){
 			event.preventDefault();//a태그 href 막음
 			$('#selectMidInds').text($(this).text());
-			MidCd = $(this).attr("id");
+			
 			
 		});
 	}
@@ -570,20 +570,20 @@ var MidCd = '';
 					</div>
 					<br>
 					<!-- 업종 소분류 -->
-					<div class="btn-group" role="group" id=""
+					<!-- <div class="btn-group" role="group" id=""
 						aria-label="Button group with nested dropdown" style="padding-top:5px">
 						<button type="button" class="btn btn-info" id="selectMidInds"></button>
 						<div class="btn-group" role="group">
 							<button  type="button"
 								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false"></button>
-							<!-- 드랍다운 부분 -->	
+							드랍다운 부분	
 							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
 								x-placement="bottom-start" id="selectMidIndsDrop"
 								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
