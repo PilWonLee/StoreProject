@@ -117,9 +117,97 @@ h2.flh {
 <script src="bower_components/tui-date-picker/dist/tui-date-picker.js"></script>
 <script src="bower_components/tui-grid/dist/tui-grid.js"></script>   
 <link rel="stylesheet" type="text/css" href="/bower_components/tui-grid/dist/tui-grid.css" />
-
+<link
+	href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i"
+	rel="stylesheet">
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=42ff495b96a0548bc815a587a9e4fd80&libraries=services,clusterer,drawing"></script>
 <script>
 $(document).ready(function(){ 
+	
+	var selectNation = $('#selectNation');//버튼 만들기
+	selectNation.text("시,도 선택");
+	var selectCity = $("#selectCity");
+	selectCity.text("시,군,구 선택");
+	
+	var selectBusiness1 = $('#selectBigInds');
+	selectBusiness1.text("업종 대분류");
+	
+	var MidCd;
+	
+	getLocation();
+	
+	function getLocation() {
+		  if (navigator.geolocation) { // GPS를 지원하면
+		    navigator.geolocation.getCurrentPosition(function(position) {
+		      lat = position.coords.latitude;
+		      lng = position.coords.longitude;
+		      console.log("lat: "+lat);
+		      console.log("lng: "+lng);
+		  var geocoder = new daum.maps.services.Geocoder();
+			geocoder.coord2Address(lng, lat, function(result, status) {
+			          var detailAddr = result[0].address.address_name; 
+			          var res = detailAddr.split(" ");
+			          var locName = '';
+			            
+			           
+					for(var i = 0; i < res.length; i ++){
+						if(res[i].indexOf('구') == (res[i].length -1)){
+								locName = res[i];
+							}
+						}
+			            
+					if(locName == ''){
+						for(var i = 0; i < res.length; i ++){
+							if(res[i].indexOf('시') == (res[i].length -1)){
+								locName = res[i];
+							}
+						}
+					}    
+					
+					console.log("locName: "+locName);
+		      
+		    });
+		  });
+		}
+	};
+	
+	//업종 대분류 불러오기
+	$.ajax({
+				url:"searchBigInds.do",
+				dataType:"json",
+				success:function(data){
+					var contents = "";
+					$.each(data,function(key,value){
+						contents += "<a class='dropdown-item' href='#' id='"+value.indsLclsCd+"'>"+value.indsLclsNm+"</a> ";
+					});
+					$('#selectBigIndsDrop').html(contents);
+					addClickEventBigInds();
+				},	
+				error: function(request,status,error){
+		        		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		       	}
+		}); 
+		
+	
+	//업종 대분류 드랍다운에 이벤트 추가 함수
+	function addClickEventBigInds(){
+		$('#selectBigIndsDrop').children('.dropdown-item').click(function(event){
+			event.preventDefault();//a태그 href 막음
+			var indsLclsCd = $(this).attr('id');
+			console.log(indsLclsCd);
+			$('#selectBigInds').text($(this).text());
+			MidCd = $(this).attr("id");
+		});
+	}
+	
+
+
+
+
 
 	var grid = new tui.Grid({
 	    el: $('#grid'),
@@ -292,19 +380,21 @@ $(document).ready(function(){
 			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp" style="height:430px">
 				<h1>상권 현황</h1>
 				
-			<select name="job">
-   				<option value="">직업선택</option>
-    			<option value="학생">학생</option>
-    			<option value="회사원">회사원</option>
-    			<option value="기타">기타</option>
-			</select>
-			<select name="job">
-   				<option value="">직업선택</option>
-    			<option value="학생">학생</option>
-    			<option value="회사원">회사원</option>
-    			<option value="기타">기타</option>
-			</select>
-			
+			<!-- 업종 대분류 -->
+					<div class="btn-group" role="group"
+						aria-label="Button group with nested dropdown">
+						<button type="button" class="btn btn-info" id="selectBigInds"></button>
+						<div class="btn-group" role="group">
+							<button  type="button"
+								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"></button>
+							<!-- 드랍다운 부분 -->	
+							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
+								x-placement="bottom-start" id="selectBigIndsDrop"
+								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
+							</div>
+						</div>
+					</div>
 				<canvas id="myChart" width="600" height="400"></canvas>
 			
 			</div>
@@ -312,18 +402,6 @@ $(document).ready(function(){
 			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp cust" style="height:430px">
 				<h1>상권 활성도</h1>
 				
-				<select name="job">
-   					<option value="">직업선택</option>
-    				<option value="학생">학생</option>
-    				<option value="회사원">회사원</option>
-    				<option value="기타">기타</option>
-				</select>
-				<select name="job">
-   					<option value="">직업선택</option>
-    				<option value="학생">학생</option>
-    				<option value="회사원">회사원</option>
-    				<option value="기타">기타</option>
-				</select>
 				
 				<h2 class="flh">
 					<span id="good">좋음</span>

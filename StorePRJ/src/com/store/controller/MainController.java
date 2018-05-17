@@ -42,7 +42,15 @@ public class MainController {
 		
 	}
 	
-	
+	@RequestMapping(value="home", method=RequestMethod.GET)
+	public String home(HttpServletRequest request, HttpServletResponse response, 
+					ModelMap model) throws Exception {
+		log.info("come into home");
+		
+		
+		return "/home";
+		
+	}
 	
 
 
