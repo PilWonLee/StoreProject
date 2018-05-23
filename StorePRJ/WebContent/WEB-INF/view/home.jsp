@@ -7,12 +7,18 @@
 
 <style>
 	/* p:first-letter{color:yellow;background-color:green; border-radius:5px} */
+canvas { 
+  height: 100vh; 
+  width: 98vw; 
+  display: block;
+}
 </style>
-<script src="/webjars/jquery/3.3.1/dist/jquery.min.js"></script>
+<script src="/common/js/jquery-3.3.1.min.js"></script>
 <!-- Bootstrap core CSS -->
 <link href="/bootstrap/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
-
+<link href="/bootstrap/css/bttn.css"
+	rel="stylesheet">
 <!-- Custom fonts for this template -->
 <link
 	href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
@@ -35,7 +41,7 @@ var img = new Image();
 img.src = '/bootstrap/img/mainPic.jpg';
 var CanvasXSize = 1900;
 var CanvasYSize = 600;
-var speed = 0; // lower is faster
+var speed = 10; // lower is faster
 var scale = 1.05;
 var y = -4.5; // vertical offset
 
@@ -118,9 +124,11 @@ function draw() {
 <body>
 <%@include file="/common/top.jsp"%>
 
-
+<div style="text-align:center">
+		<button class="bttn-unite bttn-md bttn-primary" style="font-size:40px">시작하기</button>
 		<canvas id="canvas" width="1900" height="600"></canvas>
-
+		<span>made by PilWon</span>
+</div>
 
 
 

@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<link href="/bootstrap/css/bttn.css"
+	rel="stylesheet">	
+	
 <div style="text-align: right">
-		<span>로그인</span> <span>회원가입</span>
+		<button class="bttn-stretch bttn-md bttn-primary" style="margin-right:5px;margin-top:5px">Login</button>
+		<button class="bttn-stretch bttn-md bttn-primary" style="margin-right:5px;margin-top:5px">Sign up</button>
 
 	</div>
 

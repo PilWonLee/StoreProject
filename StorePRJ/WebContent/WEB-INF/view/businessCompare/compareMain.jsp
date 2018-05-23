@@ -53,8 +53,8 @@ $(function(){
 var MidCd = '';
 	$(document).ready(function(){
 		
-		var analysisCategory = document.getElementById("analysisCategory");
-		analysisCategory.className = "nav-item px-lg-4 active"; //카테고리 활성화 
+		var compareCategory = document.getElementById("compareCategory");
+		compareCategory.className = "nav-item px-lg-4 active"; //카테고리 활성화 
 	
 		var selectNation = $('#selectNation');//버튼 만들기
 		selectNation.text("시,도 선택");
@@ -463,23 +463,6 @@ var MidCd = '';
 			console.log(indsLclsCd);
 			$('#selectBigInds').text($(this).text());
 			MidCd = $(this).attr("id");
-			/* $.ajax({
-				data : {'indsLclsCd' : indsLclsCd},
-				url:"searchMidInds.do",
-				dataType:"json",
-				success:function(data){
-					var contents = ""
-					$.each(data,function(key,value){
-						contents += "<a class='dropdown-item' href='#' id='"+value.indsMclsCd+"'>"+value.indsMclsNm+"</a> ";
-					});
-					$('#selectMidIndsDrop').html(contents);
-					$("#selectMidInds").text("업종 중분류");
-					addClickEventMidInds();
-				},	
-				error: function(request,status,error){
-		        		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		       	}
-			});  */
 		});
 	}
 	
@@ -577,22 +560,7 @@ var MidCd = '';
 						</div>
 					</div>
 					<br>
-					<!-- 업종 소분류 -->
-					<!-- <div class="btn-group" role="group" id=""
-						aria-label="Button group with nested dropdown" style="padding-top:5px">
-						<button type="button" class="btn btn-info" id="selectMidInds"></button>
-						<div class="btn-group" role="group">
-							<button  type="button"
-								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false"></button>
-							드랍다운 부분	
-							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
-								x-placement="bottom-start" id="selectMidIndsDrop"
-								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
-							</div>
-						</div>
-					</div> -->
-				</div>
+					
 			</div>
 		</div>
 		

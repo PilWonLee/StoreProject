@@ -30,6 +30,181 @@
 <!-- Custom styles for this template -->
 <link href="/bootstrap/css/myStyle.css" rel="stylesheet">
 <style>
+#floatingCirclesG{
+	position:relative;
+	width:125px;
+	height:125px;
+	margin:auto;
+	transform:scale(0.6);
+		-o-transform:scale(0.6);
+		-ms-transform:scale(0.6);
+		-webkit-transform:scale(0.6);
+		-moz-transform:scale(0.6);
+}
+
+.f_circleG{
+	position:absolute;
+	background-color:rgb(255,255,255);
+	height:22px;
+	width:22px;
+	border-radius:12px;
+		-o-border-radius:12px;
+		-ms-border-radius:12px;
+		-webkit-border-radius:12px;
+		-moz-border-radius:12px;
+	animation-name:f_fadeG;
+		-o-animation-name:f_fadeG;
+		-ms-animation-name:f_fadeG;
+		-webkit-animation-name:f_fadeG;
+		-moz-animation-name:f_fadeG;
+	animation-duration:1.2s;
+		-o-animation-duration:1.2s;
+		-ms-animation-duration:1.2s;
+		-webkit-animation-duration:1.2s;
+		-moz-animation-duration:1.2s;
+	animation-iteration-count:infinite;
+		-o-animation-iteration-count:infinite;
+		-ms-animation-iteration-count:infinite;
+		-webkit-animation-iteration-count:infinite;
+		-moz-animation-iteration-count:infinite;
+	animation-direction:normal;
+		-o-animation-direction:normal;
+		-ms-animation-direction:normal;
+		-webkit-animation-direction:normal;
+		-moz-animation-direction:normal;
+}
+
+#frotateG_01{
+	left:0;
+	top:51px;
+	animation-delay:0.45s;
+		-o-animation-delay:0.45s;
+		-ms-animation-delay:0.45s;
+		-webkit-animation-delay:0.45s;
+		-moz-animation-delay:0.45s;
+}
+
+#frotateG_02{
+	left:15px;
+	top:15px;
+	animation-delay:0.6s;
+		-o-animation-delay:0.6s;
+		-ms-animation-delay:0.6s;
+		-webkit-animation-delay:0.6s;
+		-moz-animation-delay:0.6s;
+}
+
+#frotateG_03{
+	left:51px;
+	top:0;
+	animation-delay:0.75s;
+		-o-animation-delay:0.75s;
+		-ms-animation-delay:0.75s;
+		-webkit-animation-delay:0.75s;
+		-moz-animation-delay:0.75s;
+}
+
+#frotateG_04{
+	right:15px;
+	top:15px;
+	animation-delay:0.9s;
+		-o-animation-delay:0.9s;
+		-ms-animation-delay:0.9s;
+		-webkit-animation-delay:0.9s;
+		-moz-animation-delay:0.9s;
+}
+
+#frotateG_05{
+	right:0;
+	top:51px;
+	animation-delay:1.05s;
+		-o-animation-delay:1.05s;
+		-ms-animation-delay:1.05s;
+		-webkit-animation-delay:1.05s;
+		-moz-animation-delay:1.05s;
+}
+
+#frotateG_06{
+	right:15px;
+	bottom:15px;
+	animation-delay:1.2s;
+		-o-animation-delay:1.2s;
+		-ms-animation-delay:1.2s;
+		-webkit-animation-delay:1.2s;
+		-moz-animation-delay:1.2s;
+}
+
+#frotateG_07{
+	left:51px;
+	bottom:0;
+	animation-delay:1.35s;
+		-o-animation-delay:1.35s;
+		-ms-animation-delay:1.35s;
+		-webkit-animation-delay:1.35s;
+		-moz-animation-delay:1.35s;
+}
+
+#frotateG_08{
+	left:15px;
+	bottom:15px;
+	animation-delay:1.5s;
+		-o-animation-delay:1.5s;
+		-ms-animation-delay:1.5s;
+		-webkit-animation-delay:1.5s;
+		-moz-animation-delay:1.5s;
+}
+
+
+
+@keyframes f_fadeG{
+	0%{
+		background-color:rgba(22,56,224,0.98);
+	}
+
+	100%{
+		background-color:rgb(255,255,255);
+	}
+}
+
+@-o-keyframes f_fadeG{
+	0%{
+		background-color:rgba(22,56,224,0.98);
+	}
+
+	100%{
+		background-color:rgb(255,255,255);
+	}
+}
+
+@-ms-keyframes f_fadeG{
+	0%{
+		background-color:rgba(22,56,224,0.98);
+	}
+
+	100%{
+		background-color:rgb(255,255,255);
+	}
+}
+
+@-webkit-keyframes f_fadeG{
+	0%{
+		background-color:rgba(22,56,224,0.98);
+	}
+
+	100%{
+		background-color:rgb(255,255,255);
+	}
+}
+
+@-moz-keyframes f_fadeG{
+	0%{
+		background-color:rgba(22,56,224,0.98);
+	}
+
+	100%{
+		background-color:rgb(255,255,255);
+	}
+}
 h2.flh {
   font-family: 'Arial';
   text-transform: uppercase;
@@ -302,6 +477,12 @@ h2.flh {
 				for(var i = 0; i < setData.length ; i++){
 					fitColorArr.push(colorArr[i]);
 				}
+				
+				if(setData.length == 0){
+					$('#rateChart').html("<span><h3>해당 업종이 없습니다.</h3></span>");
+					$('#rateChart').css("color","blue");
+					$('#rateChart').css("margin-top","5rem")
+				}else{
 			//차트 그리기
 			new Chart(document.getElementById("myChart").getContext("2d"), {
 				type : 'doughnut',
@@ -324,6 +505,8 @@ h2.flh {
 					}
 				}
 			});
+			
+				}
 			}
 		}); 
 		
@@ -689,19 +872,31 @@ h2.flh {
 
 var words = new Array;
 var locName = "<%=(String)request.getAttribute("locName")%>";
- 
+var contents = ''; 
  $(function() {
 	 $('#couldStart').mouseover(function(event){
 			$(this).css('cursor','pointer');
-		}) 
+		})
+		contents =  '<div id="floatingCirclesG">';
+	 	contents +='<div class="f_circleG" id="frotateG_01"></div>';
+	 	contents +='<div class="f_circleG" id="frotateG_02"></div>';
+	 	contents +='<div class="f_circleG" id="frotateG_03"></div>';
+	 	contents +='<div class="f_circleG" id="frotateG_04"></div>';
+	 	contents +='<div class="f_circleG" id="frotateG_05"></div>';
+	 	contents +='<div class="f_circleG" id="frotateG_06"></div>';
+	 	contents +='<div class="f_circleG" id="frotateG_07"></div>';
+	 	contents +='<div class="f_circleG" id="frotateG_08"></div>';
+	 	contents +='</div>';
+		
 	 $('#couldStart').click(function(){
-		 $("#keywords").html('');
+		 $("#keywords").html(contents);
 		 $.ajax({
 				url:"getCrawling.do",
 				data:{locName : locName},
 				type:'POST',
 				dataType:"json",
 				success:function(data){
+					 $("#keywords").html('');
 					$.each(data,function(key,value){
 						var pushData = {text: key, weight: value};
 						words.push(pushData);
@@ -785,9 +980,9 @@ var locName = "<%=(String)request.getAttribute("locName")%>";
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
 				style="width:600px;height: 600px;margin-left:0px">
 				<h2>업종 비율</h2>
-				
+				<div id="rateChart">
 				<canvas id="myChart" width="100%" height="100%"></canvas>
-
+				</div>
 			</div>
 			
 			
@@ -828,11 +1023,6 @@ var locName = "<%=(String)request.getAttribute("locName")%>";
 
 
 
-	<footer class="footer text-faded text-center py-5">
-	<div class="container">
-		<p class="m-0 small">Copyright &copy; Your Website 2018</p>
-	</div>
-	</footer>
 
 	<!-- Bootstrap core JavaScript -->
 	<script src="bootstrap/vendor/jquery/jquery.min.js"></script>

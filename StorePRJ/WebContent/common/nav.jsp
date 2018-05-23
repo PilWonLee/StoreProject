@@ -11,14 +11,16 @@
 			aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
+		
+		 <!-- <span class="sr-only">(current)</span> -->
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav mx-auto">
 				<li class="nav-item px-lg-4" id="analysisCategory"><a
 					class="nav-link text-uppercase text-expanded" href="analysisMain.do">상권
-						분석 <span class="sr-only">(current)</span>
+						분석
 				</a></li>
 				<li class="nav-item px-lg-4" id="compareCategory"><a
-					class="nav-link text-uppercase text-expanded" href="about.html">상권
+					class="nav-link text-uppercase text-expanded" href="compareMain.do">상권
 						비교</a></li>
 				<li class="nav-item px-lg-4" id="recommendCategory"><a
 					class="nav-link text-uppercase text-expanded" href="products.html">상권
