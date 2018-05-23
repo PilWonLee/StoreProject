@@ -22,7 +22,7 @@ public class MainController {
 	@Resource(name = "MainService")
 	private IMainService mainService;
 	
-	//로그인 전
+	//濡쒓렇�씤 �쟾
 	@RequestMapping(value="main", method=RequestMethod.GET)
 	public String main(HttpServletRequest request, HttpServletResponse response, 
 					ModelMap model) throws Exception {
@@ -42,15 +42,6 @@ public class MainController {
 		
 	}
 	
-	@RequestMapping(value="home", method=RequestMethod.GET)
-	public String home(HttpServletRequest request, HttpServletResponse response, 
-					ModelMap model) throws Exception {
-		log.info("come into home");
-		
-		
-		return "/home";
-		
-	}
 	
 
 
