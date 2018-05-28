@@ -1,4 +1,6 @@
 var MidCd = '';
+
+var MidNameArr = new Array;
 	$(document).ready(function(){
 		
 		var analysisCategory = document.getElementById("analysisCategory");
@@ -360,6 +362,12 @@ var MidCd = '';
 					console.log("locName :"+locName);
 					console.log("MidCd :"+MidCd);
 					
+					for(var i = 0; i < MidNameArr.length; i++){
+						if(MidNameArr[i].key == MidCd){
+							var midName = MidNameArr[i].value;
+						}
+					}
+					
 					if(sendRadius == 0){
 						alert("지도에 원하는 지역을 선택해 주세여");
 						return;
@@ -374,6 +382,7 @@ var MidCd = '';
 		            $("#cxId").attr("value" , lng);
 		        	$("#cyId").attr("value" , lat);
 		        	$("#midCd").attr("value" , MidCd);
+		        	$("#midName").attr("value" , midName);
 		        	$("#transPage").attr({action:"analysisDetail.do", method:'post'}).submit();    
 		            
 			});
@@ -394,6 +403,10 @@ var MidCd = '';
 					var contents = "";
 					$.each(data,function(key,value){
 						contents += "<a class='dropdown-item' href='#' id='"+value.indsLclsCd+"'>"+value.indsLclsNm+"</a> ";
+						var MidNameObj = new Object();
+						MidNameObj.key = value.indsLclsCd;
+						MidNameObj.value = value.indsLclsNm;
+						MidNameArr.push(MidNameObj);
 					});
 					$('#selectBigIndsDrop').html(contents);
 					addClickEventBigInds();

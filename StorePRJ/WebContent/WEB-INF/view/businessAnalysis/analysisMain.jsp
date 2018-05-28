@@ -45,6 +45,7 @@
 		<input type="hidden" name="radius" id="radiusId" value="">
 		<input type="hidden" name="locName" id="locNameId" value="">
 		<input type="hidden" name="midCd" id="midCd" value="">
+		<input type="hidden" name="midName" id="midName" value="">
 	</form>
 
 	<section class="page-section clearfix">

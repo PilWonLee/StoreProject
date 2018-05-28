@@ -872,6 +872,7 @@ h2.flh {
 
 var words = new Array;
 var locName = "<%=(String)request.getAttribute("locName")%>";
+var midName = "<%=(String)request.getAttribute("midName")%>";
 var contents = ''; 
  $(function() {
 	 $('#couldStart').mouseover(function(event){
@@ -892,7 +893,7 @@ var contents = '';
 		 $("#keywords").html(contents);
 		 $.ajax({
 				url:"getCrawling.do",
-				data:{locName : locName},
+				data:{locName : locName, midName: midName},
 				type:'POST',
 				dataType:"json",
 				success:function(data){
@@ -914,7 +915,7 @@ var contents = '';
    
  
 </script>
-<script src="/common/js/main.js"></script>
+<script src="/common/js/mainJs.js"></script>
 
 <title>우리 동네 상권 분석</title>
 </head>
@@ -979,7 +980,7 @@ var contents = '';
 			<div
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
 				style="width:600px;height: 600px;margin-left:0px">
-				<h2>업종 비율</h2>
+				<h3><%=(String)request.getAttribute("midName")%>업종 비율</h3>
 				<div id="rateChart">
 				<canvas id="myChart" width="100%" height="100%"></canvas>
 				</div>
@@ -989,7 +990,11 @@ var contents = '';
 			<div
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
 				style="width: 65%; height: 600px">
-				<h2 style="padding-bottom: 2em;">해당 지역 키워드</h2>
+				<h3 style="padding-bottom: 2em;">
+				<%=request.getParameter("locName") %> 
+				<%=(String)request.getAttribute("midName")%><br>
+				검색결과 WordCloud
+				</h3>
 				<div id="keywords" style="width: 100%; height: 100%">
 				<span id='couldStart' style="color:blue;margin-top:3rem"><h3>내용 보기</h3></span>
 				</div>

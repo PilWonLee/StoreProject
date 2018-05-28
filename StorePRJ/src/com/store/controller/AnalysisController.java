@@ -314,7 +314,8 @@ public class AnalysisController {
 	public String analysisDetail(HttpServletRequest request, HttpServletResponse response,
 			 @RequestParam("radius")String radius,@RequestParam("cx")String cx,
 			 @RequestParam("cy")String cy,@RequestParam("locName")String locName, 
-			 @RequestParam("midCd")String midCd,ModelMap model) throws Exception {
+			 @RequestParam("midCd")String midCd,@RequestParam("midName")String midName
+			 ,ModelMap model) throws Exception {
 		log.info("come into analysisDetail");
 		
 		log.info("radius"+radius);
@@ -390,22 +391,30 @@ public class AnalysisController {
 		model.addAttribute("cy",cy);
 		model.addAttribute("radius",radius);
 		model.addAttribute("locName",locName);
+		model.addAttribute("midName",midName);
+		
 		
 		return "businessAnalysis/analysisDetail";
 	}
 	
 	@RequestMapping(value = "getCrawling",method= RequestMethod.POST)
-	public @ResponseBody Map<String,Integer> getCrawling(@RequestParam(value="locName")String locName) throws Exception{
+	public @ResponseBody Map<String,Integer> getCrawling(@RequestParam(value="locName")String locName,
+			@RequestParam(value="midName")String midName) throws Exception{
 		log.info("come into getCrawling");
-		System.out.println(locName);
+		//특수문자 제거
+		String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]";
+		midName = midName.replaceAll(match, " ");
+		System.out.println(locName+" "+midName);
+		
 		ApiProcess apiProc = new ApiProcess();
-		Map<String,Integer> map = apiProc.getInfo(locName);
+		Map<String,Integer> map = apiProc.getInfo(locName+" "+midName);
 		
 		return map;
 	}
 	
 	@RequestMapping(value = "getPopulation",method= RequestMethod.POST)
-	public @ResponseBody List<populationDTO> getPopulation(@RequestParam(value="locName")String locName) throws Exception{
+	public @ResponseBody List<populationDTO> getPopulation(@RequestParam(value="locName")String locName
+			) throws Exception{
 		log.info("come into getPopulation");
 		System.out.println(locName);
 		
