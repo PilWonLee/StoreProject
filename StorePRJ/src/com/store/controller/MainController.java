@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.store.dto.mainDTO;
 import com.store.service.IMainService;
@@ -41,16 +42,27 @@ public class MainController {
 		return "/main";
 		
 	}
+	
 	@RequestMapping(value="login", method=RequestMethod.GET)
 	public String login(HttpServletRequest request, HttpServletResponse response, 
 					ModelMap model) throws Exception {
 		log.info("come into login");
-		
 		return "/login";
-		
 	}
 	
+	@RequestMapping(value="signUp", method=RequestMethod.GET)
+	public String SignUp(HttpServletRequest request, HttpServletResponse response, 
+					ModelMap model) throws Exception {
+		log.info("come into SignUp");
+		return "/signUp";
+	}
 	
+	@RequestMapping(value="checkEmail", method=RequestMethod.GET)
+	public @ResponseBody String checkEmail(HttpServletRequest request, HttpServletResponse response, 
+					ModelMap model) throws Exception {
+		log.info("come into checkEmail");
+		return "/signUp";
+	}
 
 
 }

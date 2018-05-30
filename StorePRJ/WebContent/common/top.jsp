@@ -4,7 +4,7 @@
 	rel="stylesheet">	
 <div style="text-align: right">
 		<button class="bttn-stretch bttn-md bttn-primary" style="margin-right:5px;margin-top:5px" onclick="location.href='/login.do'">Login</button>
-		<button class="bttn-stretch bttn-md bttn-primary" style="margin-right:5px;margin-top:5px" onclick="location.href='/signIn.do'">Sign up</button>
+		<button class="bttn-stretch bttn-md bttn-primary" style="margin-right:5px;margin-top:5px" onclick="location.href='/signUp.do'">Sign up</button>
 
 	</div>
 
