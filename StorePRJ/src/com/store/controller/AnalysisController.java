@@ -280,21 +280,13 @@ public class AnalysisController {
 	
 	@RequestMapping(value = "getStoreInfo", method = RequestMethod.POST)
 	public @ResponseBody Map<String, Integer> getStoreInfo(HttpServletRequest request, HttpServletResponse response,
-			 @RequestParam("radius")String radius,@RequestParam("cx")String cx,
-			 @RequestParam("cy")String cy,ModelMap model) throws Exception {
+			 ModelMap model) throws Exception {
 		log.info("come into getStoreInfo");
 		
 		return storeInfoMap;
 	}
 	
-	public void setImpt(apiDTO a) {
-		apiDTO tmpDto = new apiDTO();
-		tmpDto.setLat((a.getLat()));
-		tmpDto.setLon((a.getLon()));
-		tmpDto.setBizesNm((a.getBizesNm()));
-		importantStore.add(tmpDto);
-		tmpDto = null;
-	}
+	
 	
 	@RequestMapping(value = "getImportantInfo", method = RequestMethod.GET)
 	public @ResponseBody List<apiDTO> getImportantInfo(HttpServletRequest request,
@@ -376,7 +368,7 @@ public class AnalysisController {
 			System.out.println(a.getLat());
 		}
 		
-		
+		//업종 카운트
 		for (String s : strArr) {
 
 			if (!storeInfoMap.containsKey(s)) { // first time we've seen this string
@@ -395,6 +387,16 @@ public class AnalysisController {
 		
 		
 		return "businessAnalysis/analysisDetail";
+	}
+	
+	//중요 상권 저장 함수
+	public void setImpt(apiDTO a) {
+		apiDTO tmpDto = new apiDTO();
+		tmpDto.setLat((a.getLat()));
+		tmpDto.setLon((a.getLon()));
+		tmpDto.setBizesNm((a.getBizesNm()));
+		importantStore.add(tmpDto);
+		tmpDto = null;
 	}
 	
 	@RequestMapping(value = "getCrawling",method= RequestMethod.POST)

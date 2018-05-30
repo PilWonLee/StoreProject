@@ -38,11 +38,15 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <script>
-window.onbeforeunload = function(e) {
-    var dialogText = 'Dialog text here';
-    e.returnValue = dialogText;
-    return dialogText;
-};
+$(function(){
+	//#add 상태로 새로고침시 원래 url로 복귀
+	var url = location.href;
+	var addUrl = url.substring(url.length-4,url.length);
+	if(addUrl == '#add'){
+		location.href="/compareMain.do";
+	}
+});
+
 
 </script>
 
@@ -64,7 +68,7 @@ window.onbeforeunload = function(e) {
 			type="hidden" name="radius2" id="radiusId2" value=""> <input
 			type="hidden" name="locName2" id="locNameId2" value="">
 	</form>
-	<section class="page-section clearfix">
+	<section class="page-section clearfix" style="height: 800px;">
 	<div id="pages" class="container">
 		<section id="list" data-url="list" data-default-page="true">
 		<div class="intro">
@@ -115,7 +119,7 @@ window.onbeforeunload = function(e) {
 			<div style="margin-top: 5%;">
 				<div class="card border-primary mb-3"
 					style="margin-left: 10%; width: 800px; height: 500px">
-					<div class="card-header">지도 선택</div>
+					<div class="card-header"><b>기준 지역 지도 선택</b></div>
 					<div class="card-body" id="map"></div>
 				</div>
 			</div>
@@ -182,7 +186,7 @@ window.onbeforeunload = function(e) {
 			<div style="margin-top: 5%;">
 				<div class="card border-primary mb-3"
 					style="margin-left: 10%; width: 800px; height: 500px">
-					<div class="card-header">지도 선택</div>
+					<div class="card-header"><b>비교 지역 지도 선택</b></div>
 					<div class="card-body" id="map2"></div>
 				</div>
 			</div>

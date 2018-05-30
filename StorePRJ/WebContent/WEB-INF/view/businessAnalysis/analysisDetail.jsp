@@ -431,7 +431,11 @@ h2.flh {
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=42ff495b96a0548bc815a587a9e4fd80&libraries=services,clusterer,drawing"></script>
 <script>
 	$(function() {
+		var analysisCategory = document
+		.getElementById("analysisCategory");
+		analysisCategory.className = "nav-item px-lg-4 active"; //카테고리 활성화
 		
+		//상권 활성도
 		$.ajax({
 			url:"getActivityRate.do",
 			dataType:'text',
@@ -447,8 +451,7 @@ h2.flh {
 				}
 			}
 		});
-		/* //상권활성도 나타내기
-		document.getElementById("normal").className="light"; */
+		
 		
 		var labelData = new Array;
 		var setData = new Array;
@@ -465,7 +468,6 @@ h2.flh {
 		 $.ajax({
 			url:"getStoreInfo.do",
 			type:"POST",
-			data:{radius:radius, cx:cx, cy:cy},
 			dataType:"json",
 			error:function(error){console.log(error)},
 			success: function(data){
@@ -599,9 +601,7 @@ h2.flh {
 	}
 	
 
-						var analysisCategory = document
-								.getElementById("analysisCategory");
-						analysisCategory.className = "nav-item px-lg-4 active"; //카테고리 활성화 
+						 
 
 						//선택한지역 ###################################
 						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -932,10 +932,7 @@ var contents = '';
 			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp"
 				style="height: 430px">
 				<h2>선택한 지역</h2>
-
 				<div id="map" style="width: 100%; height: 300px;"></div>
-
-
 			</div>
 			
 			<div

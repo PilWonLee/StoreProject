@@ -228,6 +228,19 @@ h2.flh {
   color : red
 }
 
+#good2 {
+  color : green
+}
+
+#normal2{
+  margin-top:20px;
+  margin-bottom:20px;
+  color : gold;
+}
+
+#bad2{
+  color : red
+}
 .flh>span {
   display: block;
 }
@@ -431,93 +444,125 @@ h2.flh {
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=42ff495b96a0548bc815a587a9e4fd80&libraries=services,clusterer,drawing"></script>
 <script>
 	$(function() {
+		//카테고리 활성솨
+		var compareCategory = document
+		.getElementById("compareCategory");
+		compareCategory.className = "nav-item px-lg-4 active"; //카테고리 활성화
 		
-		$.ajax({
-			url:"getActivityRate.do",
-			dataType:'text',
+		 $.ajax({
+			url:"getCompareActivityRate.do",
+			dataType:'json',
 			error:function(error){console.log(error)},
 			success:function(data){
-				console.log("data :"+data);
-				if(data > 3){
+					var importantStoreCnt = data.importantStoreCnt;
+					var importantStoreCnt2 = data.importantStoreCnt2;
+				 if(importantStoreCnt > 3){
 					document.getElementById("good").className="light";
-				}else if(data > 0){
+				}else if(importantStoreCnt > 0){
 					document.getElementById("normal").className="light";
 				}else{
 					document.getElementById("bad").className="light";
 				}
-			}
-		});
-		/* //상권활성도 나타내기
-		document.getElementById("normal").className="light"; */
-		
-		var labelData = new Array;
-		var setData = new Array;
-		var colorArr = ["#ff6384","#ff9f40","#ffcd56","#4bc0c0","#36a2eb","#9966ff","#c9cbcf"
-		                ,"#ff6384","#ff9f40","#ffcd56","#4bc0c0","#36a2eb","#9966ff","#c9cbcf"
-		                ,"#ff6384","#ff9f40","#ffcd56","#4bc0c0","#36a2eb","#9966ff","#c9cbcf"
-		                ,"#ff6384","#ff9f40","#ffcd56","#4bc0c0","#36a2eb","#9966ff","#c9cbcf"
-		                ];
-		var locName = '<%=request.getParameter("locName")%>';
-		console.log("locName: "+locName);
-		var radius = <%=request.getParameter("radius")%>;
-		var cx = <%=request.getParameter("cx")%>;
-		var cy = <%=request.getParameter("cy")%>;
-		 $.ajax({
-			url:"getStoreInfo.do",
-			type:"POST",
-			data:{radius:radius, cx:cx, cy:cy},
-			dataType:"json",
-			error:function(error){console.log(error)},
-			success: function(data){
-				$.each(data,function(key, value){
-					labelData.push(key);
-					setData.push(value);
-				})
-				var fitColorArr = new Array;
-				for(var i = 0; i < setData.length ; i++){
-					fitColorArr.push(colorArr[i]);
-				}
-				
-				if(setData.length == 0){
-					$('#rateChart').html("<span><h3>해당 업종이 없습니다.</h3></span>");
-					$('#rateChart').css("color","blue");
-					$('#rateChart').css("margin-top","5rem")
-				}else{
-			//차트 그리기
-			new Chart(document.getElementById("myChart").getContext("2d"), {
-				type : 'doughnut',
-				data : {
-					labels : labelData,
-					datasets : [ {
-						backgroundColor : fitColorArr,
-						data : setData
-					} ]
-				},
-				options : {
-					legend:{
-						labels:{
-							fontSize :12
-						}
-					},
-					title : {
-						display : true,
-						fontSize : 12
-					}
-				}
-			});
-			
-				}
+				 
+				 if(importantStoreCnt2 > 3){
+						document.getElementById("good2").className="light";
+					}else if(importantStoreCnt2 > 0){
+						document.getElementById("normal2").className="light";
+					}else{
+						document.getElementById("bad2").className="light";
+					} 
 			}
 		}); 
+			var locName = '<%=request.getParameter("locName")%>';
+			console.log("locName: "+locName);
+			var radius = <%=request.getParameter("radius")%>;
+			var cx = <%=request.getParameter("cx")%>;
+			var cy = <%=request.getParameter("cy")%>;
+			var locName2 = '<%=request.getParameter("locName2")%>';
+			console.log("locName2: "+locName2);
+			var radius2 = <%=request.getParameter("radius2")%>;
+			var cx2 = <%=request.getParameter("cx2")%>;
+			var cy2 = <%=request.getParameter("cy2")%>;
+			 
+			var MONTHS = [ '10대', '20대', '30대', '40대', '50대', '60대',
+					'70대', '80대', '90대'];
+			
+			var color = Chart.helpers.color;
+			
+			var womanData = new Array();
+			var manData = new Array();
 		
-		 
-		var MONTHS = [ '10대', '20대', '30대', '40대', '50대', '60대',
-				'70대', '80대', '90대'];
 		
+		//업종 비교 그래프
 		var color = Chart.helpers.color;
+		var upJong = new Array();
+		var locData1 = new Array();
+		var locData2 = new Array();
 		
-		var womanData = new Array();
-		var manData = new Array();
+		 $.ajax({
+				url:"getStoreInfoCompare.do",
+				type:"POST",
+				dataType:"json",
+				error:function(error){console.log(error)},
+				success: function(data){
+					$.each(data.label,function(index,data){
+						upJong.push(data);
+					}); 
+					$.each(data.mapObj,function(key,value){
+						locData1.push(value);
+					});
+					$.each(data.mapObj2,function(key,value){
+						locData2.push(value);	
+					});
+					
+				  
+				
+				var barChartData = {
+					labels : upJong,
+					datasets : [
+							{
+								label : locName,
+								backgroundColor : color(window.chartColors.green).alpha(
+										0.5).rgbString(),
+								borderColor : window.chartColors.green,
+								borderWidth : 1,
+								data : locData1
+							},
+							{
+								label : locName2,
+								backgroundColor : color(window.chartColors.orange).alpha(
+										0.5).rgbString(),
+								borderColor : window.chartColors.orange,
+								borderWidth : 1,
+								data :locData2
+							} ]
+
+					};
+				
+
+				var ctx = document.getElementById('myChart').getContext('2d');
+				window.myBar = new Chart(ctx, {
+					type : 'bar',
+					data : barChartData,
+					options : {
+						responsive : true,
+						legend : {
+							position : 'top',
+						},
+						title : {
+							display : true,
+						},
+						scales : {
+							yAxes : [ {
+								ticks : {
+									beginAtZero : true
+								}
+							} ]
+						}
+					}
+				});
+		      }	 
+			});	
 		
 		$.ajax({
 		url:"getPopulation.do",
@@ -580,28 +625,93 @@ h2.flh {
 		});
       }	
 	});	
+	
+		var womanData2 = new Array();
+		var manData2 = new Array();
 		
+		$.ajax({
+			url:"getPopulation.do",
+			type:"POST",
+			data:{locName:locName2},
+			dataType:"json",
+			error:function(error){console.log(error)},
+			success: function(data){
+				$.each(data,function(key, value){
+					womanData2.push(value.totalWoman);
+					manData2.push(value.totalMan);
+				})
+			  
+			
+			
+			var barChartData = {
+				labels : [ '10대', '20대', '30대', '40대', '50대', '60대',
+					'70대', '80대', '90대' ],
+				datasets : [
+						{
+							label : '여성',
+							backgroundColor : color(window.chartColors.red).alpha(
+									0.5).rgbString(),
+							borderColor : window.chartColors.red,
+							borderWidth : 1,
+							data : womanData2
+						},
+						{
+							label : '남성',
+							backgroundColor : color(window.chartColors.blue).alpha(
+									0.5).rgbString(),
+							borderColor : window.chartColors.blue,
+							borderWidth : 1,
+							data :manData2
+						} ]
+
+				};
+			
+
+			var ctx = document.getElementById('barChart2').getContext('2d');
+			window.myBar = new Chart(ctx, {
+				type : 'bar',
+				data : barChartData,
+				options : {
+					responsive : true,
+					legend : {
+						position : 'top',
+					},
+					title : {
+						display : true,
+					},
+					scales : {
+						yAxes : [ {
+							ticks : {
+								beginAtZero : true
+							}
+						} ]
+					}
+				}
+			});
+	      }	
+		});	
+		
+		//지도에 표시될 지도 레벨 정하기
+		var level;
+		if (radius < 300) {
+			level = 4;
+		} else if (radius < 600) {
+			level = 5;
+		} else {
+			level = 6;
+		}
+		
+		var level2;
+		if (radius2 < 300) {
+			level2 = 4;
+		} else if (radius2 < 600) {
+			level2 = 5;
+		} else {
+			level2 = 6;
+		}
 	
 
-	var cx =
-<%=request.getParameter("cx")%>
-	var cy =
-<%=request.getParameter("cy")%>
-	var radius =
-<%=request.getParameter("radius")%>
-	var level;
-	if (radius < 300) {
-		level = 4;
-	} else if (radius < 600) {
-		level = 5;
-	} else {
-		level = 6;
-	}
-	
-
-						var analysisCategory = document
-								.getElementById("analysisCategory");
-						analysisCategory.className = "nav-item px-lg-4 active"; //카테고리 활성화 
+						
 
 						//선택한지역 ###################################
 						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -610,9 +720,8 @@ h2.flh {
 							level : level
 						// 지도의 확대 레벨
 						};
-
 						var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
+						
 						// 지도에 표시할 원을 생성합니다
 						var circle = new daum.maps.Circle({
 							center : new daum.maps.LatLng(cy, cx), // 원의 중심좌표 입니다 
@@ -625,245 +734,31 @@ h2.flh {
 							fillOpacity : 0.7
 						// 채우기 불투명도 입니다   
 						});
-
 						// 지도에 원을 표시합니다 
 						circle.setMap(map);
-
-						//주요 상권 표시하기 !!###################################
-						// 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
-						var placeOverlay = new daum.maps.CustomOverlay({
-							zIndex : 1
-						}), contentNode = document.createElement('div'), // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다 
-						markers = [], // 마커를 담을 배열입니다
-						currCategory = ''; // 현재 선택된 카테고리를 가지고 있을 변수입니다
-
+						
+						//=========================================다른 지역 표시=========================
 						var mapContainer = document.getElementById('map2'), // 지도를 표시할 div 
 						mapOption = {
-							center : new daum.maps.LatLng(cy, cx), // 지도의 중심좌표
-							level : level
+							center : new daum.maps.LatLng(cy2, cx2), // 지도의 중심좌표
+							level : level2
 						// 지도의 확대 레벨
 						};
-
-						// 지도를 생성합니다    
-						var map = new daum.maps.Map(mapContainer, mapOption);
-						
-						//주요 상권을 반경 50m원으로 표시
-						var circles = new Array;
-						$.ajax({
-							url:"getImportantInfo.do",
-							dataType:"json",
-							error:function(error){console.log(error)},
-							success:function(data){
-								$.each(data,function(key,value){
-									var circle = new daum.maps.Circle({
-										center : new daum.maps.LatLng(value.lat, value.lon), // 원의 중심좌표 입니다 
-										radius : 140, // 미터 단위의 원의 반지름입니다 
-										strokeWeight : 1, // 선의 두께입니다 
-										strokeColor : '#BF00FF', // 선의 색깔입니다
-										strokeOpacity : 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-										strokeStyle : 'solid', // 선의 스타일 입니다
-										fillColor : '#CCD1FF', // 채우기 색깔입니다
-										fillOpacity : 0.3
-									// 채우기 불투명도 입니다   
-									});
-									circles.push(circle);
-								});
-								
-								for(var i =0;i <circles.length;i++){
-									console.log(circles[i]);
-									// 지도에 원을 표시합니다 
-									circles[i].setMap(map);	
-								}
-								
-							},
-							error:function(error){console.log(error)}
+						var map = new daum.maps.Map(mapContainer, mapOption); // 지도2를 생성합니다
+						var circle = new daum.maps.Circle({
+							center : new daum.maps.LatLng(cy2, cx2), // 원의 중심좌표 입니다 
+							radius : radius, // 미터 단위의 원의 반지름입니다 
+							strokeWeight : 1, // 선의 두께입니다 
+							strokeColor : '#75B8FA', // 선의 색깔입니다
+							strokeOpacity : 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+							strokeStyle : 'solid', // 선의 스타일 입니다
+							fillColor : '#CFE7FF', // 채우기 색깔입니다
+							fillOpacity : 0.7
+						// 채우기 불투명도 입니다   
 						});
+						// 지도에 원을 표시합니다 
+						circle.setMap(map);
 						
-						
-						// 장소 검색 객체를 생성합니다
-						var ps = new daum.maps.services.Places(map);
-
-						// 지도에 idle 이벤트를 등록합니다
-						daum.maps.event.addListener(map, 'idle', searchPlaces);
-
-						// 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다 
-						contentNode.className = 'placeinfo_wrap';
-
-						// 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
-						// 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 daum.maps.event.preventMap 메소드를 등록합니다 
-						addEventHandle(contentNode, 'mousedown',
-								daum.maps.event.preventMap);
-						addEventHandle(contentNode, 'touchstart',
-								daum.maps.event.preventMap);
-
-						// 커스텀 오버레이 컨텐츠를 설정합니다
-						placeOverlay.setContent(contentNode);
-
-						// 각 카테고리에 클릭 이벤트를 등록합니다
-						addCategoryClickEvent();
-
-						// 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
-						function addEventHandle(target, type, callback) {
-							if (target.addEventListener) {
-								target.addEventListener(type, callback);
-							} else {
-								target.attachEvent('on' + type, callback);
-							}
-						}
-
-						// 카테고리 검색을 요청하는 함수입니다
-						function searchPlaces() {
-							if (!currCategory) {
-								return;
-							}
-
-							// 커스텀 오버레이를 숨깁니다 
-							placeOverlay.setMap(null);
-
-							// 지도에 표시되고 있는 마커를 제거합니다
-							removeMarker();
-
-							ps.categorySearch(currCategory, placesSearchCB, {
-								useMapBounds : true
-							});
-						}
-
-						// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-						function placesSearchCB(data, status, pagination) {
-							if (status === daum.maps.services.Status.OK) {
-
-								// 정상적으로 검색이 완료됐으면 지도에 마커를 표출합니다
-								displayPlaces(data);
-							} else if (status === daum.maps.services.Status.ZERO_RESULT) {
-								// 검색결과가 없는경우 해야할 처리가 있다면 이곳에 작성해 주세요
-
-							} else if (status === daum.maps.services.Status.ERROR) {
-								// 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
-
-							}
-						}
-
-						// 지도에 마커를 표출하는 함수입니다
-						function displayPlaces(places) {
-
-							// 몇번째 카테고리가 선택되어 있는지 얻어옵니다
-							// 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
-							var order = document.getElementById(currCategory)
-									.getAttribute('data-order');
-
-							for (var i = 0; i < places.length; i++) {
-
-								// 마커를 생성하고 지도에 표시합니다
-								var marker = addMarker(new daum.maps.LatLng(
-										places[i].y, places[i].x), order);
-
-								// 마커와 검색결과 항목을 클릭 했을 때
-								// 장소정보를 표출하도록 클릭 이벤트를 등록합니다
-								(function(marker, place) {
-									daum.maps.event.addListener(marker,
-											'click', function() {
-												displayPlaceInfo(place);
-											});
-								})(marker, places[i]);
-							}
-						}
-
-						// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-						function addMarker(position, order) {
-							var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-							imageSize = new daum.maps.Size(27, 28), // 마커 이미지의 크기
-							imgOptions = {
-								spriteSize : new daum.maps.Size(72, 208), // 스프라이트 이미지의 크기
-								spriteOrigin : new daum.maps.Point(46,
-										(order * 36)), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-								offset : new daum.maps.Point(11, 28)
-							// 마커 좌표에 일치시킬 이미지 내에서의 좌표
-							}, markerImage = new daum.maps.MarkerImage(
-									imageSrc, imageSize, imgOptions), marker = new daum.maps.Marker(
-									{
-										position : position, // 마커의 위치
-										image : markerImage
-									});
-
-							marker.setMap(map); // 지도 위에 마커를 표출합니다
-							markers.push(marker); // 배열에 생성된 마커를 추가합니다
-
-							return marker;
-						}
-
-						// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-						function removeMarker() {
-							for (var i = 0; i < markers.length; i++) {
-								markers[i].setMap(null);
-							}
-							markers = [];
-						}
-
-						// 클릭한 마커에 대한 장소 상세정보를 커스텀 오버레이로 표시하는 함수입니다
-						function displayPlaceInfo(place) {
-							var content = '<div class="placeinfo">'
-									+ '   <a class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">'
-									+ place.place_name + '</a>';
-
-							if (place.road_address_name) {
-								content += '    <span title="' + place.road_address_name + '">'
-										+ place.road_address_name
-										+ '</span>'
-										+ '  <span class="jibun" title="' + place.address_name + '">(지번 : '
-										+ place.address_name + ')</span>';
-							} else {
-								content += '    <span title="' + place.address_name + '">'
-										+ place.address_name + '</span>';
-							}
-
-							content += '    <span class="tel">' + place.phone
-									+ '</span>' + '</div>'
-									+ '<div class="after"></div>';
-
-							contentNode.innerHTML = content;
-							placeOverlay.setPosition(new daum.maps.LatLng(
-									place.y, place.x));
-							placeOverlay.setMap(map);
-						}
-
-						// 각 카테고리에 클릭 이벤트를 등록합니다
-						function addCategoryClickEvent() {
-							var category = document.getElementById('category'), children = category.children;
-
-							for (var i = 0; i < children.length; i++) {
-								children[i].onclick = onClickCategory;
-							}
-						}
-
-						// 카테고리를 클릭했을 때 호출되는 함수입니다
-						function onClickCategory() {
-							var id = this.id, className = this.className;
-
-							placeOverlay.setMap(null);
-
-							if (className === 'on') {
-								currCategory = '';
-								changeCategoryClass();
-								removeMarker();
-							} else {
-								currCategory = id;
-								changeCategoryClass(this);
-								searchPlaces();
-							}
-						}
-
-						// 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
-						function changeCategoryClass(el) {
-							var category = document.getElementById('category'), children = category.children, i;
-
-							for (i = 0; i < children.length; i++) {
-								children[i].className = '';
-							}
-
-							if (el) {
-								el.className = 'on';
-							}
-						}
 					});
 
 </script>
@@ -915,7 +810,7 @@ var contents = '';
    
  
 </script>
-<script src="/common/js/mainJs.js"></script>
+<script src="/common/js/top.js"></script>
 
 <title>우리 동네 상권 분석</title>
 </head>
@@ -931,37 +826,36 @@ var contents = '';
 				src="" alt=""> -->
 			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp"
 				style="height: 430px">
-				<h2>선택한 지역</h2>
+				<h3>선택한 기준 지역</h3>
 
 				<div id="map" style="width: 100%; height: 300px;"></div>
 
 
 			</div>
-			
-			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp"
-				style="height: 430px">
-				<h2>선택한 지역</h2>
-
-				<div id="map" style="width: 100%; height: 300px;"></div>
-
+			<div
+				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
+				style="height: 430px; width: 70%;">
+				<h2><%=request.getParameter("locName") %> 인구 현황</h2>
+				<canvas id="barChart" width="600" height="270"></canvas>
 
 			</div>
 			
 		</div>
 
 		<div class="intro" style="margin-top: 5%">
-			<div
-				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
-				style="height: 430px; width: 70%;">
-				<h2><%=request.getParameter("locName") %> 인구 현황</h2>
-				<canvas id="barChart" width="600" height="270"></canvas>
+			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp"
+				style="height: 430px">
+				<h3>선택한 비교 지역</h3>
+
+				<div id="map2" style="width: 100%; height: 300px;"></div>
+
 
 			</div>
 			<div
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
 				style="height: 430px; width: 70%;">
-				<h2><%=request.getParameter("locName") %> 인구 현황</h2>
-				<canvas id="barChart" width="600" height="270"></canvas>
+				<h2><%=request.getParameter("locName2") %> 인구 현황</h2>
+				<canvas id="barChart2" width="600" height="270"></canvas>
 
 			</div>
 		</div>
@@ -970,10 +864,10 @@ var contents = '';
 		<div class="intro" style="margin-top: 5%;margin-left:0px">
 			<div
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
-				style="width:600px;height: 600px;margin-left:0px">
-				<h3><%=(String)request.getAttribute("midName")%>업종 비율</h3>
-				<div id="rateChart">
-				<canvas id="myChart" width="100%" height="100%"></canvas>
+				style="width:1110px;height: 600px;margin-left:0px">
+				<h3>업종 비교</h3>
+				<div id="rateChart" >
+				<canvas id="myChart" width="100%" ></canvas>
 				</div>
 			</div>
 			
@@ -986,8 +880,8 @@ var contents = '';
 			<!-- <img class="intro-img img-fluid mb-3 mb-lg-0 rounded"
 				src="" alt=""> -->
 			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp"
-				style="width: 28%; height: 430px">
-				<h2>상권 활성도</h2>
+				style="width: 28%;height: 430px;margin-left: 10%;">
+				<h2><%=request.getParameter("locName") %><br>상권 활성도</h2>
 
 				<h2 class="flh">
 					<span id="good">좋음</span> <span id="normal">보통</span> <span
@@ -997,12 +891,12 @@ var contents = '';
 
 			</div>
 			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp"
-				style="width: 28%; height: 430px">
-				<h2>상권 활성도</h2>
+				style="width: 28%;height: 430px;margin-left: 21%;">
+				<h2><%=request.getParameter("locName2") %><br>상권 활성도</h2>
 
 				<h2 class="flh">
-					<span id="good">좋음</span> <span id="normal">보통</span> <span
-						id="bad">나쁨</span>
+					<span id="good2">좋음</span> <span id="normal2">보통</span> <span
+						id="bad2">나쁨</span>
 				</h2>
 
 

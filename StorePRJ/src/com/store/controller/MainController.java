@@ -41,6 +41,14 @@ public class MainController {
 		return "/main";
 		
 	}
+	@RequestMapping(value="login", method=RequestMethod.GET)
+	public String login(HttpServletRequest request, HttpServletResponse response, 
+					ModelMap model) throws Exception {
+		log.info("come into login");
+		
+		return "/login";
+		
+	}
 	
 	
 

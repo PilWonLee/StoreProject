@@ -48,7 +48,7 @@
 		<input type="hidden" name="midName" id="midName" value="">
 	</form>
 
-	<section class="page-section clearfix">
+	<section class="page-section clearfix" style="height: 800px;">
 	<div class="container">
 		<div class="intro">
 			<!-- <img class="intro-img img-fluid mb-3 mb-lg-0 rounded"
