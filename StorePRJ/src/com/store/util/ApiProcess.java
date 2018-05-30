@@ -34,16 +34,17 @@ public class ApiProcess {
 
 		Set set = map.keySet();
 		Iterator iterator = set.iterator();
-		
-		
-		//占쏙옙占쏙옙 占쏙옙체占쏙옙 占쏙옙占쌘뤄옙 占쌍억옙占쌔댐옙!
+
+		// 占쏙옙占쏙옙 占쏙옙체占쏙옙 占쏙옙占쌘뤄옙 占쌍억옙占쌔댐옙!
 		while (iterator.hasNext()) {
 			String key = (String) iterator.next();
-			urlBuilder.append("&" + URLEncoder.encode(key, "UTF-8") + "="
-					+ URLEncoder.encode(map.get(key), "UTF-8")); /* 占쏙옙占쌀쏙옙占쏙옙 占식븝옙占싹깍옙 占쏙옙占쏙옙 id. */
+			urlBuilder.append("&" + URLEncoder.encode(key, "UTF-8") + "=" + URLEncoder.encode(map.get(key),
+					"UTF-8")); /* 占쏙옙占쌀쏙옙占쏙옙 占식븝옙占싹깍옙 占쏙옙占쏙옙 id. */
 		} /*
-			 * 占쏙옙占쌀쏙옙占쏙옙 카占쌓곤옙占쏙옙 占쏙옙占쏙옙 baroApi占쏙옙占쏙옙 resId, catId 占쌓몌옙占쏙옙 占쌕몌옙 占쏙옙占쌜뤄옙占싱쇽옙占쏙옙 占쏙옙占쏙옙占싹깍옙 占쏙옙占쏙옙 占쌍울옙占쏙옙 占쌓몌옙占싱곤옙 占쏙옙占쌜뤄옙占싱션븝옙 占쌕몌옙
-			 * 占쌓몌옙占쏙옙 占쏙옙占쌜뤄옙占싱션븝옙占쏙옙 占쏙옙占쏙옙 占쌜쇽옙占쏙옙 占쌓몌옙占쏙옙 占쏙옙占쏙옙玖占� 占싫댐옙.
+			 * 占쏙옙占쌀쏙옙占쏙옙 카占쌓곤옙占쏙옙 占쏙옙占쏙옙 baroApi占쏙옙占쏙옙 resId, catId 占쌓몌옙占쏙옙
+			 * 占쌕몌옙 占쏙옙占쌜뤄옙占싱쇽옙占쏙옙 占쏙옙占쏙옙占싹깍옙 占쏙옙占쏙옙 占쌍울옙占쏙옙 占쌓몌옙占싱곤옙
+			 * 占쏙옙占쌜뤄옙占싱션븝옙 占쌕몌옙 占쌓몌옙占쏙옙 占쏙옙占쌜뤄옙占싱션븝옙占쏙옙 占쏙옙占쏙옙 占쌜쇽옙占쏙옙 占쌓몌옙占쏙옙
+			 * 占쏙옙占쏙옙玖占� 占싫댐옙.
 			 */
 		URL url = new URL(urlBuilder.toString());
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -66,8 +67,9 @@ public class ApiProcess {
 
 		return sb.toString();
 	}
-	
-	public Map<String, Integer> getInfo(String searchWord) throws Exception {
+
+	public Map<String, Integer> getInfo(String locName, String midName) throws Exception {
+		String searchWord = locName + " " + midName;
 		StringBuilder urlBuilder = new StringBuilder("https://www.googleapis.com/customsearch/v1"); /* URL */
 		urlBuilder.append("?" + URLEncoder.encode("key", "UTF-8") + "=AIzaSyAjUrn1OLRA837AZnvWpg-ue2ceopbsbYQ")
 				.append("&" + URLEncoder.encode("cx", "UTF-8") + "=011859457498976593040:cqqcv0nq3ri")
@@ -80,9 +82,15 @@ public class ApiProcess {
 		// 占쏙옙占쏙옙 占쏙옙체占쏙옙 占쏙옙占쌘뤄옙 占쌍억옙占쌔댐옙!
 		for (int i = 0; i <= 4; i++) {
 			String index = Integer.toString(i * 10);
+			StringBuilder tmp = new StringBuilder(urlBuilder);
+			if (i == 0) {
+				urlBuilder.append("&" + URLEncoder.encode("startIndex", "UTF-8") + "=" + index);
+			} else {
+				urlBuilder.append("&" + URLEncoder.encode("start", "UTF-8") + "=" + index);
+			}
 
-			urlBuilder.append("?" + URLEncoder.encode("start", "UTF-8") + "=" + index);
 			URL url = new URL(urlBuilder.toString());
+			System.out.println("url : " + url);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Content-type", "application/json");
@@ -97,11 +105,10 @@ public class ApiProcess {
 			String line;
 			while ((line = rd.readLine()) != null) {
 				sb.append(line);
-				/* System.out.println(line); */
 			}
 			rd.close();
 			conn.disconnect();
-			//검색결과 Json으로 Parsing
+			// 검색결과 Json으로 Parsing
 			JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObj = (JSONObject) jsonParser.parse(sb.toString());
 			JSONArray itemsArray = (JSONArray) jsonObj.get("items");
@@ -111,8 +118,10 @@ public class ApiProcess {
 				result += tempObj.get("title");
 				result2 += tempObj.get("snippet");
 			}
+
+			urlBuilder = new StringBuilder(tmp);
 		}
-		//검색결과 한글만 리스트에 담기
+		// 검색결과 한글만 리스트에 담기
 		List<String> list = new ArrayList<>();
 
 		String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]";
@@ -120,32 +129,33 @@ public class ApiProcess {
 			if (Pattern.matches("^[ㄱ-ㅎ가-힣]*$", word.replaceAll(match, ""))) {
 				if (word.replaceAll(match, "").length() > 1) {
 					list.add(word.replaceAll(match, ""));
-				}	
+				}
 			}
 		}
 		for (String word : result2.split("\\s")) {
 			if (Pattern.matches("^[ㄱ-ㅎ가-힣]*$", word.replaceAll(match, ""))) {
 				if (word.replaceAll(match, "").length() > 1) {
 					list.add(word.replaceAll(match, ""));
-				}	
+				}
 			}
 		}
-		//검색결과 WordCount
+		// 검색결과 WordCount
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		for (String s : list) {
-
-			if (!map.containsKey(s)) { // first time we've seen this string
-				map.put(s, 1);
-			} else {
-				int count = map.get(s);
-				map.put(s, count + 1);
+			if (!s.equals(locName) && !s.equals(midName)) {  //검색어는 빼기
+				if (!map.containsKey(s)) { // first time we've seen this string
+					map.put(s, 1);
+				} else {
+					int count = map.get(s);
+					map.put(s, count + 1);
+				}
 			}
 		}
-		
+
 		return map;
 	}
-	
-	public apiWrappedDTO startApi(String radius,String cx,String cy,int page) throws Exception{
+
+	public apiWrappedDTO startApi(String radius, String cx, String cy, int page) throws Exception {
 
 		HashMap<String, String> map = new HashMap<>();
 		map.put("resId", "store");
@@ -155,12 +165,12 @@ public class ApiProcess {
 		map.put("cy", cy);
 		map.put("numOfRows", "500");
 		map.put("pageNo", String.valueOf(page));
-		
+
 		ApiResultToString apiResult = new ApiResultToString();
 		String result = apiResult.getString(map);
-		
-		System.out.println("length : "+result.length());
-		
+
+		System.out.println("length : " + result.length());
+
 		// String을 xml로 파싱하고 List에 담기
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		XmlPullParser parser = factory.newPullParser(); // 연결하는거 담고
@@ -169,7 +179,7 @@ public class ApiProcess {
 		apiDTO dto = null;
 		List<apiDTO> list = null;
 		String totalCount = "";
-		
+
 		while (eventType != XmlPullParser.END_DOCUMENT) {
 			switch (eventType) {
 			case XmlPullParser.END_DOCUMENT:// 문서의 끝
@@ -214,7 +224,7 @@ public class ApiProcess {
 					break;
 				case "indsSclsNm":
 					dto.setIndsSclsNm(parser.nextText());
-					break;	
+					break;
 				case "ctprvnCd":
 					dto.setCtprvnCd(parser.nextText());
 					break;
@@ -229,7 +239,7 @@ public class ApiProcess {
 					break;
 				case "lon":
 					dto.setLon(parser.nextText());
-					break;	
+					break;
 				case "lat":
 					dto.setLat(parser.nextText());
 					break;
@@ -242,13 +252,13 @@ public class ApiProcess {
 			}
 			eventType = parser.next();
 		}
-		
+
 		apiWrappedDTO wDto = new apiWrappedDTO();
 		wDto.setList(list);
 		wDto.setPage(String.valueOf(page));
 		wDto.setTotalPage(totalCount);
-		
+
 		return wDto;
 	}
-	
+
 }

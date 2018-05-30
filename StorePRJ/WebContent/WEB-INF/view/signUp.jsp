@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <html>
 <head>
@@ -41,25 +41,114 @@ body{
 <!------ Include the above in your HEAD tag ---------->
 <script>
 $(function(){
+	var emailCheck = false;
+	var email = '';
 	$('#email').keyup(function(){
-		var email =$('#email').val();
+		email =$('#email').val();
 		$.ajax({
 			url:"checkEmail.do",
 			data:{email:email},
 			dataType:"text",
 			success:function(data){
-				console.log(data);
+				if(data != "0"){
+					$('#spanEmail').css('display','');
+					emailCheck = false;
+				}else{
+					$('#spanEmail').css('display','none');
+					emailCheck = true;
+				}
 			},
 			error:function(error){console.log(error);}
 		});
-		if(email == "dd"){
-			$('#spanEmail').css('display','');
+	});
+	var passwordCheck = false;
+	var passwordLengthCheck = false;
+	var password = '';
+	var passwordConfirm ='';
+	$('#password').keyup(function(){
+		password =$('#password').val();
+		passwordConfirm =$('#passwordConfirm').val();
+		console.log(password);
+		console.log(passwordConfirm);
+		if(password.length < 5){
+			$('#spanPassword').css('display','');
+			passwordLengthCheck = false;
+		}else if(password.length > 4){
+			$('#spanPassword').css('display','none');
+			passwordLengthCheck = true;
+		}else if(password != passwordConfirm){
+			$('#spanConfirm').css('display','');
+			$('#spanConfirm2').css('display','none');
+			passwordCheck = false;
+		}else if(password == passwordConfirm){
+			$('#spanConfirm').css('display','none');
+			$('#spanConfirm2').css('display','');
+			passwordCheck = true;
 		}else{
-			$('#spanEmail').css('display','none');
+			$('#spanConfirm').css('display','none');
+			$('#spanConfirm2').css('display','none');
+			passwordCheck = false;
+		}
+	});
+	
+	$('#passwordConfirm').keyup(function(){
+		password =$('#password').val();
+		passwordConfirm =$('#passwordConfirm').val();
+		if(password != passwordConfirm){
+			$('#spanConfirm').css('display','');
+			$('#spanConfirm2').css('display','none');
+			passwordCheck = false;
+		}else if(password == passwordConfirm){
+			$('#spanConfirm').css('display','none');
+			$('#spanConfirm2').css('display','');
+			passwordCheck = true;
+		}else{
+			$('#spanConfirm').css('display','none');
+			$('#spanConfirm2').css('display','none');
+			passwordCheck = false;
+		}
+	});
+	
+	var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+	$('#email').keyup(function(){
+		var email =$('#email').val()
+		if(exptext.test(email)==false){
+			$('#spanEmail2').css('display','');
+			emailCheck = false;
+		}else{
+			$('#spanEmail2').css('display','none');
+			emailCheck = true;
+		}
+	})
+	
+	$('#submit').click(function(){
+		if(emailCheck && passwordCheck && passwordLengthCheck){
+			
+			$("#hiddenEmail")
+			.attr(
+					"value",
+					email);
+			$("#hiddenPassword")
+			.attr(
+					"value",
+					password);
+			$('#frm')
+			.attr({
+						action : "signUpProc.do",
+						method : 'post'
+					})
+			.submit();
+			return true;
+		}else{
+			alert("회원가입을 할 수 없습니다.");
+			return false;
 		}
 		
 	});
+	
 })
+
+
 
 </script>
 
@@ -67,7 +156,10 @@ $(function(){
 
 <body>
 <%@include file="/common/top.jsp"%>
-
+<form id="frm">
+<input type="hidden" id="hiddenEmail" name="email" value="">
+<input type="hidden" id="hiddenPassword" name="password" value="">
+</form>
 <div style="text-align:center">
 		<div class="container">
     <div class="row vertical-offset-100">
@@ -77,20 +169,22 @@ $(function(){
 			    	<h2 class="panel-title"><b>회원가입</b></h2>
 			 	</div>
 			  	<div class="panel-body">
-			    	<form accept-charset="UTF-8" role="form">
-                    <fieldset>
+			    	<form accept-charset="UTF-8"  >
 			    	  	<div class="form-group">
 			    		    <input class="form-control" placeholder="E-mail" name="email" id="email" type="email">
 			    		    <span id="spanEmail" style="display:none;color:red">이미 가입된 이메일입니다.</span>
+			    		    <span id="spanEmail2" style="display:none;color:red">옳바르지 않은 이메일 형식 입니다.</span>
 			    		</div>
 			    		<div class="form-group">
 			    			<input class="form-control" placeholder="Password" name="password" id="password" type="password" value="">
+			    			<span id="spanPassword" style="display:none;color:red">비밀번호는 최소 5자리 이상</span>
 			    		</div>
 			    		<div class="form-group">
 			    			<input class="form-control" placeholder="Password Confirm" name="passwordConfirm" id="passwordConfirm" type="password" value="">
+			    			<span id="spanConfirm" style="display:none;color:red">비밀번호가 다릅니다.</span>
+			    			<span id="spanConfirm2" style="display:none;color:green">비밀번호가 같습니다.</span>
 			    		</div>
-			    		<input class="btn btn-lg btn-success btn-block" style="" type="submit" value="Sign Up">
-			    	</fieldset>
+			    		<input class="btn btn-lg btn-success btn-block" style="" type="button" id="submit" value="Sign Up">
 			      	</form>
 			    </div>
 			</div>

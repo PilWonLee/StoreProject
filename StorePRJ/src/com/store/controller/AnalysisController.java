@@ -17,6 +17,7 @@ import java.util.function.Function;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,7 @@ import com.store.dto.populationDTO;
 import com.store.service.IAnalysisService;
 import com.store.util.ApiProcess;
 import com.store.util.ApiResultToString;
+import com.store.util.CmmUtil;
 import com.store.util.googleSearchAPI;
 
 @Controller
@@ -47,9 +49,15 @@ public class AnalysisController {
 	private Map<String, Integer> storeInfoMap;
 	// 嚥≪뮄�젃占쎌뵥 占쎌읈
 	@RequestMapping(value = "analysisMain", method = RequestMethod.GET)
-	public String main(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+	public String main(HttpServletRequest request, HttpServletResponse response, HttpSession session,ModelMap model) throws Exception {
 		log.info("come into analysisMain");
-
+		
+		if(CmmUtil.nvl((String)session.getAttribute("email")).equals("")){
+			model.addAttribute("url","login.do");
+			model.addAttribute("msg","로그인후 이용할 수 있습니다.");
+			return "redirect";
+		}
+		
 		return "/businessAnalysis/analysisMain";
 	}
 
@@ -409,7 +417,7 @@ public class AnalysisController {
 		System.out.println(locName+" "+midName);
 		
 		ApiProcess apiProc = new ApiProcess();
-		Map<String,Integer> map = apiProc.getInfo(locName+" "+midName);
+		Map<String,Integer> map = apiProc.getInfo(locName,midName);
 		
 		return map;
 	}

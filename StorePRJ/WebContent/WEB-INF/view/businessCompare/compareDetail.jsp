@@ -522,17 +522,17 @@ h2.flh {
 					datasets : [
 							{
 								label : locName,
-								backgroundColor : color(window.chartColors.green).alpha(
+								backgroundColor : color(window.chartColors.yellow).alpha(
 										0.5).rgbString(),
-								borderColor : window.chartColors.green,
+								borderColor : window.chartColors.yellow,
 								borderWidth : 1,
 								data : locData1
 							},
 							{
 								label : locName2,
-								backgroundColor : color(window.chartColors.orange).alpha(
+								backgroundColor : color(window.chartColors.green).alpha(
 										0.5).rgbString(),
-								borderColor : window.chartColors.orange,
+								borderColor : window.chartColors.green,
 								borderWidth : 1,
 								data :locData2
 							} ]

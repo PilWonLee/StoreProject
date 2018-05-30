@@ -5,5 +5,16 @@
 
 <select resultType="mainDTO" id="getInfo">SELECT USER_ID AS userId, USER_NAME AS userName FROM pil_db.USER_INFO </select>
 
+<select resultType="int" id="emailCheck">
+SELECT COUNT(1) FROM USER_INFO WHERE EMAIL = #{email}
+</select>
 
+<insert id="insertUser" parameterType="userDTO">
+INSERT INTO pil_db.`USER_INFO` (`USER_NO`, `EMAIL`, `PASSWORD`, `REG_DATE`) 
+VALUES ((select max(USER_NO)+1 from pil_db.`USER_INFO` a),#{email},#{password},NOW())
+</insert>
+
+<select id="login"  resultType="userDTO" parameterType="userDTO">
+SELECT * FROM USER_INFO WHERE EMAIL = #{email} AND PASSWORD = #{password}
+</select>
 </mapper>

@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <html>
 <head>
@@ -41,10 +41,43 @@ body{
 
 
 </head>
+<script>
+$(function(){
+	$('#submit').click(function(){
+		var email =$('#email').val();
+		var password =$('#password').val();
+		if(email !='' && password !=''){
+			
+			$("#hiddenEmail")
+			.attr(
+					"value",
+					email);
+			$("#hiddenPassword")
+			.attr(
+					"value",
+					password);
+			$('#frm')
+			.attr({
+						action : "loginProc.do",
+						method : 'post'
+					})
+			.submit();
+			return true;
+		}else{
+			alert("로그인을 할 수 없습니다.");
+			return false;
+		}
+		
+	});
+})
 
+</script>
 <body>
 <%@include file="/common/top.jsp"%>
-
+<form id="frm">
+<input type="hidden" id="hiddenEmail" name="email" value="">
+<input type="hidden" id="hiddenPassword" name="password" value="">
+</form>
 <div style="text-align:center">
 		<div class="container">
     <div class="row vertical-offset-100">
@@ -57,13 +90,13 @@ body{
 			    	<form accept-charset="UTF-8" role="form">
                     <fieldset>
 			    	  	<div class="form-group">
-			    		    <input class="form-control" placeholder="E-mail" name="email" type="text">
+			    		    <input class="form-control" placeholder="E-mail" name="email" id="email" type="text">
 			    		</div>
 			    		<div class="form-group">
-			    			<input class="form-control" placeholder="Password" name="password" type="password" value="">
+			    			<input class="form-control" placeholder="Password" name="password" id="password" type="password" value="">
 			    		</div>
 			    		
-			    		<input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+			    		<input class="btn btn-lg btn-success btn-block" type="button" id="submit" value="Login">
 			    	</fieldset>
 			      	</form>
 			    </div>
