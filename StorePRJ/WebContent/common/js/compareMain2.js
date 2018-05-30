@@ -552,13 +552,13 @@ var MidCd = '';
 																				"value",
 																				lat);
 																
-																/*$("#transPage")
+																$("#transPage")
 																		.attr(
 																				{
-																					action : "analysisDetail.do",
+																					action : "compareDetail.do",
 																					method : 'post'
 																				})
-																		.submit();*/
+																		.submit();
 
 															});
 
