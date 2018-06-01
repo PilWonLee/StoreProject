@@ -15,15 +15,15 @@ var MidNameArr = new Array;
 		selectBusiness1.text("업종 대분류");
 		var selectBusiness2 = $('#selectMidInds');
 		selectBusiness2.text("업종 중분류");
-		
+		/*37.549926, 126.842283*/
 		var sendRadius = 0;
-		var lat = 0;
-		var lng = 0;
-		function getLocation() {
+		var lat = 37.549926;
+		var lng =126.842283;
+		/*function getLocation() {
 			  if (navigator.geolocation) { // GPS를 지원하면
 			    navigator.geolocation.getCurrentPosition(function(position) {
 			      lat = position.coords.latitude;
-			      lng = position.coords.longitude;
+			      lng = position.coords.longitude;*/
 			      
 			      //지도 시작
 			      var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
@@ -309,7 +309,7 @@ var MidNameArr = new Array;
 			}
 			  	
 			  	
-			    }, function(error) {
+			   /* }, function(error) {
 			      console.error(error);
 			    }, {
 			      enableHighAccuracy: false,
@@ -320,7 +320,7 @@ var MidNameArr = new Array;
 			    alert('GPS를 지원하지 않습니다');
 			  }
 			}
-		getLocation();	
+		getLocation();	*/
 		
 		//상권분석 시작
 		$("#startAnalysis").click(function(){

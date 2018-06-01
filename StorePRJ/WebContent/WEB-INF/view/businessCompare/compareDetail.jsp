@@ -517,15 +517,16 @@ h2.flh {
 					
 				  
 				
-				var barChartData = {
+				var lineChartData = {
 					labels : upJong,
 					datasets : [
 							{
 								label : locName,
-								backgroundColor : color(window.chartColors.yellow).alpha(
+								backgroundColor : color(window.chartColors.orange).alpha(
 										0.5).rgbString(),
-								borderColor : window.chartColors.yellow,
-								borderWidth : 1,
+								borderColor : window.chartColors.orange,
+								fill: false,
+								yAxisID : 'y-axis-1',
 								data : locData1
 							},
 							{
@@ -533,7 +534,8 @@ h2.flh {
 								backgroundColor : color(window.chartColors.green).alpha(
 										0.5).rgbString(),
 								borderColor : window.chartColors.green,
-								borderWidth : 1,
+								fill: false,
+								yAxisID : 'y-axis-2',
 								data :locData2
 							} ]
 
@@ -541,23 +543,47 @@ h2.flh {
 				
 
 				var ctx = document.getElementById('myChart').getContext('2d');
-				window.myBar = new Chart(ctx, {
-					type : 'bar',
-					data : barChartData,
+				window.myLine = new Chart.Line(ctx, {
+					data : lineChartData,
 					options : {
 						responsive : true,
-						legend : {
-							position : 'top',
-						},
+						hoverMode : 'index',
+						stacked:false,
 						title : {
-							display : true,
+							display : true
 						},
 						scales : {
 							yAxes : [ {
-								ticks : {
-									beginAtZero : true
-								}
-							} ]
+								type : 'linear',
+								ticks: {
+					                fontSize: 20
+					            },
+								display:true,
+								position:'left',
+								id:'y-axis-1'
+							},{
+								type : 'linear',
+								ticks: {
+					                fontSize: 20
+					            },
+								display:true,
+								position:'right',
+								id:'y-axis-2',
+								gridLines:{
+									drawOnChartArea:false,
+								},
+						}],
+							xAxes : [{
+								ticks:{
+									fontSize:20,
+							}
+						}],
+						},
+						legend:{
+							display:true,
+							labels:{
+								fontSize:20,	
+							},
 						}
 					}
 				});
@@ -617,9 +643,15 @@ h2.flh {
 				scales : {
 					yAxes : [ {
 						ticks : {
+							fontSize:20,
 							beginAtZero : true
 						}
-					} ]
+					} ],
+					xAxes:[{
+						ticks:{
+							fontSize:20,
+						}		
+					}],
 				}
 			}
 		});
@@ -682,9 +714,15 @@ h2.flh {
 					scales : {
 						yAxes : [ {
 							ticks : {
+								fontSize:20,
 								beginAtZero : true
 							}
-						} ]
+						} ],
+						xAxes:[{
+							ticks:{
+								fontSize:20,
+							},		
+						}],
 					}
 				}
 			});
@@ -704,7 +742,7 @@ h2.flh {
 		var level2;
 		if (radius2 < 300) {
 			level2 = 4;
-		} else if (radius2 < 600) {
+		} else if (radius2 < 500) {
 			level2 = 5;
 		} else {
 			level2 = 6;
@@ -737,6 +775,8 @@ h2.flh {
 						// 지도에 원을 표시합니다 
 						circle.setMap(map);
 						
+						console.log("radius2 :"+radius2)
+						console.log("level2 :"+level2)
 						//=========================================다른 지역 표시=========================
 						var mapContainer = document.getElementById('map2'), // 지도를 표시할 div 
 						mapOption = {
@@ -747,7 +787,7 @@ h2.flh {
 						var map = new daum.maps.Map(mapContainer, mapOption); // 지도2를 생성합니다
 						var circle = new daum.maps.Circle({
 							center : new daum.maps.LatLng(cy2, cx2), // 원의 중심좌표 입니다 
-							radius : radius, // 미터 단위의 원의 반지름입니다 
+							radius : radius2, // 미터 단위의 원의 반지름입니다 
 							strokeWeight : 1, // 선의 두께입니다 
 							strokeColor : '#75B8FA', // 선의 색깔입니다
 							strokeOpacity : 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
@@ -914,6 +954,7 @@ var contents = '';
 
 	<!-- Bootstrap core JavaScript -->
 	<script src="bootstrap/vendor/jquery/jquery.min.js"></script>
+	<script src="common/js/top.js"></script>
 	<script src="bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="/common/js/jqcloud.js" charset="utf-8"></script>
 

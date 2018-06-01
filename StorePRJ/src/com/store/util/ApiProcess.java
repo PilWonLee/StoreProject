@@ -71,7 +71,7 @@ public class ApiProcess {
 	public Map<String, Integer> getInfo(String locName, String midName) throws Exception {
 		String searchWord = locName + " " + midName;
 		StringBuilder urlBuilder = new StringBuilder("https://www.googleapis.com/customsearch/v1"); /* URL */
-		urlBuilder.append("?" + URLEncoder.encode("key", "UTF-8") + "=AIzaSyAjUrn1OLRA837AZnvWpg-ue2ceopbsbYQ")
+		urlBuilder.append("?" + URLEncoder.encode("key", "UTF-8") + "=AIzaSyDIgqxeFzYTT579AmM24PX5M_74rxa1lBo")
 				.append("&" + URLEncoder.encode("cx", "UTF-8") + "=011859457498976593040:cqqcv0nq3ri")
 				.append("&" + URLEncoder.encode("q", "UTF-8") + "=" + URLEncoder.encode(searchWord, "UTF-8")); /*
 																												 * Service

@@ -3,7 +3,7 @@
 
 <html>
 <head>
-<title>Home</title>
+<title>우리 동네 상권 분석</title>
 
 <style>
 body{

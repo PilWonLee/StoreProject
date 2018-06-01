@@ -22,7 +22,7 @@ span.site-heading-lower{
    		left:23%;
    		position:absolute;
    		z-index:1;
-		background-image: url("http://localhost:8899/bootstrap/img/BlueUm.png");
+		background-image: url("/bootstrap/img/BlueUm.png");
    		background-repeat: no-repeat;
    		background-size: cover;
 	}

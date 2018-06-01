@@ -38,14 +38,14 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <script>
-$(function(){
+ $(function(){
 	//#add 상태로 새로고침시 원래 url로 복귀
 	var url = location.href;
 	var addUrl = url.substring(url.length-4,url.length);
 	if(addUrl == '#add'){
 		location.href="/compareMain.do";
 	}
-});
+}); 
 
 
 </script>
@@ -206,7 +206,7 @@ $(function(){
 	<script src="bootstrap/vendor/jquery/jquery.min.js"></script>
 	<script src="bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="common/js/compareMain.js"></script>
-	<script src="common/js/compareMain2.js"></script>
+	<!-- <script src="common/js/compareMain2.js"></script> -->
 	<script src="common/js/top.js"></script>
 	<!-- 다음 지도 API -->
 	<script type="text/javascript"
