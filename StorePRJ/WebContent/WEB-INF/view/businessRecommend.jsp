@@ -51,6 +51,145 @@
 		var recommendCategory = document
 		.getElementById("recommendCategory");
 		recommendCategory.className = "nav-item px-lg-4 active"; // 카테고리
+		var selectNation = $('#selectNation');// 버튼 만들기
+		selectNation.text("시,도 선택");
+		var selectCity = $("#selectCity");
+		selectCity.text("시,군,구 선택");
+		var selectBusiness1 = $('#selectBigInds');
+		selectBusiness1.text("업종 대분류");
+		var MidCd = '';
+		var MidNameArr = new Array;
+		
+		// 시,도 불러오기
+		$
+				.ajax({
+					url : "searchSido.do",
+					dataType : "json",
+					success : function(data) {
+						var contents = ""
+						$
+								.each(
+										data,
+										function(key, value) {
+											contents += "<a class='dropdown-item' href='#' id='N"
+													+ value.ctprvnCd
+													+ "'>"
+													+ value.ctprvnNm
+													+ "</a> ";
+										});
+						$('#selectNationDrop').html(contents);
+						addClickEventNation();
+					},
+					error : function(request, status, error) {
+						alert("code:" + request.status + "\n"
+								+ "message:" + request.responseText
+								+ "\n" + "error:" + error);
+					}
+				});
+
+		// 시,도 드랍다운에 이벤트 추가 함수
+		function addClickEventNation() {
+			$('#selectNationDrop')
+					.children('.dropdown-item')
+					.click(
+							function(event) {
+								event.preventDefault();// a태그 href
+								// 막음
+								var ctprvnCd = $(this).attr('id')
+										.substring(1, 3);
+								$('#selectNation').text(
+										$(this).text());
+
+								$
+										.ajax({
+											data : {
+												'ctprvnCd' : ctprvnCd
+											},
+											url : "searchSigungu.do",
+											dataType : "json",
+											success : function(data) {
+												var contents = ""
+												$
+														.each(
+																data,
+																function(
+																		key,
+																		value) {
+																	contents += "<a class='dropdown-item' href='#' id='S"
+																			+ value.signguCd
+																			+ "'>"
+																			+ value.signguNm
+																			+ "</a> ";
+																});
+												$('#selectCityDrop')
+														.html(
+																contents);
+												$("#selectCity")
+														.text(
+																"시,군,구 선택");
+												addClickEventCity();
+
+											},
+											error : function(
+													request,
+													status, error) {
+												alert("code:"
+														+ request.status
+														+ "\n"
+														+ "message:"
+														+ request.responseText
+														+ "\n"
+														+ "error:"
+														+ error);
+											}
+										});
+							});
+		}
+
+		// 시,군,구 드랍다운 이벤트 추가 함수
+		function addClickEventCity() {
+			$('#selectCityDrop').children('.dropdown-item').click(
+					function(event) {
+						event.preventDefault();// a태그 href 막음
+						$('#selectCity').text($(this).text());
+
+
+					});
+		}
+		
+		//업종 대분류 불러오기
+		$.ajax({
+					url:"searchBigInds.do",
+					dataType:"json",
+					success:function(data){
+						var contents = "";
+						$.each(data,function(key,value){
+							contents += "<a class='dropdown-item' href='#' id='"+value.indsLclsCd+"'>"+value.indsLclsNm+"</a> ";
+							var MidNameObj = new Object();
+							MidNameObj.key = value.indsLclsCd;
+							MidNameObj.value = value.indsLclsNm;
+							MidNameArr.push(MidNameObj);
+						});
+						$('#selectBigIndsDrop').html(contents);
+						addClickEventBigInds();
+					},	
+					error: function(request,status,error){
+			        		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			       	}
+			}); 
+			
+			
+		
+		//업종 대분류 드랍다운에 이벤트 추가 함수
+		function addClickEventBigInds(){
+			$('#selectBigIndsDrop').children('.dropdown-item').click(function(event){
+				event.preventDefault();//a태그 href 막음
+				var indsLclsCd = $(this).attr('id');
+				console.log(indsLclsCd);
+				$('#selectBigInds').text($(this).text());
+				MidCd = $(this).attr("id");
+			});
+		}
 		// 활성화
 		$('#btn')
 				.click(
@@ -129,13 +268,61 @@
 			<form class="login100-form validate-form">
 
 				<span class="login100-form-title p-b-26"> 추천 상권 등록 </span>
-
+				
+				<!-- 시,도 선택 셀렉트 박스 -->
+					<div class="btn-group" role="group"
+						aria-label="Button group with nested dropdown">
+						<button type="button" class="btn btn-info" id="selectNation"></button>
+						<div class="btn-group" role="group">
+							<button  type="button" id="selectNationBtn"
+								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"></button>
+							<!-- 드랍다운 부분 -->
+							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
+								x-placement="bottom-start" id="selectNationDrop"
+								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
+							</div>
+						</div>
+					</div>
+					<br>
+					<!-- 시,군,구 선택 셀렉트 박스 -->
+					<div class="btn-group" role="group" id="selectCityDiv"
+						aria-label="Button group with nested dropdown" style="padding-top:5px">
+						<button type="button" class="btn btn-info" id="selectCity"></button>
+						<div class="btn-group" role="group">
+							<button  type="button"
+								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"></button>
+							<!-- 드랍다운 부분 -->	
+							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
+								x-placement="bottom-start"  id="selectCityDrop"
+								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
+							</div>
+						</div>
+					</div>
+					
+					<!-- 업종 대분류 -->
+					<div class="btn-group" role="group"
+						aria-label="Button group with nested dropdown">
+						<button type="button" class="btn btn-info" id="selectBigInds"></button>
+						<div class="btn-group" role="group">
+							<button  type="button"
+								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"></button>
+							<!-- 드랍다운 부분 -->	
+							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
+								x-placement="bottom-start" id="selectBigIndsDrop"
+								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
+							</div>
+						</div>
+					</div>
+					
 				<div class="wrap-input100 validate-input">
 					<input class="input100" type="text" name="title"> <span class="focus-input100" data-placeholder="글 제목"></span>
 				</div>
 
 				<div class="wrap-input100 validate-input">
-					<span class="btn-show-pass"> </span> <input class="input100" type="text" name="contents"> <span class="focus-input100" data-placeholder="글 내용"></span>
+					<span class="btn-show-pass"> </span> <!-- <input class="input100" type="text" name="contents"> --><textarea class="input100" style="height:200px"></textarea> <span class="focus-input100" data-placeholder="글 내용"></span>
 				</div>
 
 				<div class="container-login100-form-btn">
@@ -156,8 +343,8 @@
 
 	</div>
 	<!-- Bootstrap core JavaScript -->
-	<!-- <script src="bootstrap/vendor/jquery/jquery.min.js"></script>
-	<script src="bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+	<script src="bootstrap/vendor/jquery/jquery.min.js"></script>
+	<script src="bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> 
 	<script src="common/js/top.js"></script>
 	<!-- 리스트폼 -->
 	<script src="tableStyle/vendor/bootstrap/js/popper.js"></script>
@@ -174,7 +361,7 @@
 		});
 	</script>
 	<!--===============================================================================================-->
-	<script src="js/main.js"></script>
+	<script src="form/js/main.js"></script>
 	<!-- 글등록폼 -->
 	<!--===============================================================================================-->
 	<script src="form/vendor/jquery/jquery-3.2.1.min.js"></script>
