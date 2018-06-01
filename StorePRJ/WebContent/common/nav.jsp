@@ -23,7 +23,7 @@
 					class="nav-link text-uppercase text-expanded" href="compareMain.do">상권
 						비교</a></li>
 				<li class="nav-item px-lg-4" id="recommendCategory"><a
-					class="nav-link text-uppercase text-expanded" href="products.html">상권
+					class="nav-link text-uppercase text-expanded" href="recommendMain.do">상권
 						추천</a></li>
 			</ul>
 		</div>
