@@ -20,7 +20,7 @@
 <link href="/bootstrap/css/business-casual.css" rel="stylesheet">
 
 <!-- Custom styles for this template -->
-<link href="/bootstrap/css/myStyle.css" rel="stylesheet">
+<!-- <link href="/bootstrap/css/myStyle.css" rel="stylesheet"> -->
 <!-- 리스트스타일 -->
 <link rel="icon" type="image/png" href="tableStyle/images/icons/favicon.ico" />
 <link rel="stylesheet" type="text/css" href="tableStyle/vendor/bootstrap/css/bootstrap.min.css">
@@ -43,6 +43,9 @@
 <link rel="stylesheet" type="text/css" href="form/vendor/daterangepicker/daterangepicker.css">
 <link rel="stylesheet" type="text/css" href="form/css/util.css">
 <link rel="stylesheet" type="text/css" href="form/css/main.css">
+
+<!--selectbox 스타일-->
+<link rel="stylesheet" type="text/css" href="bootstrap/css/selectbox.css">
 
 <title>우리 동네 상권 분석</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -268,54 +271,34 @@
 			<form class="login100-form validate-form">
 
 				<span class="login100-form-title p-b-26"> 추천 상권 등록 </span>
-				
-				<!-- 시,도 선택 셀렉트 박스 -->
-					<div class="btn-group" role="group"
-						aria-label="Button group with nested dropdown">
-						<button type="button" class="btn btn-info" id="selectNation"></button>
-						<div class="btn-group" role="group">
-							<button  type="button" id="selectNationBtn"
-								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false"></button>
-							<!-- 드랍다운 부분 -->
-							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
-								x-placement="bottom-start" id="selectNationDrop"
-								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
-							</div>
-						</div>
-					</div>
-					<br>
-					<!-- 시,군,구 선택 셀렉트 박스 -->
-					<div class="btn-group" role="group" id="selectCityDiv"
-						aria-label="Button group with nested dropdown" style="padding-top:5px">
-						<button type="button" class="btn btn-info" id="selectCity"></button>
-						<div class="btn-group" role="group">
-							<button  type="button"
-								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false"></button>
-							<!-- 드랍다운 부분 -->	
-							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
-								x-placement="bottom-start"  id="selectCityDrop"
-								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
-							</div>
-						</div>
-					</div>
-					
-					<!-- 업종 대분류 -->
-					<div class="btn-group" role="group"
-						aria-label="Button group with nested dropdown">
-						<button type="button" class="btn btn-info" id="selectBigInds"></button>
-						<div class="btn-group" role="group">
-							<button  type="button"
-								class="btn btn-info dropdown-toggle" data-toggle="dropdown"
-								aria-haspopup="true" aria-expanded="false"></button>
-							<!-- 드랍다운 부분 -->	
-							<div class="dropdown-menu" aria-labelledby="btnGroupDrop3"
-								x-placement="bottom-start" id="selectBigIndsDrop"
-								style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
-							</div>
-						</div>
-					</div>
+				<div>
+				<span class="dropdown-el" id="drop1">
+    				<input type="radio" name="sortType" value="Relevance" checked="checked" id="a0"><label for="a0">Relevance</label>
+   					<input type="radio" name="sortType" value="Popularity" id="a1"><label for="a1">Product Popularity</label>
+    				<input type="radio" name="sortType" value="PriceIncreasing" id="a2"><label for="a2">Price Low to High</label>
+    				<input type="radio" name="sortType" value="PriceDecreasing" id="a3"><label for="a3">Price High to Low</label>
+    				<input type="radio" name="sortType" value="ProductBrand" id="a4"><label for="a4">Product Brand</label>
+    				<input type="radio" name="sortType" value="ProductName" id="a5"><label for="a5">Product Name</label>
+  				</span>
+				<span class="dropdown-el" id="drop2">
+    				<input type="radio" name="sortType" value="Relevance" checked="checked" id="b0"><label for="b0">Relevance</label>
+   					<input type="radio" name="sortType" value="Popularity" id="b1"><label for="b1">Product Popularity</label>
+    				<input type="radio" name="sortType" value="PriceIncreasing" id="b2"><label for="b2">Price Low to High</label>
+    				<input type="radio" name="sortType" value="PriceDecreasing" id="b3"><label for="b3">Price High to Low</label>
+    				<input type="radio" name="sortType" value="ProductBrand" id="b4"><label for="b4">Product Brand</label>
+    				<input type="radio" name="sortType" value="ProductName" id="b5"><label for="b5">Product Name</label>
+  				</span>
+  				</div>
+  				<div>
+  				<span class="dropdown-el" id="drop3">
+    				<input type="radio" name="sortType" value="Relevance" checked="checked" id="c0"><label for="c0">Relevance</label>
+   					<input type="radio" name="sortType" value="Popularity" id="c1"><label for="c1">Product Popularity</label>
+    				<input type="radio" name="sortType" value="PriceIncreasing" id="c2"><label for="c2">Price Low to High</label>
+    				<input type="radio" name="sortType" value="PriceDecreasing" id="c3"><label for="c3">Price High to Low</label>
+    				<input type="radio" name="sortType" value="ProductBrand" id="c4"><label for="c4">Product Brand</label>
+    				<input type="radio" name="sortType" value="ProductName" id="c5"><label for="c5">Product Name</label>
+  				</span>	
+				</div>	
 					
 				<div class="wrap-input100 validate-input">
 					<input class="input100" type="text" name="title"> <span class="focus-input100" data-placeholder="글 제목"></span>
@@ -362,6 +345,8 @@
 	</script>
 	<!--===============================================================================================-->
 	<script src="form/js/main.js"></script>
+	<!-- selectbox스크립트 -->
+	<script src="common/js/selectbox.js"></script>
 	<!-- 글등록폼 -->
 	<!--===============================================================================================-->
 	<script src="form/vendor/jquery/jquery-3.2.1.min.js"></script>
