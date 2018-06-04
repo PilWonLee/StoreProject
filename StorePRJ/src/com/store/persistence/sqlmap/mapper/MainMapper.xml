@@ -3,7 +3,6 @@
 
 <mapper namespace="com.store.persistence.mapper.MainMapper">
 
-<select resultType="mainDTO" id="getInfo">SELECT USER_ID AS userId, USER_NAME AS userName FROM pil_db.USER_INFO </select>
 
 <select resultType="int" id="emailCheck">
 SELECT COUNT(1) FROM USER_INFO WHERE EMAIL = #{email}
