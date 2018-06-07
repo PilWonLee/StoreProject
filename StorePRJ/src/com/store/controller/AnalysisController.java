@@ -47,7 +47,6 @@ public class AnalysisController {
 	private IAnalysisService AnalysisService;
 	private static List<apiDTO> importantStore;
 	private Map<String, Integer> storeInfoMap;
-	// 嚥≪뮄�젃占쎌뵥 占쎌읈
 	@RequestMapping(value = "analysisMain", method = RequestMethod.GET)
 	public String main(HttpServletRequest request, HttpServletResponse response, HttpSession session,ModelMap model) throws Exception {
 		log.info("come into analysisMain");

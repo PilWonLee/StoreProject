@@ -51,8 +51,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 	$(function() {
-		var recommendCategory = document
-		.getElementById("recommendCategory");
+		var recommendCategory = document.getElementById("recommendCategory");
 		recommendCategory.className = "nav-item px-lg-4 active"; // 카테고리
 		var selectNation = $('#selectNation');// 버튼 만들기
 		selectNation.text("시,도 선택");
@@ -62,137 +61,103 @@
 		selectBusiness1.text("업종 대분류");
 		var MidCd = '';
 		var MidNameArr = new Array;
-		
+
 		// 시,도 불러오기
 		$
 				.ajax({
 					url : "searchSido.do",
 					dataType : "json",
 					success : function(data) {
-						var contents = ""
+						var contents = "";
+						contents +="<option value=''>시,도 선택</option>";
 						$
 								.each(
 										data,
 										function(key, value) {
-											contents += "<a class='dropdown-item' href='#' id='N"
-													+ value.ctprvnCd
-													+ "'>"
+											
+											contents += "<option value='"
+													+value.ctprvnCd
+													+"'>"
 													+ value.ctprvnNm
-													+ "</a> ";
+													+"</option>";
+													
 										});
 						$('#selectNationDrop').html(contents);
-						addClickEventNation();
+						addClickEventNation(); 
 					},
 					error : function(request, status, error) {
-						alert("code:" + request.status + "\n"
-								+ "message:" + request.responseText
-								+ "\n" + "error:" + error);
+						alert("code:" + request.status + "\n" + "message:"
+								+ request.responseText + "\n" + "error:"
+								+ error);
 					}
 				});
 
-		// 시,도 드랍다운에 이벤트 추가 함수
+		 // 시,도 드랍다운에 이벤트 추가 함수
 		function addClickEventNation() {
-			$('#selectNationDrop')
-					.children('.dropdown-item')
-					.click(
-							function(event) {
-								event.preventDefault();// a태그 href
-								// 막음
-								var ctprvnCd = $(this).attr('id')
-										.substring(1, 3);
-								$('#selectNation').text(
-										$(this).text());
-
-								$
-										.ajax({
+			$('#selectNationDrop').change(function(event) {
+								var ctprvnCd = $(this).val();
+								$.ajax({
 											data : {
 												'ctprvnCd' : ctprvnCd
 											},
 											url : "searchSigungu.do",
 											dataType : "json",
 											success : function(data) {
-												var contents = ""
-												$
-														.each(
-																data,
-																function(
-																		key,
-																		value) {
-																	contents += "<a class='dropdown-item' href='#' id='S"
-																			+ value.signguCd
-																			+ "'>"
-																			+ value.signguNm
-																			+ "</a> ";
+												var contents = "";
+												$.each(data,function(key,value) {
+																	contents += "<option value='"
+																		+value.signguCd
+																		+"'>"
+																		+value.signguNm
+																		+"</option>";
 																});
-												$('#selectCityDrop')
-														.html(
-																contents);
-												$("#selectCity")
-														.text(
-																"시,군,구 선택");
-												addClickEventCity();
+												$('#selectCityDrop').html(contents);
+												
+												/* addClickEventCity(); */
 
 											},
-											error : function(
-													request,
-													status, error) {
-												alert("code:"
-														+ request.status
-														+ "\n"
-														+ "message:"
+											error : function(request, status,
+													error) {
+												alert("code:" + request.status
+														+ "\n" + "message:"
 														+ request.responseText
-														+ "\n"
-														+ "error:"
+														+ "\n" + "error:"
 														+ error);
 											}
 										});
 							});
 		}
-
-		// 시,군,구 드랍다운 이벤트 추가 함수
-		function addClickEventCity() {
-			$('#selectCityDrop').children('.dropdown-item').click(
-					function(event) {
-						event.preventDefault();// a태그 href 막음
-						$('#selectCity').text($(this).text());
-
-
-					});
-		}
 		
+
 		//업종 대분류 불러오기
-		$.ajax({
-					url:"searchBigInds.do",
-					dataType:"json",
-					success:function(data){
+		$
+				.ajax({
+					url : "searchBigInds.do",
+					dataType : "json",
+					success : function(data) {
 						var contents = "";
-						$.each(data,function(key,value){
-							contents += "<a class='dropdown-item' href='#' id='"+value.indsLclsCd+"'>"+value.indsLclsNm+"</a> ";
-							var MidNameObj = new Object();
-							MidNameObj.key = value.indsLclsCd;
-							MidNameObj.value = value.indsLclsNm;
-							MidNameArr.push(MidNameObj);
-						});
+						contents +="<option value=''>업종분류 선택</option>";
+						$.each(data,function(key, value) {
+											contents += "<option value='"
+												+value.indsLclsCd
+												+"'>"
+												+value.indsLclsNm
+												+"</option>";
+											var MidNameObj = new Object();
+											MidNameObj.key = value.indsLclsCd;
+											MidNameObj.value = value.indsLclsNm;
+											MidNameArr.push(MidNameObj);
+										});
 						$('#selectBigIndsDrop').html(contents);
-						addClickEventBigInds();
-					},	
-					error: function(request,status,error){
-			        		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-			       	}
-			}); 
-			
-			
-		
-		//업종 대분류 드랍다운에 이벤트 추가 함수
-		function addClickEventBigInds(){
-			$('#selectBigIndsDrop').children('.dropdown-item').click(function(event){
-				event.preventDefault();//a태그 href 막음
-				var indsLclsCd = $(this).attr('id');
-				console.log(indsLclsCd);
-				$('#selectBigInds').text($(this).text());
-				MidCd = $(this).attr("id");
-			});
-		}
+						
+					},
+					error : function(request, status, error) {
+						alert("code:" + request.status + "\n" + "message:"
+								+ request.responseText + "\n" + "error:"
+								+ error);
+					}
+				});
+
 		// 활성화
 		$('#btn')
 				.click(
@@ -212,7 +177,39 @@
 		$('#continue').click(function(event) {
 			location.href = "#add";
 		})
+		
+		
+		$('#doReg').click(function(){
+		var resultArr = $('#frm').serializeArray();
+		var Obj1 = new Object();
+		var Obj2 = new Object();
+		var Obj3 = new Object();
+		Obj1.name = 'indsName';
+		Obj1.value = $('#selectBigIndsDrop option:selected').text();
+		Obj2.name = 'sidoName';
+		Obj2.value = $('#selectNationDrop option:selected').text();
+		Obj3.name = 'sigunguName';
+		Obj3.value = $('#selectCityDrop option:selected').text();
+		resultArr.push(Obj1)
+		resultArr.push(Obj2)
+		resultArr.push(Obj3)
+		console.log(resultArr);
+		 $.ajax({
+			url:"RegProc.do",
+			data:resultArr,
+			method:"POST",
+			success:function(){
+				alert('성공!');
+			},
+			error:function(error){
+				console.log(error);
+			} 
+		})
+	})
+		
 	});
+	
+	
 </script>
 </head>
 <body>
@@ -221,11 +218,15 @@
 	<%@include file="/common/nav.jsp"%>
 	<div id="pages" class="container">
 		<section id="list" data-url="list" data-default-page="true">
-		<div style="text-align: right; margin-top: 2%; width:150px;margin-left:  85%">
+		<div style="text-align: right; margin-top: 2%; width: 150px; margin-left: 85%">
 			<div class="container-login100-form-btn">
 				<div class="wrap-login100-form-btn">
 					<div class="login100-form-bgbtn"></div>
-					<button  data-transition="pop" class="login100-form-btn" id="continue"><h5><b>등록</b></h5></button>
+					<button data-transition="pop" class="login100-form-btn" id="continue">
+						<h5>
+							<b>등록</b>
+						</h5>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -265,56 +266,50 @@
 
 		<div class="wrap-login100" style="width: 800px; margin-top: 5%; margin-bottom: 6%; background-color: #f8f8f8; margin-left: auto; margin-right: auto;">
 			<div style="text-align: right;">
-			<!-- Flip, Spin, Slide, Slideup, Slidedown, Fade, Pop, Turn  -->
-				<span data-transition="pop" onmouseover="this.style.cursor='pointer'" style="color:#858585"onclick="location.href='#list'">뒤로가기</span>
+				<!-- Flip, Spin, Slide, Slideup, Slidedown, Fade, Pop, Turn  -->
+				<span data-transition="pop" onmouseover="this.style.cursor='pointer'" style="color: #858585" onclick="location.href='#list'">뒤로가기</span>
 			</div>
-			<form class="login100-form validate-form">
+			<form class="login100-form validate-form" id="frm">
 
 				<span class="login100-form-title p-b-26"> 추천 상권 등록 </span>
-				<div>
-				<span class="dropdown-el" id="drop1">
-    				<input type="radio" name="sortType" value="Relevance" checked="checked" id="a0"><label for="a0">Relevance</label>
-   					<input type="radio" name="sortType" value="Popularity" id="a1"><label for="a1">Product Popularity</label>
-    				<input type="radio" name="sortType" value="PriceIncreasing" id="a2"><label for="a2">Price Low to High</label>
-    				<input type="radio" name="sortType" value="PriceDecreasing" id="a3"><label for="a3">Price High to Low</label>
-    				<input type="radio" name="sortType" value="ProductBrand" id="a4"><label for="a4">Product Brand</label>
-    				<input type="radio" name="sortType" value="ProductName" id="a5"><label for="a5">Product Name</label>
-  				</span>
-				<span class="dropdown-el" id="drop2">
-    				<input type="radio" name="sortType" value="Relevance" checked="checked" id="b0"><label for="b0">Relevance</label>
-   					<input type="radio" name="sortType" value="Popularity" id="b1"><label for="b1">Product Popularity</label>
-    				<input type="radio" name="sortType" value="PriceIncreasing" id="b2"><label for="b2">Price Low to High</label>
-    				<input type="radio" name="sortType" value="PriceDecreasing" id="b3"><label for="b3">Price High to Low</label>
-    				<input type="radio" name="sortType" value="ProductBrand" id="b4"><label for="b4">Product Brand</label>
-    				<input type="radio" name="sortType" value="ProductName" id="b5"><label for="b5">Product Name</label>
-  				</span>
-  				</div>
-  				<div>
-  				<span class="dropdown-el" id="drop3">
-    				<input type="radio" name="sortType" value="Relevance" checked="checked" id="c0"><label for="c0">Relevance</label>
-   					<input type="radio" name="sortType" value="Popularity" id="c1"><label for="c1">Product Popularity</label>
-    				<input type="radio" name="sortType" value="PriceIncreasing" id="c2"><label for="c2">Price Low to High</label>
-    				<input type="radio" name="sortType" value="PriceDecreasing" id="c3"><label for="c3">Price High to Low</label>
-    				<input type="radio" name="sortType" value="ProductBrand" id="c4"><label for="c4">Product Brand</label>
-    				<input type="radio" name="sortType" value="ProductName" id="c5"><label for="c5">Product Name</label>
-  				</span>	
-				</div>	
+
+				<div style="width: 300px;display: inline-block;">
+					<!-- 도 선택 셀렉트박스 -->
+					<select name="sido" id="selectNationDrop" class="custom-select sources" >
+						<option value="">시,도 선택</option>
+					</select> 
+					<!-- 시군구 건택 셀렉트 박스 -->
+					<select name="sigungu" id="selectCityDrop" class="custom-select sources" >
+						<option value="">시,군,구 선택</option>
+					</select>
 					
-				<div class="wrap-input100 validate-input">
+				</div>
+				<div style="width: 300px;display: inline-block;">
+					<select name="indsCd" id="selectBigIndsDrop" class="custom-select sources" >
+					</select>
+				</div>
+				
+				<div class="wrap-input100 validate-input" style="margin-top:45px">
 					<input class="input100" type="text" name="title"> <span class="focus-input100" data-placeholder="글 제목"></span>
 				</div>
 
 				<div class="wrap-input100 validate-input">
-					<span class="btn-show-pass"> </span> <!-- <input class="input100" type="text" name="contents"> --><textarea class="input100" style="height:200px"></textarea> <span class="focus-input100" data-placeholder="글 내용"></span>
+					<span class="btn-show-pass"> </span>
+					<!-- <input class="input100" type="text" name="contents"> -->
+					<textarea name="content" class="input100" style="height: 200px"></textarea>
+					<span class="focus-input100" data-placeholder="글 내용"></span>
 				</div>
 
 				<div class="container-login100-form-btn">
 					<div class="wrap-login100-form-btn">
 						<div class="login100-form-bgbtn"></div>
-						<button class="login100-form-btn"><h5><b>등록</b></h5></button>
+						<button class="login100-form-btn" type="button" id="doReg">
+							<h5>
+								<b>등록</b>
+							</h5>
+						</button>
 					</div>
 				</div>
-
 			</form>
 		</div>
 
@@ -327,7 +322,7 @@
 	</div>
 	<!-- Bootstrap core JavaScript -->
 	<script src="bootstrap/vendor/jquery/jquery.min.js"></script>
-	<script src="bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> 
+	<script src="bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="common/js/top.js"></script>
 	<!-- 리스트폼 -->
 	<script src="tableStyle/vendor/bootstrap/js/popper.js"></script>
@@ -346,7 +341,7 @@
 	<!--===============================================================================================-->
 	<script src="form/js/main.js"></script>
 	<!-- selectbox스크립트 -->
-	<script src="common/js/selectbox.js"></script>
+	<!-- <script src="common/js/selectbox.js"></script> -->
 	<!-- 글등록폼 -->
 	<!--===============================================================================================-->
 	<script src="form/vendor/jquery/jquery-3.2.1.min.js"></script>

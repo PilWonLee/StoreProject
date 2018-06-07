@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.persistence.mapper.RecommendMapper">
+
+<!-- <select id="" resultType="RecommendDTO">
+SELECT * FROM pil_db.`RECOMMEND`;
+</select> -->
+<insert id="insertRecommend" parameterType="RecommendDTO">
+INSERT INTO pil_db.`RECOMMEND`(
+RCD_NO,		REG_USER_NO, 	TITLE, 
+CONTENT, 	SIDO, 			SIGUNGU, 		INDS_NAME, 
+REG_DATE, 	SIDO_NAME, 		SIGUNGU_NAME, 	INDS_CD 	
+) VALUES (
+			(SELECT IFNULL(max(RCD_NO)+1 ,10000) FROM pil_db.`RECOMMEND` a),
+			#{regUserNo},
+			#{title},
+			#{content},
+			#{sido},
+			#{sigungu},
+			#{indsName},
+			NOW(),
+			#{sidoName},
+			#{sigunguName},
+			#{indsCd}
+		)
+</insert>
+
+
+</mapper>

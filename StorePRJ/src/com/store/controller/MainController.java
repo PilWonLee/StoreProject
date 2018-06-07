@@ -92,6 +92,7 @@ public class MainController {
 			model.addAttribute("msg", "로그인되었습니다.");
 			model.addAttribute("url", "main.do");
 			session.setAttribute("email", result.getEmail());
+			session.setAttribute("userNo", result.getUserNo());
 		} else {
 			model.addAttribute("msg", "일치하는 회원정보가 없습니다.");
 			model.addAttribute("url", "login.do");
