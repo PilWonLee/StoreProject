@@ -2,6 +2,7 @@ package com.store.dto;
 
 public class RecommendDTO {
 	
+	String rcdNo;
 	String title;
 	String content;
 	String sido;
@@ -12,6 +13,19 @@ public class RecommendDTO {
 	String indsCd;
 	String sidoName;
 	String sigunguName;
+	String email;
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getRcdNo() {
+		return rcdNo;
+	}
+	public void setRcdNo(String rcdNo) {
+		this.rcdNo = rcdNo;
+	}
 	public String getIndsCd() {
 		return indsCd;
 	}

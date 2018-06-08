@@ -4,7 +4,6 @@ public class populationDTO {
 	String totalMan;
 	String totalWoman;
 	String ageCode;
-	
 	public String getTotalMan() {
 		return totalMan;
 	}

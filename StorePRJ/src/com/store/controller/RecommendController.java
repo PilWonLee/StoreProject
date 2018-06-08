@@ -77,7 +77,13 @@ public class RecommendController {
 		
 		return null;
 	}
-
 	
+	@RequestMapping(value="getRcdList")
+	public @ResponseBody List<RecommendDTO> getRcdList(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model)
+		throws Exception{
+		log.info("come into getRcdList");
+		List<RecommendDTO> list = recommendService.getList();
+		return list;
+	}
 
 }

@@ -11,6 +11,8 @@ public interface RecommendMapper {
 
 	void insertRecommend(RecommendDTO rDTO);
 
+	List<RecommendDTO> getList();
+
 
 
 }

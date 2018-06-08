@@ -22,6 +22,11 @@ public class RecommendService implements IRecommendService {
 		recommendMapper.insertRecommend(rDTO);
 	}
 
+	@Override
+	public List<RecommendDTO> getList() {
+		return recommendMapper.getList();
+	}
+
 
 	
 		

@@ -26,5 +26,10 @@ REG_DATE, 	SIDO_NAME, 		SIGUNGU_NAME, 	INDS_CD
 		)
 </insert>
 
+<select id="getList" resultType="RecommendDTO">
+SELECT RCD_NO AS rcdNo, REG_USER_NO AS regUserNo, TITLE, CONTENT, SIDO, SIGUNGU, 
+INDS_NAME AS indsName, A.REG_DATE AS regDate, SIDO_NAME AS sidoName,SIGUNGU_NAME AS sigunguName, 
+INDS_CD AS indsCd, EMAIL FROM pil_db.`RECOMMEND` A, pil_db.`USER_INFO` B WHERE B.USER_NO = A.REG_USER_NO
+</select>
 
 </mapper>

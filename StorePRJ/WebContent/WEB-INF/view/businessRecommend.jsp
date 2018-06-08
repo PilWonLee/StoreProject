@@ -46,7 +46,36 @@
 
 <!--selectbox 스타일-->
 <link rel="stylesheet" type="text/css" href="bootstrap/css/selectbox.css">
+<style>
+.content{
+    vertical-align: middle;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    align: center;
+    height:130px;
+}
 
+.content.top{
+	vertical-align:top;
+}	
+.row100.body.content{
+	display:none;	
+}
+	
+.column1{
+	width:13%;
+}
+
+.column2{
+	padding-left:3%;
+	width:25%;
+}
+
+.column3{
+	width:13%;
+}
+</style>
 <title>우리 동네 상권 분석</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
@@ -61,7 +90,19 @@
 		selectBusiness1.text("업종 대분류");
 		var MidCd = '';
 		var MidNameArr = new Array;
-
+		
+		getList();
+		resize();
+		
+		function resize(){
+			$('.js-pscroll').each(function() {
+				var ps = new PerfectScrollbar(this);
+				$(window).on('resize', function() {
+					ps.update();
+				})
+			}); 
+		}
+		
 		// 시,도 불러오기
 		$
 				.ajax({
@@ -158,22 +199,21 @@
 					}
 				});
 
-		// 활성화
-		$('#btn')
-				.click(
-						function() {
-							var content = "<tr class='row100 body'><td class='cell100 column1'>Like a butterfly</td><td class='cell100 column2'>Boxing</td><td class='cell100 column3'>9:00 AM - 11:00 AM</td><td class='cell100 column4'>Aaron Chapman</td><td class='cell100 column4'>10</td></tr>";
-							content += "<tr class='row100 body'><td class='cell100 column1'>Like a butterfly</td><td class='cell100 column2'>Boxing</td><td class='cell100 column3'>9:00 AM - 11:00 AM</td><td class='cell100 column4'>Aaron Chapman</td><td class='cell100 column4'>10</td></tr>";
-							content += "<tr class='row100 body'><td class='cell100 column1'>Like a butterfly</td><td class='cell100 column2'>Boxing</td><td class='cell100 column3'>9:00 AM - 11:00 AM</td><td class='cell100 column4'>Aaron Chapman</td><td class='cell100 column4'>10</td></tr>";
-							$('table > tbody').append(content);
-							$('.js-pscroll').each(function() {
-								var ps = new PerfectScrollbar(this);
-
-								$(window).on('resize', function() {
-									ps.update();
-								})
-							});
-						});
+		// 클릭하면 내용 보여주기
+		$(document).on("click", ".row100.body",function(event){
+			var unpureId = $(this).attr("id");
+			var pureId = unpureId.substring(1,unpureId.length);
+			$("#"+pureId).toggle();
+			$('.js-pscroll').each(function() {
+				console.log(this);
+				var ps = new PerfectScrollbar(this);
+				$(window).on('resize', function() {
+					ps.update();
+				})
+			}); 
+		});
+		
+		//등록하기 버튼
 		$('#continue').click(function(event) {
 			location.href = "#add";
 		})
@@ -199,16 +239,46 @@
 			data:resultArr,
 			method:"POST",
 			success:function(){
-				alert('성공!');
+				getList();
 			},
 			error:function(error){
 				console.log(error);
 			} 
 		})
 	})
-		
+	
 	});
 	
+	//게시판 리스트 불러오기
+	 function getList(){
+			var contents ="";
+			$.ajax({
+				url:"getRcdList.do",
+				dataType:"json",
+				success:function(data){
+					$.each(data,function(key,value){
+						contents +="<tr class='row100 body' id='A"+value.rcdNo+"' >";
+						contents +="<td class='cell100 column1'>"+value.rcdNo+"</td>";
+						contents +="<td class='cell100 column2'>"+value.title+"</td>";
+						contents +="<td class='cell100 column3'>"+value.sigunguName+"</td>";
+						contents +="<td class='cell100 column4'>"+value.indsName+"</td>";
+						contents +="<td class='cell100 column5'>"+value.regDate+"</td>";
+						contents +="</tr>";
+						contents +="<tr class='row100 body content' id='"+value.rcdNo+"'>";
+						contents +="<td class='content' colspan='3'><span>";
+						contents += value.content+"</span></td><td class='content top' colspan='2'><span><b>작성자</b>  : ";
+						contents += value.email+"</span></td></tr>";
+					})
+					$('.table100-body.js-pscroll tbody').html(contents);
+					
+					location.href='#list';
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+			
+		} 
 	
 </script>
 </head>
@@ -235,10 +305,11 @@
 				<table>
 					<thead>
 						<tr class="row100 head">
-							<th class="cell100 column1"><b>제목</b></th>
-							<th class="cell100 column2"><b>지역</b></th>
-							<th class="cell100 column3"><b>업종</b></th>
-							<th class="cell100 column4"><b>등록일</b></th>
+							<th class="cell100 column1"><b>글번호</b></th>
+							<th class="cell100 column2"><b>제목</b></th>
+							<th class="cell100 column3"><b>지역</b></th>
+							<th class="cell100 column4"><b>업종</b></th>
+							<th class="cell100 column5"><b>등록일</b></th>
 						</tr>
 					</thead>
 				</table>
@@ -247,21 +318,12 @@
 			<div class="table100-body js-pscroll">
 				<table>
 					<tbody>
-						<tr class="row100 body">
-							<td class="cell100 column1">Like a butterfly</td>
-							<td class="cell100 column2">Boxing</td>
-							<td class="cell100 column3">9:00 AM - 11:00 AM</td>
-							<td class="cell100 column4">Aaron Chapman</td>
-						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 
-
-
-		<input type="button" id="btn" value="추가"> </section>
-
+		</section>
 		<section id="add" data-url="add">
 
 		<div class="wrap-login100" style="width: 800px; margin-top: 5%; margin-bottom: 6%; background-color: #f8f8f8; margin-left: auto; margin-right: auto;">
@@ -329,15 +391,7 @@
 	<script src="tableStyle/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="tableStyle/vendor/select2/select2.min.js"></script>
 	<script src="tableStyle/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-	<script>
-		$('.js-pscroll').each(function() {
-			var ps = new PerfectScrollbar(this);
-
-			$(window).on('resize', function() {
-				ps.update();
-			})
-		});
-	</script>
+	
 	<!--===============================================================================================-->
 	<script src="form/js/main.js"></script>
 	<!-- selectbox스크립트 -->
