@@ -10,4 +10,6 @@ public interface IRecommendService {
 
 	List<RecommendDTO> getList();
 
+	List<RecommendDTO> addList(int start);
+
 }

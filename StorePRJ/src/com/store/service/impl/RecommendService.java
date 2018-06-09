@@ -27,6 +27,11 @@ public class RecommendService implements IRecommendService {
 		return recommendMapper.getList();
 	}
 
+	@Override
+	public List<RecommendDTO> addList(int start) {
+		return recommendMapper.addList(start);
+	}
+
 
 	
 		

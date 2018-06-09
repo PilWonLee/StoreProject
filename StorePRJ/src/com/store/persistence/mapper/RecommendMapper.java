@@ -13,6 +13,8 @@ public interface RecommendMapper {
 
 	List<RecommendDTO> getList();
 
+	List<RecommendDTO> addList(int start);
+
 
 
 }

@@ -85,5 +85,14 @@ public class RecommendController {
 		List<RecommendDTO> list = recommendService.getList();
 		return list;
 	}
+	
+	@RequestMapping(value="addList",method = RequestMethod.POST)
+	public @ResponseBody List<RecommendDTO> addList(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model)
+		throws Exception{
+		log.info("come into addList");
+		int start = Integer.valueOf(request.getParameter("start"));
+		List<RecommendDTO> list = recommendService.addList(start);
+		return list;
+	}
 
 }

@@ -145,6 +145,7 @@
 											dataType : "json",
 											success : function(data) {
 												var contents = "";
+												contents += "<option value=''>시,군,구 선택</option>";
 												$.each(data,function(key,value) {
 																	contents += "<option value='"
 																		+value.signguCd
@@ -171,8 +172,7 @@
 		
 
 		//업종 대분류 불러오기
-		$
-				.ajax({
+		$.ajax({
 					url : "searchBigInds.do",
 					dataType : "json",
 					success : function(data) {
@@ -213,6 +213,50 @@
 			}); 
 		});
 		
+		var start = 0;
+		//더보기
+		$(document).on("click","#add",function() {
+			start += 7;
+			console.log(start);
+			
+			$.ajax({
+				url:"addList.do",
+				data:{start: start},
+				method: 'POST',
+				dataType: 'json',
+				success : function(data){
+					var dataLength = data.length;
+					var contents ='';
+					$.each(data,function(key,value){
+						contents +="<tr class='row100 body' id='A"+value.rcdNo+"' >";
+						contents +="<td class='cell100 column1'>"+value.rcdNo+"</td>";
+						contents +="<td class='cell100 column2'>"+value.title+"</td>";
+						contents +="<td class='cell100 column3'>"+value.sigunguName+"</td>";
+						contents +="<td class='cell100 column4'>"+value.indsName+"</td>";
+						contents +="<td class='cell100 column5'>"+value.regDate+"</td>";
+						contents +="</tr>";
+						contents +="<tr class='row100 body content' id='"+value.rcdNo+"'>";
+						contents +="<td class='content' colspan='3'><span>";
+						contents += value.content+"</span></td><td class='content top' colspan='2'><span><b>작성자</b>  : ";
+						contents += value.email+"</span></td></tr>";
+					})
+					
+					$('#add').before(contents);
+					if(dataLength < 7){
+						$('#add').html('');
+					}
+					$('.js-pscroll').each(function() {
+						console.log(this);
+						var ps = new PerfectScrollbar(this);
+						$(window).on('resize', function() {
+							ps.update();
+						})
+					}); 
+				},
+				error:function(error){console.log(error)}
+			})
+		})
+		
 		//등록하기 버튼
 		$('#continue').click(function(event) {
 			location.href = "#add";
@@ -233,12 +277,35 @@
 		resultArr.push(Obj1)
 		resultArr.push(Obj2)
 		resultArr.push(Obj3)
-		console.log(resultArr);
+		
+		//유효성검사위해서 serializeArray으로 만든 배열을 object로 변환
+		var dataObj = {};
+		$(resultArr).each(function(i, field){
+		  dataObj[field.name] = field.value;
+		});
+		
+		if(dataObj['sidoName'] == "시,도 선택" ){
+			alert("시,도 선택해 주세요");
+			return;
+		}else if(dataObj['sigunguName'] == "시,군,구 선택"){
+			alert("시,군,구 선택해 주세요");
+			return;
+		}else if(dataObj['indsName'] == "업종분류 선택"){
+			alert("업종을 선택해 주세요");
+			return;
+		}else if(dataObj['title'] == ""){
+			alert("제목을 작성해 주세요");
+			return;
+		}else if(dataObj['content'] == ""){
+			alert("내용을 작성해 주세요");
+			return;
+		}
 		 $.ajax({
 			url:"RegProc.do",
 			data:resultArr,
 			method:"POST",
 			success:function(){
+				$("#frm")[0].reset();
 				getList();
 			},
 			error:function(error){
@@ -269,6 +336,9 @@
 						contents += value.content+"</span></td><td class='content top' colspan='2'><span><b>작성자</b>  : ";
 						contents += value.email+"</span></td></tr>";
 					})
+					
+					contents += "<tr class='row100 body' style='text-align:center' id='add'><td colspan='5'><span>더보기</span></td></tr>";
+					
 					$('.table100-body.js-pscroll tbody').html(contents);
 					
 					location.href='#list';
@@ -286,7 +356,7 @@
 	<%@include file="/common/top.jsp"%>
 	<!-- Navigation -->
 	<%@include file="/common/nav.jsp"%>
-	<div id="pages" class="container">
+	<div id="pages" class="container" style="height:900px">
 		<section id="list" data-url="list" data-default-page="true">
 		<div style="text-align: right; margin-top: 2%; width: 150px; margin-left: 85%">
 			<div class="container-login100-form-btn">
