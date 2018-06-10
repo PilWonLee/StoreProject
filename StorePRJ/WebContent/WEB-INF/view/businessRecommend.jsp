@@ -75,6 +75,15 @@
 .column3{
 	width:13%;
 }
+.modify{
+	margin:5px;
+}
+.delete{
+	margin:5px;
+}
+span:hover{
+	cursor:pointer;
+}
 </style>
 <title>우리 동네 상권 분석</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -118,7 +127,7 @@
 											
 											contents += "<option value='"
 													+value.ctprvnCd
-													+"'>"
+													+"' id='"+value.ctprvnCd+"'>"
 													+ value.ctprvnNm
 													+"</option>";
 													
@@ -149,7 +158,7 @@
 												$.each(data,function(key,value) {
 																	contents += "<option value='"
 																		+value.signguCd
-																		+"'>"
+																		+"' id='"+value.signguCd+"'>"
 																		+value.signguNm
 																		+"</option>";
 																});
@@ -181,7 +190,7 @@
 						$.each(data,function(key, value) {
 											contents += "<option value='"
 												+value.indsLclsCd
-												+"'>"
+												+"' id='"+value.indsLclsCd+"'>"
 												+value.indsLclsNm
 												+"</option>";
 											var MidNameObj = new Object();
@@ -203,15 +212,54 @@
 		$(document).on("click", ".row100.body",function(event){
 			var unpureId = $(this).attr("id");
 			var pureId = unpureId.substring(1,unpureId.length);
+			console.log(pureId);
 			$("#"+pureId).toggle();
 			$('.js-pscroll').each(function() {
-				console.log(this);
 				var ps = new PerfectScrollbar(this);
 				$(window).on('resize', function() {
 					ps.update();
 				})
 			}); 
 		});
+		var loginUser = <%=CmmUtil.nvl((String)session.getAttribute("userNo"))%>;
+		// modify
+		 $(document).on("click", ".modify",function(event){
+			var rcdId = $(this).closest("td").attr("id");
+			var reguser = $(this).attr("reguser");
+			console.log('rcdId : '+rcdId);
+			console.log('reguser : '+reguser);
+			console.log('login : '+loginUser);
+			if(loginUser != reguser){
+				alert("본인이 작성한 글만 수정할 수 있습니다.");
+				return;
+			}
+			location.href="businessModify.do?rcdNo="+rcdId;
+		}); 
+		
+		// delete
+		 $(document).on("click", ".delete",function(event){
+			var rcdId = $(this).closest("td").attr("id");
+			var reguser = $(this).attr("reguser");
+			if(loginUser != reguser){
+				alert("본인이 작성한 글만 삭제할 수 있습니다.");
+				return;
+			}
+			$.ajax({
+				url:"rcdDelete.do",
+				data:{rcdId : rcdId},
+				method:'POST',
+				success:function(){
+					alert("삭제완료");
+					getList();
+					start = 0;
+				},
+				error:function(error){
+					console.log(error);
+				}
+			})
+			
+		}); 
+		
 		
 		var start = 0;
 		//더보기
@@ -237,12 +285,15 @@
 						contents +="</tr>";
 						contents +="<tr class='row100 body content' id='"+value.rcdNo+"'>";
 						contents +="<td class='content' colspan='3'><span>";
-						contents += value.content+"</span></td><td class='content top' colspan='2'><span><b>작성자</b>  : ";
-						contents += value.email+"</span></td></tr>";
+						contents += value.content+"</span></td><td class='content top' colspan='2' id='"+value.rcdNo+"'>";
+						contents += "<span><b>작성자</b>  : "+value.email+"</span>";
+						contents += "<span class='modify'  reguser='"+value.regUserNo+"'>수정</span>";
+						contents += "<span class='delete' reguser='"+value.regUserNo+"'>삭제<span></span>";
+						contents += "</td></tr>";
 					})
 					
 					$('#add').before(contents);
-					if(dataLength < 7){
+					if(dataLength <= 7){
 						$('#add').html('');
 					}
 					$('.js-pscroll').each(function() {
@@ -323,6 +374,7 @@
 				url:"getRcdList.do",
 				dataType:"json",
 				success:function(data){
+					var dataLength = data.length;
 					$.each(data,function(key,value){
 						contents +="<tr class='row100 body' id='A"+value.rcdNo+"' >";
 						contents +="<td class='cell100 column1'>"+value.rcdNo+"</td>";
@@ -333,13 +385,20 @@
 						contents +="</tr>";
 						contents +="<tr class='row100 body content' id='"+value.rcdNo+"'>";
 						contents +="<td class='content' colspan='3'><span>";
-						contents += value.content+"</span></td><td class='content top' colspan='2'><span><b>작성자</b>  : ";
-						contents += value.email+"</span></td></tr>";
+						contents += value.content+"</span></td><td class='content top' colspan='2' id='"+value.rcdNo+"'>";
+						contents += "<span><b>작성자</b>  : "+value.email+"</span>";
+						contents += "<span class='modify'  reguser='"+value.regUserNo+"'>수정</span>";
+						contents += "<span class='delete' reguser='"+value.regUserNo+"'>삭제<span></span>";
+						contents += "</td></tr>";
 					})
 					
 					contents += "<tr class='row100 body' style='text-align:center' id='add'><td colspan='5'><span>더보기</span></td></tr>";
 					
 					$('.table100-body.js-pscroll tbody').html(contents);
+					
+					if(dataLength < 7){
+						$('#add').html('');
+					}
 					
 					location.href='#list';
 				},
@@ -450,6 +509,8 @@
 
 
 		</section>
+		
+		
 
 	</div>
 	<!-- Bootstrap core JavaScript -->

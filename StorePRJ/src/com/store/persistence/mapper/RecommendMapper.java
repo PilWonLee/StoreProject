@@ -15,6 +15,14 @@ public interface RecommendMapper {
 
 	List<RecommendDTO> addList(int start);
 
+	void deleteRcd(String rcdNo);
+
+	RecommendDTO getInfo(String rcdNo);
+
+	RecommendDTO getDetail(String rcdNo);
+
+	void updateRecommend(RecommendDTO rDTO);
+
 
 
 }

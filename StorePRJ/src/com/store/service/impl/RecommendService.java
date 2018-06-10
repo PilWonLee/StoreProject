@@ -32,6 +32,27 @@ public class RecommendService implements IRecommendService {
 		return recommendMapper.addList(start);
 	}
 
+	@Override
+	public void deleteRcd(String rcdNo) {
+		recommendMapper.deleteRcd(rcdNo);
+	}
+
+	@Override
+	public RecommendDTO getDetail(String rcdNo) {
+		return recommendMapper.getDetail(rcdNo);
+	}
+
+	@Override
+	public void updateRecommend(RecommendDTO rDTO) {
+		recommendMapper.updateRecommend(rDTO);		
+	}
+	
+	
+	
+	
+
+	
+
 
 	
 		

@@ -12,4 +12,12 @@ public interface IRecommendService {
 
 	List<RecommendDTO> addList(int start);
 
+	void deleteRcd(String rcdNo);
+
+	RecommendDTO getDetail(String rcdNo);
+
+	void updateRecommend(RecommendDTO rDTO);
+
+
+
 }

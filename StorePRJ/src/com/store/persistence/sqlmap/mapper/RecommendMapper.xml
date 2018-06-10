@@ -40,4 +40,29 @@ INDS_CD AS indsCd, EMAIL FROM pil_db.`RECOMMEND` A, pil_db.`USER_INFO` B WHERE B
 ORDER BY A.REG_DATE DESC LIMIT #{start},7
 </select>
 
+
+<delete id="deleteRcd" parameterType="String">
+DELETE FROM pil_db.`RECOMMEND` WHERE RCD_NO = #{rcdNo}
+</delete>
+
+<select id="getDetail" resultType="RecommendDTO">
+SELECT REG_USER_NO AS regUserNo, TITLE, CONTENT, SIDO, SIGUNGU, 
+INDS_NAME AS indsName, REG_DATE AS regDate, SIDO_NAME AS sidoName,SIGUNGU_NAME AS sigunguName, 
+INDS_CD AS indsCd FROM pil_db.`RECOMMEND` WHERE RCD_NO = #{rcdNo}
+</select>
+
+<update id="updateRecommend" parameterType="RecommendDTO">
+UPDATE pil_db.`RECOMMEND` SET 
+	TITLE 	=	#{title},
+	CONTENT =	#{content},
+	SIDO	=	#{sido},
+	SIGUNGU	=	#{sigungu},
+	INDS_NAME =	#{indsName},
+	REG_DATE =	NOW(),
+	SIDO_NAME =	#{sidoName},
+	SIGUNGU_NAME =	#{sigunguName},
+	INDS_CD	=	#{indsCd}
+WHERE RCD_NO = #{rcdNo}
+
+</update>
 </mapper>
