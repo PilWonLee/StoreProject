@@ -33,6 +33,13 @@ public class RecommendController {
 	public String recommendMain(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model)
 			throws Exception {
 		log.info("come into recommendMain");
+		
+		if(CmmUtil.nvl((String)session.getAttribute("email")).equals("")){
+			model.addAttribute("url","login.do");
+			model.addAttribute("msg","로그인후 이용할 수 있습니다.");
+			return "redirect";
+		}
+		
 		System.out.println(CmmUtil.nvl((String) session.getAttribute("email")));
 		return "/businessRecommend";
 	}

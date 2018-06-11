@@ -14,5 +14,9 @@
    GROUP BY TMP.AGE_CODE HAVING TMP.AGE_CODE <![CDATA[ < ]]> 100
 </select>
 
-
+<insert id="storeHistory" parameterType="apiDTO">
+INSERT INTO pil_db.`HISTORY` VALUES(
+#{userNo}, #{cx}, #{cy}, #{radius}, #{locName}, #{indsMclsCd}, #{indsMclsNm}, NOW()
+)
+</insert>
 </mapper>

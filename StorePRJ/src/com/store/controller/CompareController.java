@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import com.store.dto.apiWrappedDTO;
 import com.store.service.ICompareService;
 import com.store.service.IMainService;
 import com.store.util.ApiProcess;
+import com.store.util.CmmUtil;
 
 @Controller
 public class CompareController {
@@ -40,9 +42,15 @@ public class CompareController {
 
 	//濡쒓렇�씤 �쟾
 	@RequestMapping(value = "compareMain", method = RequestMethod.GET)
-	public String main(HttpServletRequest request, HttpServletResponse response, ModelMap model) throws Exception {
+	public String main(HttpServletRequest request, HttpServletResponse response, ModelMap model,HttpSession session) throws Exception {
 		log.info("come into compareMain");
-
+		
+		if(CmmUtil.nvl((String)session.getAttribute("email")).equals("")){
+			model.addAttribute("url","login.do");
+			model.addAttribute("msg","로그인후 이용할 수 있습니다.");
+			return "redirect";
+		}
+		
 		return "/businessCompare/compareMain";
 
 	}

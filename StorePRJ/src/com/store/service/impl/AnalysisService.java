@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.store.dto.apiDTO;
 import com.store.dto.populationDTO;
 import com.store.persistence.mapper.AnalysisMapper;
 import com.store.persistence.mapper.MainMapper;
@@ -20,6 +21,11 @@ public class AnalysisService implements IAnalysisService{
 	@Override
 	public List<populationDTO> getPopulation(String locName) throws Exception {
 		return analysisMapper.getPopulation(locName);
+	}
+
+	@Override
+	public void storeHistory(apiDTO history) {
+		analysisMapper.storeHistory(history);
 	}
 
 	

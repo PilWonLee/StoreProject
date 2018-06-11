@@ -314,13 +314,24 @@ public class AnalysisController {
 			 @RequestParam("radius")String radius,@RequestParam("cx")String cx,
 			 @RequestParam("cy")String cy,@RequestParam("locName")String locName, 
 			 @RequestParam("midCd")String midCd,@RequestParam("midName")String midName
-			 ,ModelMap model) throws Exception {
+			 ,ModelMap model,HttpSession session) throws Exception {
 		log.info("come into analysisDetail");
 		
 		log.info("radius"+radius);
 		log.info("cx"+cx);
 		log.info("cy"+cy);
 		log.info("locName"+locName);
+		
+		apiDTO history = new apiDTO();
+		history.setRadius(radius);
+		history.setCx(cx);
+		history.setCy(cy);
+		history.setLocName(locName);
+		history.setIndsMclsCd(midCd);
+		history.setIndsMclsNm(midName);
+		history.setUserNo(CmmUtil.nvl((String)session.getAttribute("userNo")));
+		AnalysisService.storeHistory(history);
+		history = null;
 		
 		importantStore = new ArrayList<>();
 		storeInfoMap = new HashMap<String, Integer>();

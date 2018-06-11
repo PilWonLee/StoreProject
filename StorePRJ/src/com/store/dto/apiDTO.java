@@ -1,6 +1,7 @@
 package com.store.dto;
 
 public class apiDTO {
+	String userNo;
 	String ctprvnCd;
 	String ctprvnNm;
 	String signguCd;
@@ -19,6 +20,50 @@ public class apiDTO {
 	String numOfRows;
 	String importantStoreCnt;
 	String importantStoreCnt2;
+	String cx;
+	String cy;
+	String radius;
+	String locName;
+	
+	public String getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(String userNo) {
+		this.userNo = userNo;
+	}
+
+	public String getCx() {
+		return cx;
+	}
+
+	public void setCx(String cx) {
+		this.cx = cx;
+	}
+
+	public String getCy() {
+		return cy;
+	}
+
+	public void setCy(String cy) {
+		this.cy = cy;
+	}
+
+	public String getRadius() {
+		return radius;
+	}
+
+	public void setRadius(String radius) {
+		this.radius = radius;
+	}
+
+	public String getLocName() {
+		return locName;
+	}
+
+	public void setLocName(String locName) {
+		this.locName = locName;
+	}
 
 	public String getImportantStoreCnt() {
 		return importantStoreCnt;

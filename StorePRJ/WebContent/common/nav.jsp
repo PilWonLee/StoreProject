@@ -1,3 +1,4 @@
+<%@page import="com.store.util.CmmUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -25,6 +26,14 @@
 				<li class="nav-item px-lg-4" id="recommendCategory"><a
 					class="nav-link text-uppercase text-expanded" href="recommendMain.do">상권
 						추천</a></li>
+				<%String emailNav = CmmUtil.nvl((String)session.getAttribute("email"));
+				if(emailNav.equals("admin")){%>		
+				<li class="nav-item px-lg-4" id="userHistory"><a
+					class="nav-link text-uppercase text-expanded" href="userHistory.do">회원활동기록</a></li>
+				<%}else{ %>	
+				<li class="nav-item px-lg-4" id="mypage"><a
+					class="nav-link text-uppercase text-expanded" href="mypage.do">마이페이지</a></li>
+				<%} %>
 			</ul>
 		</div>
 	</div>

@@ -287,8 +287,8 @@ span:hover{
 						contents +="<td class='content' colspan='3'><span>";
 						contents += value.content+"</span></td><td class='content top' colspan='2' id='"+value.rcdNo+"'>";
 						contents += "<span><b>작성자</b>  : "+value.email+"</span>";
-						contents += "<span class='modify'  reguser='"+value.regUserNo+"'>수정</span>";
-						contents += "<span class='delete' reguser='"+value.regUserNo+"'>삭제<span></span>";
+						contents += "<span class='modify'  reguser='"+value.regUserNo+"'><b>수정</b></span>";
+						contents += "<span class='delete' reguser='"+value.regUserNo+"'><b>삭제</b><span></span>";
 						contents += "</td></tr>";
 					})
 					
@@ -387,8 +387,8 @@ span:hover{
 						contents +="<td class='content' colspan='3'><span>";
 						contents += value.content+"</span></td><td class='content top' colspan='2' id='"+value.rcdNo+"'>";
 						contents += "<span><b>작성자</b>  : "+value.email+"</span>";
-						contents += "<span class='modify'  reguser='"+value.regUserNo+"'>수정</span>";
-						contents += "<span class='delete' reguser='"+value.regUserNo+"'>삭제<span></span>";
+						contents += "<span class='modify'  reguser='"+value.regUserNo+"'><b>수정</b></span>";
+						contents += "<span class='delete' reguser='"+value.regUserNo+"'><b>삭제</b><span></span>";
 						contents += "</td></tr>";
 					})
 					
