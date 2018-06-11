@@ -53,6 +53,7 @@ public class HistoryController {
 		}
 		
 		return "/mypage";
-
 	}
+	
+	
 }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.persistence.mapper.RecommendMapper">
+
+<!-- <select id="" resultType="RecommendDTO">
+SELECT * FROM pil_db.`RECOMMEND`;
+</select> -->
+<insert id="insertRecommend" parameterType="RecommendDTO">
+INSERT INTO pil_db.`RECOMMEND`(
+RCD_NO,		REG_USER_NO, 	TITLE, 
+CONTENT, 	SIDO, 			SIGUNGU, 		INDS_NAME, 
+REG_DATE, 	SIDO_NAME, 		SIGUNGU_NAME, 	INDS_CD 	
+) VALUES (
+			(SELECT IFNULL(max(RCD_NO)+1 ,10000) FROM pil_db.`RECOMMEND` a),
+			#{regUserNo},
+			#{title},
+			#{content},
+			#{sido},
+			#{sigungu},
+			#{indsName},
+			NOW(),
+			#{sidoName},
+			#{sigunguName},
+			#{indsCd}
+		)
+</insert>
+
+<select id="getList" resultType="RecommendDTO">
+SELECT RCD_NO AS rcdNo, REG_USER_NO AS regUserNo, TITLE, CONTENT, SIDO, SIGUNGU, 
+INDS_NAME AS indsName, A.REG_DATE AS regDate, SIDO_NAME AS sidoName,SIGUNGU_NAME AS sigunguName, 
+INDS_CD AS indsCd, EMAIL FROM pil_db.`RECOMMEND` A, pil_db.`USER_INFO` B WHERE B.USER_NO = A.REG_USER_NO
+ORDER BY A.REG_DATE DESC LIMIT 7
+</select>
+
+<select id="addList" resultType="RecommendDTO" parameterType="int">
+SELECT RCD_NO AS rcdNo, REG_USER_NO AS regUserNo, TITLE, CONTENT, SIDO, SIGUNGU, 
+INDS_NAME AS indsName, A.REG_DATE AS regDate, SIDO_NAME AS sidoName,SIGUNGU_NAME AS sigunguName, 
+INDS_CD AS indsCd, EMAIL FROM pil_db.`RECOMMEND` A, pil_db.`USER_INFO` B WHERE B.USER_NO = A.REG_USER_NO
+ORDER BY A.REG_DATE DESC LIMIT #{start},7
+</select>
+
+
+<delete id="deleteRcd" parameterType="String">
+DELETE FROM pil_db.`RECOMMEND` WHERE RCD_NO = #{rcdNo}
+</delete>
+
+<select id="getDetail" resultType="RecommendDTO">
+SELECT REG_USER_NO AS regUserNo, TITLE, CONTENT, SIDO, SIGUNGU, 
+INDS_NAME AS indsName, REG_DATE AS regDate, SIDO_NAME AS sidoName,SIGUNGU_NAME AS sigunguName, 
+INDS_CD AS indsCd FROM pil_db.`RECOMMEND` WHERE RCD_NO = #{rcdNo}
+</select>
+
+<update id="updateRecommend" parameterType="RecommendDTO">
+UPDATE pil_db.`RECOMMEND` SET 
+	TITLE 	=	#{title},
+	CONTENT =	#{content},
+	SIDO	=	#{sido},
+	SIGUNGU	=	#{sigungu},
+	INDS_NAME =	#{indsName},
+	REG_DATE =	NOW(),
+	SIDO_NAME =	#{sidoName},
+	SIGUNGU_NAME =	#{sigunguName},
+	INDS_CD	=	#{indsCd}
+WHERE RCD_NO = #{rcdNo}
+
+</update>
+</mapper>

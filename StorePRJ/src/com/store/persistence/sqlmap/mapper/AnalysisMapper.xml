@@ -19,4 +19,6 @@ INSERT INTO pil_db.`HISTORY` VALUES(
 #{userNo}, #{cx}, #{cy}, #{radius}, #{locName}, #{indsMclsCd}, #{indsMclsNm}, NOW()
 )
 </insert>
+
+
 </mapper>

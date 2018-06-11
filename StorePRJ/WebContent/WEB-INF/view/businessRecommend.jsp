@@ -229,11 +229,13 @@ span:hover{
 			console.log('rcdId : '+rcdId);
 			console.log('reguser : '+reguser);
 			console.log('login : '+loginUser);
-			if(loginUser != reguser){
+			if(loginUser == reguser || loginUser == '10001'){
+				location.href="businessModify.do?rcdNo="+rcdId;	
+			}else{
 				alert("본인이 작성한 글만 수정할 수 있습니다.");
 				return;
 			}
-			location.href="businessModify.do?rcdNo="+rcdId;
+			
 		}); 
 		
 		// delete

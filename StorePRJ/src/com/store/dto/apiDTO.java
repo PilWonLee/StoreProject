@@ -24,7 +24,16 @@ public class apiDTO {
 	String cy;
 	String radius;
 	String locName;
-	
+	String count;
+
+	public String getCount() {
+		return count;
+	}
+
+	public void setCount(String count) {
+		this.count = count;
+	}
+
 	public String getUserNo() {
 		return userNo;
 	}
