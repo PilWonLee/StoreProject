@@ -25,7 +25,58 @@ public class apiDTO {
 	String radius;
 	String locName;
 	String count;
+	String locCount;
+	String indsCount;
+	String indsName;
+	String date;
+	String visit;
+	String indsCd;
+	public String getIndsCd() {
+		return indsCd;
+	}
 
+	public void setIndsCd(String indsCd) {
+		this.indsCd = indsCd;
+	}
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getVisit() {
+		return visit;
+	}
+
+	public void setVisit(String visit) {
+		this.visit = visit;
+	}
+
+	public String getIndsCount() {
+		return indsCount;
+	}
+
+	public void setIndsCount(String indsCount) {
+		this.indsCount = indsCount;
+	}
+
+	public String getIndsName() {
+		return indsName;
+	}
+
+	public void setIndsName(String indsName) {
+		this.indsName = indsName;
+	}
+
+	public String getLocCount() {
+		return locCount;
+	}
+
+	public void setLocCount(String locCount) {
+		this.locCount = locCount;
+	}
 	public String getCount() {
 		return count;
 	}

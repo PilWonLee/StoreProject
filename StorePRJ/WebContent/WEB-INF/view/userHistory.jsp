@@ -437,6 +437,179 @@ $(function(){
 	.getElementById("userHistory");
 	userHistory.className = "nav-item px-lg-4 active"; //카테고리 활성화
 	
+	
+	//분석지역 차트그리기
+	var color = Chart.helpers.color;
+		
+	var locData = new Array();
+	var locName = new Array();
+	$.ajax({
+		url:"getLocInfo.do",
+		dataType:"json",
+		error:function(error){console.log(error)},
+		success: function(data){
+			$.each(data,function(key, value){
+				locData.push(value.locCount);
+				locName.push(value.locName);
+			})
+		  
+		
+		
+		var barChartData = {
+			labels : locName,
+			datasets : [
+					{
+						label:'지역별',
+						backgroundColor : color(window.chartColors.red).alpha(
+								0.5).rgbString(),
+						borderColor : window.chartColors.red,
+						borderWidth : 1,
+						data : locData
+					}
+						]
+			};
+			var ctx = document.getElementById('barChart').getContext('2d');
+			window.myBar = new Chart(ctx, {
+				type : 'bar',
+				data : barChartData,
+				options : {
+					responsive : true,
+					legend : {
+						position : 'top',
+					},
+					title : {
+						display : true,
+					},
+					scales : {
+						yAxes : [ {
+							ticks : {
+								beginAtZero : true
+							}
+						} ]
+					}
+				}
+			});
+		}	
+	});	
+	
+	//분석업종 차트그리기
+	var color = Chart.helpers.color;
+		
+	var indsData = new Array();
+	var indsName = new Array();
+	$.ajax({
+		url:"getIndsInfo.do",
+		dataType:"json",
+		error:function(error){console.log(error)},
+		success: function(data){
+			$.each(data,function(key, value){
+				indsData.push(value.indsCount);
+				indsName.push(value.indsName);
+			})
+		  
+		
+		
+		var barChartData = {
+			labels : indsName,
+			datasets : [
+					{
+						label:'업종별',
+						backgroundColor : color(window.chartColors.blue).alpha(
+								0.5).rgbString(),
+						borderColor : window.chartColors.blue,
+						borderWidth : 1,
+						data : indsData
+					}
+						]
+			};
+			var ctx = document.getElementById('barChart2').getContext('2d');
+			window.myBar = new Chart(ctx, {
+				type : 'bar',
+				data : barChartData,
+				options : {
+					responsive : true,
+					legend : {
+						position : 'top',
+					},
+					title : {
+						display : true,
+					},
+					scales : {
+						yAxes : [ {
+							ticks : {
+								beginAtZero : true
+							}
+						} ]
+					}
+				}
+			});
+		}	
+	});	
+	
+	 //방문자 그래프
+	var color = Chart.helpers.color;
+	var date = new Array();
+	var visit = new Array();
+	
+	 $.ajax({
+			url:"getVisitInfo.do",
+			dataType:"json",
+			error:function(error){console.log(error)},
+			success: function(data){
+				$.each(data,function(key,value){
+					date.push(value.date);
+					visit.push(value.visit);
+				}); 
+			  
+				var config = {
+						type: 'line',
+						data: {
+							labels: date,
+							datasets: [{
+								label: '방문자',
+								backgroundColor: window.chartColors.orange,
+								borderColor: window.chartColors.orange,
+								data: visit,
+								fill: false,
+							}]
+						},
+						options: {
+							title: {
+								display: true,
+							},
+							tooltips: {
+								mode: 'index',
+								intersect: false,
+							},
+							hover: {
+								mode: 'nearest',
+								intersect: true
+							},
+							scales: {
+								xAxes: [{
+									display: true,
+									scaleLabel: {
+										display: true,
+										labelString: 'Date'
+									}
+								}],
+								yAxes: [{
+									display: true,
+									scaleLabel: {
+										display: true,
+										labelString: 'Visit'
+									},
+									ticks : {
+										beginAtZero : true
+									}
+								}]
+							}
+						}
+					};
+				var ctx = document.getElementById('myChart').getContext('2d');
+				window.myLine = new Chart(ctx, config)
+				}
+			}); 
 })
 </script>
 <title>우리 동네 상권 분석</title>
@@ -454,14 +627,14 @@ $(function(){
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
 				style="height: 430px; width: 70%;">
 				<h3>분석 지역 기록</h3>
-				<canvas id="barChart" height="270"></canvas>
+				<canvas id="barChart" height="240px"></canvas>
 
 			</div>
 			 <div
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
 				style="height: 430px; width: 70%;">
 				<h3>분석 업종 기록</h3>
-				<canvas id="barChart2"  height="270"></canvas>
+				<canvas id="barChart2"  height="240px"></canvas>
 
 			</div> 
 			
@@ -476,9 +649,7 @@ $(function(){
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
 				style="width:100%;height: 600px;margin-left:55.5px">
 				<h3>방문자수</h3>
-				<div id="rateChart">
-				<canvas id="myChart" width="100%" height="100%"></canvas>
-				</div>
+				<canvas id="myChart" width="100%" max-height="300px"></canvas>
 			</div>
 		</div>
 

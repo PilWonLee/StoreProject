@@ -13,18 +13,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.store.dto.userDTO;
-import com.store.service.IMainService;
+import com.store.dto.apiDTO;
+import com.store.service.IHistoryService;
 import com.store.util.CmmUtil;
 
 @Controller
 public class HistoryController {
 	private Logger log = Logger.getLogger(this.getClass());
 
-	@Resource(name = "MainService")
-	private IMainService mainService;
+	@Resource(name = "HistoryService")
+	private IHistoryService historyService;
 
 	@RequestMapping(value = "userHistory", method = RequestMethod.GET)
 	public String userHistory(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model)
@@ -55,5 +56,48 @@ public class HistoryController {
 		return "/mypage";
 	}
 	
+	@RequestMapping(value = "getLocInfo")
+	public @ResponseBody List<apiDTO> getLocInfo() throws Exception{
+		log.info("come into getLocInfo");
+		
+		List<apiDTO> list = historyService.getLocInfo();
+		
+		return list;
+	}
 	
+	@RequestMapping(value = "getIndsInfo")
+	public @ResponseBody List<apiDTO> getIndsInfo() throws Exception{
+		log.info("come into getIndsInfo");
+		
+		List<apiDTO> list = historyService.getIndsInfo();
+		
+		return list;
+	}
+	
+	@RequestMapping(value = "getVisitInfo")
+	public @ResponseBody List<apiDTO> getVisitInfo() throws Exception{
+		log.info("come into getVisitInfo");
+		
+		List<apiDTO> list = historyService.getVisitInfo();
+		
+		return list;
+	}
+	
+	@RequestMapping(value = "getMyAnalysis", method = RequestMethod.POST)
+	public @ResponseBody List<apiDTO> getMyAnalysis(@RequestParam("userNo")String userNo) throws Exception{
+		log.info("come into getMyAnalysis");
+		
+		List<apiDTO> list = historyService.getMyAnalysis(userNo);
+		
+		return list;
+	}
+	
+	@RequestMapping(value = "getMyHistory", method = RequestMethod.POST)
+	public @ResponseBody List<apiDTO> getMyHistory(@RequestParam("userNo")String userNo) throws Exception{
+		log.info("come into getMyHistory");
+		
+		List<apiDTO> list = historyService.getMyHistory(userNo);
+		
+		return list;
+	}
 }

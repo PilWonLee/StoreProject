@@ -420,7 +420,9 @@ h2.flh {
 	font-size: 11px;
 	margin-top: 0;
 }
-
+.liStyle{
+	margin-top:30px;
+}
 </style>
 <script src="/common/js/jquery-3.3.1.min.js" charset="utf-8"></script>
 <script src="/common/js/Chart.bundle.js"></script>
@@ -437,6 +439,106 @@ $(function(){
 	.getElementById("mypage");
 	mypage.className = "nav-item px-lg-4 active"; //카테고리 활성화
 	
+	var userNo = '<%=(String)session.getAttribute("userNo")%>'
+	var labelData = new Array;
+	var setData = new Array;
+	var colorArr = ["#ff6384","#ff9f40","#ffcd56","#4bc0c0","#36a2eb","#9966ff","#c9cbcf"
+	                ,"#ff6384","#ff9f40","#ffcd56","#4bc0c0","#36a2eb","#9966ff","#c9cbcf"
+	                ,"#ff6384","#ff9f40","#ffcd56","#4bc0c0","#36a2eb","#9966ff","#c9cbcf"
+	                ];
+	 $.ajax({
+		url:"getMyAnalysis.do",
+		type:"POST",
+		data:{userNo:userNo},
+		dataType:"json",
+		error:function(error){console.log(error)},
+		success: function(data){
+			$.each(data,function(key, value){
+				labelData.push(value.indsName);
+				setData.push(value.indsCount);
+			})
+			var fitColorArr = new Array;
+			for(var i = 0; i < setData.length ; i++){
+				fitColorArr.push(colorArr[i]);
+			}
+			
+			if(setData.length == 0){
+				$('#rateChart').html("<span><h3>기록이 없습니다.</h3></span>");
+				$('#rateChart').css("color","blue");
+				$('#rateChart').css("margin-top","5rem")
+			}else{
+		//차트 그리기
+		new Chart(document.getElementById("myChart").getContext("2d"), {
+			type : 'doughnut',
+			data : {
+				labels : labelData,
+				datasets : [ {
+					backgroundColor : fitColorArr,
+					data : setData
+				} ]
+			},
+			options : {
+				legend:{
+					labels:{
+						fontSize :12
+					}
+				},
+				title : {
+					display : true,
+					fontSize : 12
+				}
+			}
+		});
+		
+			}
+		}
+	});
+	 
+	var wrapArr = new Array();
+	
+	//분석 기록 가져오기 
+	$.ajax({
+		url:"getMyHistory.do",
+		type:"POST",
+		data:{userNo:userNo},
+		dataType:"json",
+		error:function(error){console.log(error)},
+		success: function(data){
+			var content = '';
+			var i =0;
+			$.each(data,function(key,value){
+				var arr = new Array();
+				arr.push(value.cx);
+				arr.push(value.cy);
+				arr.push(value.locName);
+				arr.push(value.indsCd);
+				arr.push(value.indsName);
+				arr.push(value.radius);
+				arr.push(value.date);
+				
+				wrapArr.push(arr);
+				
+				content +="<li class='liStyle'><b>지역</b> :"+ value.locName +" / ";
+				content +="<b>업종</b> :"+value.indsName+" / <b>일시</b> : "+ value.date;
+				content +="<input type='button' class='gogo' id='"+i+"' value='바로가기' style='width:70px;margin-left:10%''>";
+				content +="</li>";
+				i++;
+			})
+			console.log(wrapArr)
+			$('.analysisHistory').html(content);
+		}
+	})
+	
+	$(document).on('click','.gogo',function(){
+		var index = $(this).attr('id');
+		$("#radiusId").attr("value" , wrapArr[index][5]);
+        $("#locNameId").attr("value" , wrapArr[index][2]);
+        $("#cxId").attr("value" , wrapArr[index][0]);
+    	$("#cyId").attr("value" , wrapArr[index][1]);
+    	$("#midCd").attr("value" , wrapArr[index][3]);
+    	$("#midName").attr("value" , wrapArr[index][4]); 
+    	$("#transPage").attr({action:"analysisDetail.do", method:'post'}).submit();
+	})
 })
 </script>
 <title>우리 동네 상권 분석</title>
@@ -445,24 +547,33 @@ $(function(){
 	<%@include file="/common/top.jsp"%>
 	<!-- Navigation -->
 	<%@include file="/common/nav.jsp"%>
-
-	<section class="page-section clearfix" >
+	<form id="transPage" >
+		<input type="hidden" name="cx" id="cxId" value="">
+		<input type="hidden" name="cy" id="cyId" value="">
+		<input type="hidden" name="radius" id="radiusId" value="">
+		<input type="hidden" name="locName" id="locNameId" value="">
+		<input type="hidden" name="midCd" id="midCd" value="">
+		<input type="hidden" name="midName" id="midName" value="">
+	</form>
+	<section class="page-section clearfix" style="height:700px" >
 	<div class="container">
 		<div class="intro">
 			
 			<div
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
-				style="height: 430px; width: 70%;">
+				style="height: 500px; width: 86%;">
 				<h3>분석 지역 기록</h3>
-				<canvas id="barChart" height="270"></canvas>
-
+				<ul style="margin-top:50px" class="analysisHistory" >
+					
+				</ul>
 			</div>
 			 <div
 				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
-				style="height: 430px; width: 70%;">
+				style="height: 500px; width: 70%;">
 				<h3>분석 업종 기록</h3>
-				<canvas id="barChart2"  height="270"></canvas>
-
+				<div id="rateChart">
+				<canvas id="myChart"  height="270"></canvas>
+				</div>
 			</div> 
 			
 			

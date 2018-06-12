@@ -238,7 +238,7 @@ body {
 								<div class="form-group">
 									<input class="form-control" name="sample6_postcode"
 										id="sample6_postcode" type="text" value="" placeholder="우편번호"
-										style="width: 77%; display: inline-block;"> <input
+										style="width: 66%; display: inline-block;"> <input
 										type="button" onclick="sample6_execDaumPostcode()"
 										value="우편번호 찾기" style="display: inline-block">
 								</div>

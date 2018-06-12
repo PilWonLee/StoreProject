@@ -16,4 +16,6 @@ VALUES ((select max(USER_NO)+1 from pil_db.`USER_INFO` a),#{email},#{password},N
 <select id="login"  resultType="userDTO" parameterType="userDTO">
 SELECT USER_NO AS userNo, EMAIL, PASSWORD, REG_DATE AS regDate FROM USER_INFO WHERE EMAIL = #{email} AND PASSWORD = #{password}
 </select>
+
+
 </mapper>

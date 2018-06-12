@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.persistence.mapper.HistoryMapper">
+<select id="getLocInfo" resultType="apiDTO">
+SELECT COUNT(1) AS locCount ,LOC_NAME as locName 
+FROM pil_db.`HISTORY` 
+WHERE REG_DATE BETWEEN date_add( now(), interval -7 day ) AND   NOW() 
+GROUP BY LOC_NAME 
+ORDER BY locCount DESC 
+LIMIT 5
+</select>
+
+<select id="getIndsInfo" resultType="apiDTO">
+SELECT COUNT(1) AS indsCount,INDS_NAME AS indsName 
+FROM pil_db.`HISTORY` 
+WHERE REG_DATE BETWEEN date_add( now(), interval -7 day ) AND   NOW() 
+GROUP BY INDS_NAME 
+ORDER BY indsCount DESC 
+LIMIT 5
+</select>
+
+<select id="getVisitInfo" resultType="apiDTO">
+SELECT  VISIT AS visit, DATE_FORMAT(REG_DATE, "%Y.%c.%e") AS date FROM (
+SELECT COUNT(1) AS VISIT,REG_DATE FROM pil_db.`HISTORY`A  GROUP BY DATE_FORMAT(REG_DATE, "%Y.%c.%e") ORDER BY REG_DATE DESC LIMIT 7 ) B 
+ORDER BY B.REG_DATE
+</select>
+
+<select id="getMyAnalysis" resultType="apiDTO" parameterType="String">
+SELECT COUNT(1) AS indsCount,INDS_NAME AS indsName
+FROM pil_db.`HISTORY` 
+WHERE USER_NO = #{userNo} 
+GROUP BY INDS_NAME 
+ORDER BY indsCount DESC 
+LIMIT 5
+</select>
+
+<select id="getMyHistory" resultType="apiDTO" parameterType="String">
+SELECT CX,CY,RADIUS,LOC_NAME AS locName,INDS_CD AS indsCd,INDS_NAME AS indsName,DATE_FORMAT(REG_DATE, "%Y.%c.%e") AS date
+FROM pil_db.`HISTORY` 
+WHERE USER_NO = #{userNo} 
+ORDER BY REG_DATE DESC 
+LIMIT 5;
+</select>
+</mapper>
