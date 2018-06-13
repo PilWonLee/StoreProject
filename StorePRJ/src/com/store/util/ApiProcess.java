@@ -28,7 +28,7 @@ public class ApiProcess {
 
 		StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B553077/api/open/sdsc/baroApi"); /* URL */
 		urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8")
-				+ "=bfw1QwdYKkozjInhO3oOO2EYjnnQ0NuD2kGSGNoMbde0thgnqlF9R0rARkMmhe6yWNC5hsF5MebZGhSV1Io67w%3D%3D"); /*
+				+ "=NcFjbOBSI%2BQTk%2FovAYOyOp73riif5LM8CcV9SrMUOLumNRUc2%2F%2B5DygIPD0TJ%2BENUHz8noCQXEOD4OmvPHbvtQ%3D%3D"); /*
 																													 * Service
 																													 */
 

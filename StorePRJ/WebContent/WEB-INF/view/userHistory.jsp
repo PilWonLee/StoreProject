@@ -666,6 +666,7 @@ $(function(){
 
 	<!-- Bootstrap core JavaScript -->
 	<script src="bootstrap/vendor/jquery/jquery.min.js"></script>
+	<script src="/common/js/top.js"></script>
 	<script src="bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="/common/js/jqcloud.js" charset="utf-8"></script>
 

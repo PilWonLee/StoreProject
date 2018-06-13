@@ -20,7 +20,7 @@
 <link href="/bootstrap/css/business-casual.css" rel="stylesheet">
 
 <!-- Custom styles for this template -->
-<!-- <link href="/bootstrap/css/myStyle.css" rel="stylesheet"> -->
+ <link href="/bootstrap/css/myStyle.css" rel="stylesheet"> 
 <!-- 리스트스타일 -->
 <link rel="icon" type="image/png" href="tableStyle/images/icons/favicon.ico" />
 <link rel="stylesheet" type="text/css" href="tableStyle/vendor/bootstrap/css/bootstrap.min.css">

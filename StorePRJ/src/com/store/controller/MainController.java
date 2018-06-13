@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.store.dto.userDTO;
 import com.store.service.IMainService;
-import com.store.util.AES256Util;
+import com.store.util.AES256;
 import com.store.util.CmmUtil;
 import com.store.util.MailUtil;
 
 @Controller
 public class MainController {
 	private Logger log = Logger.getLogger(this.getClass());
-	private static String connectIP = "http://192.168.175.10:8899/";
+	private static String connectIP = "http://192.168.175.49:8899/";
 	@Resource(name = "MainService")
 	private IMainService mainService;
 
@@ -73,7 +73,8 @@ public class MainController {
 		mainService.insertUser(u);
 		
 		userDTO userNoDto = mainService.getUserNo(email);
-		String enUserNo = AES256Util.strEncode(userNoDto.getUserNo());
+		AES256 aes = new AES256("12345678901234567");
+		String enUserNo = aes.aesEncode(userNoDto.getUserNo());
 		String url =connectIP+"emailConfirm.do";
 		String parameter ="?userNo="+enUserNo;
 		String body ="<a href='"+url+parameter+"'>인증 하기</a>";
@@ -90,7 +91,8 @@ public class MainController {
 			throws Exception {
 		String enUserNo = request.getParameter("userNo");
 		log.info(enUserNo);
-		String userNo = AES256Util.strDecode(enUserNo);
+		AES256 aes = new AES256("12345678901234567");
+		String userNo = aes.aesDecode(enUserNo);
 		
 		mainService.updateConfirm(userNo);
 		
@@ -161,7 +163,8 @@ public class MainController {
 		log.info(email);
 		
 		userDTO userNoDto = mainService.getUserNo(email);
-		String enUserNo = AES256Util.strEncode(userNoDto.getUserNo());
+		AES256 aes = new AES256("12345678901234567");
+		String enUserNo = aes.aesEncode(userNoDto.getUserNo());
 		String url =connectIP+"passwordChange.do";
 		String parameter ="?userNo="+enUserNo;
 		String body ="<a href='"+url+parameter+"'>비밀번호 변경</a>";
@@ -187,7 +190,8 @@ public class MainController {
 			throws Exception {
 		log.info("come into changePwProc");
 		String password = request.getParameter("password");
-		String userNo = AES256Util.strDecode(request.getParameter("userNo"));
+		AES256 aes = new AES256("12345678901234567");
+		String userNo = aes.aesDecode(request.getParameter("userNo"));
 		
 		log.info(password);
 		log.info(userNo);
