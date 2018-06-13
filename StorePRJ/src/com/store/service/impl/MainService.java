@@ -46,6 +46,11 @@ public class MainService implements IMainService {
 	public void changePassword(userDTO u) {
 		mainMapper.changePassword(u);
 	}
+
+	@Override
+	public void deletUser(String userNo) {
+		mainMapper.deletUser(userNo);
+	}
 		
 	
 		

@@ -22,4 +22,6 @@ public interface MainMapper {
 
 	void changePassword(userDTO u);
 
+	void deletUser(String userNo);
+
 }

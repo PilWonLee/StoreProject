@@ -203,4 +203,19 @@ public class MainController {
 		return "redirect";
 	}
 	
+	
+	@RequestMapping(value = "deleteUser", method = RequestMethod.GET)
+	public String deleteUser(HttpServletRequest request, HttpServletResponse response, HttpSession session, ModelMap model)
+			throws Exception {
+		log.info("come into deleteUser");
+		String userNo = request.getParameter("userNo");
+		log.info(userNo);
+		mainService.deletUser(userNo);
+		model.addAttribute("msg", "탈퇴되었습니다.");
+		model.addAttribute("url", "main.do");
+		session.invalidate();
+		
+		return "redirect";
+	}
+	
 }

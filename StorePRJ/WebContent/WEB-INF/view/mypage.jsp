@@ -439,7 +439,7 @@ $(function(){
 	.getElementById("mypage");
 	mypage.className = "nav-item px-lg-4 active"; //카테고리 활성화
 	
-	var userNo = '<%=(String)session.getAttribute("userNo")%>'
+	var userNo = '<%=(String)session.getAttribute("userNo")%>';
 	var labelData = new Array;
 	var setData = new Array;
 	var colorArr = ["#ff6384","#ff9f40","#ffcd56","#4bc0c0","#36a2eb","#9966ff","#c9cbcf"
@@ -539,6 +539,14 @@ $(function(){
     	$("#midName").attr("value" , wrapArr[index][4]); 
     	$("#transPage").attr({action:"analysisDetail.do", method:'post'}).submit();
 	})
+	
+	$('#deleteUser').click(function(){
+		
+		if(confirm("탈퇴하시겠습니까?")){
+			location.href="deleteUser.do?userNo="+userNo;	
+		}
+		
+	})
 })
 </script>
 <title>우리 동네 상권 분석</title>
@@ -577,6 +585,11 @@ $(function(){
 			</div> 
 			
 			
+		</div>
+		<div style="text-align:center;margin-top:3%">
+			<button class="bttn-unite bttn-md bttn-primary" id="deleteUser" style="font-size:40px">
+			&nbsp;&nbsp;&nbsp;회원 탈퇴&nbsp;&nbsp;&nbsp;
+			</button>
 		</div>
 	</div>
 	</section>

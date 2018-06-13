@@ -29,4 +29,9 @@ UPDATE pil_db.`USER_INFO` SET CONFIRM = "Y" WHERE USER_NO = #{userNo}
 UPDATE pil_db.`USER_INFO` SET PASSWORD = #{password} WHERE USER_NO = #{userNo}
 </update>
 
+<delete id="deletUser" parameterType="String">
+DELETE FROM pil_db.`USER_INFO` WHERE USER_NO = #{userNo}
+</delete>
+
+
 </mapper>

@@ -17,5 +17,7 @@ public interface IMainService {
 	void updateConfirm(String userNo);
 
 	void changePassword(userDTO u);
+
+	void deletUser(String userNo);
 	
 }
