@@ -17,8 +17,8 @@ public class MailUtil {
 			throws AddressException, MessagingException {
 		String host = "gmail-smtp.l.google.com";
 
-		final String username = "kangseokopo@gmail.com";
-		final String password = "fggbrgppljjozirw";
+		final String username = "eruca1255@gmail.com";
+		final String password = "spes7924";
 
 		Properties props = System.getProperties();
 
@@ -37,10 +37,10 @@ public class MailUtil {
 		});
 		session.setDebug(true);
 		Message mimeMessage = new MimeMessage(session);
-		mimeMessage.setFrom(new InternetAddress("kangseokopo@gmail.com"));
+		mimeMessage.setFrom(new InternetAddress("eruca1255@gmail.com"));
 		mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 		mimeMessage.setSubject(subject);
-		mimeMessage.setText(body);
+		mimeMessage.setContent(body, "text/html; charset=UTF-8");
 		Transport.send(mimeMessage);
 	}
 }

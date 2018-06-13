@@ -31,6 +31,21 @@ public class MainService implements IMainService {
 	public userDTO login(userDTO u) throws Exception {
 		return mainMapper.login(u);
 	}
+
+	@Override
+	public userDTO getUserNo(String email) {
+		return mainMapper.getUserNo(email);
+	}
+
+	@Override
+	public void updateConfirm(String userNo) {
+		mainMapper.updateConfirm(userNo);
+	}
+
+	@Override
+	public void changePassword(userDTO u) {
+		mainMapper.changePassword(u);
+	}
 		
 	
 		

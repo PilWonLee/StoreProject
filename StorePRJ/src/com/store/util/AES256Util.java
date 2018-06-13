@@ -17,7 +17,7 @@ import org.apache.commons.codec.binary.Base64;
 public class AES256Util {
 
 	 public static byte[] ivBytes = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-	 private static String key = "Super_Developers";
+	 private static String key = "1234567890123456";
 	 
 	 /**
 	  * 일반 문자열을 지정된 키를 이용하여 AES256 으로 암호화

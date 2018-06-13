@@ -14,8 +14,19 @@ VALUES ((select max(USER_NO)+1 from pil_db.`USER_INFO` a),#{email},#{password},N
 </insert>
 
 <select id="login"  resultType="userDTO" parameterType="userDTO">
-SELECT USER_NO AS userNo, EMAIL, PASSWORD, REG_DATE AS regDate FROM USER_INFO WHERE EMAIL = #{email} AND PASSWORD = #{password}
+SELECT USER_NO AS userNo, EMAIL, PASSWORD, REG_DATE AS regDate, CONFIRM FROM USER_INFO WHERE EMAIL = #{email} AND PASSWORD = #{password}
 </select>
 
+<select id="getUserNo" resultType="userDTO" parameterType="String">
+SELECT USER_NO AS userNo FROM pil_db.`USER_INFO` WHERE EMAIL = #{email}
+</select>
+
+<update id="updateConfirm" parameterType="String">
+UPDATE pil_db.`USER_INFO` SET CONFIRM = "Y" WHERE USER_NO = #{userNo}
+</update>
+
+<update id="changePassword" parameterType="userDTO">
+UPDATE pil_db.`USER_INFO` SET PASSWORD = #{password} WHERE USER_NO = #{userNo}
+</update>
 
 </mapper>

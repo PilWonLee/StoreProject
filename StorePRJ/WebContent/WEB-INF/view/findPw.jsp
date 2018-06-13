@@ -45,37 +45,21 @@ body{
 $(function(){
 	$('#submit').click(function(){
 		var email =$('#email').val();
-		var password =$('#password').val();
-		if(email !='' && password !=''){
+		if(email !='' ){
 			
-			$("#hiddenEmail")
-			.attr(
-					"value",
-					email);
-			$("#hiddenPassword")
-			.attr(
-					"value",
-					password);
-			$('#frm')
-			.attr({
-						action : "loginProc.do",
+			$("#hiddenEmail").attr("value",email);
+			$('#frm').attr({
+						action : "findPwProc.do",
 						method : 'post'
-					})
-			.submit();
+							}).submit();
 			return true;
 		}else{
-			alert("로그인을 할 수 없습니다.");
+			alert("이메일을 입력해 주세요.");
 			return false;
 		}
 		
 	});
 	
-	$('#findPw').mouseover(function(event){
-		$(this).css('cursor','pointer');
-	})
-	$('#findPw').click(function(event){
-		location.href="findPw.do";
-	})
 })
 
 </script>
@@ -91,7 +75,7 @@ $(function(){
     	<div class="col-md-4 col-md-offset-4">
     		<div class="panel panel-default">
 			  	<div class="panel-heading">
-			    	<h2 class="panel-title"><b>로그인</b></h2>
+			    	<h2 class="panel-title"><b>비밀번호 찾기</b></h2>
 			 	</div>
 			  	<div class="panel-body">
 			    	<form accept-charset="UTF-8" role="form">
@@ -99,12 +83,8 @@ $(function(){
 			    	  	<div class="form-group">
 			    		    <input class="form-control" placeholder="E-mail" name="email" id="email" type="text">
 			    		</div>
-			    		<div class="form-group">
-			    			<input class="form-control" placeholder="Password" name="password" id="password" type="password" value="">
-			    		</div>
 			    		
-			    		<input class="btn btn-lg btn-success btn-block" type="button" id="submit" value="Login">
-			    		<span id="findPw" >비밀번호 찾기</span>
+			    		<input class="btn btn-lg btn-success btn-block" type="button" id="submit" value="Find Password">
 			    	</fieldset>
 			      	</form>
 			    </div>

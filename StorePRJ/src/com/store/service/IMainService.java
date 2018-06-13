@@ -11,5 +11,11 @@ public interface IMainService {
 	void insertUser(userDTO u)throws Exception;
 
 	userDTO login(userDTO u)throws Exception;
+
+	userDTO getUserNo(String email);
+
+	void updateConfirm(String userNo);
+
+	void changePassword(userDTO u);
 	
 }

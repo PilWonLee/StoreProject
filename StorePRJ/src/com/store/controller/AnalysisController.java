@@ -73,6 +73,8 @@ public class AnalysisController {
 		ApiResultToString apiResult = new ApiResultToString();
 		String result = apiResult.getString(map);
 
+		log.info(result);
+		
 		// String을 xml로 파싱하고 List에 담기
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		XmlPullParser parser = factory.newPullParser(); // 연결하는거 담고
@@ -129,6 +131,8 @@ public class AnalysisController {
 		ApiResultToString apiResult = new ApiResultToString();
 		String result = apiResult.getString(map);
 
+		log.info(result);
+		
 		// String을 xml로 파싱하는 부분
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		XmlPullParser parser = factory.newPullParser(); // 연결하는거 담고
@@ -183,7 +187,9 @@ public class AnalysisController {
 
 		ApiResultToString apiResult = new ApiResultToString();
 		String result = apiResult.getString(map);
-
+		
+		log.info(result);
+		
 		// String을 xml로 파싱하고 List에 담기
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		XmlPullParser parser = factory.newPullParser(); // 연결하는거 담고
