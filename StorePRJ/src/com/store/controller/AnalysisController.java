@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.store.dto.RecommendDTO;
 import com.store.dto.apiDTO;
 import com.store.dto.apiWrappedDTO;
 import com.store.dto.populationDTO;
@@ -454,5 +455,16 @@ public class AnalysisController {
 		log.info("come into getActivityRate");
 		
 		return String.valueOf(importantStore.size());
+	}
+	
+	@RequestMapping(value="getDetailRcdList")
+	public @ResponseBody List<RecommendDTO> getDetailRcdList(
+			HttpServletRequest request, HttpServletResponse response,
+			HttpSession session, ModelMap model,@RequestParam("locName")String locName)
+		throws Exception{
+		log.info("come into getDetailRcdList");
+		log.info(locName);
+		List<RecommendDTO> list = AnalysisService.getList(locName);
+		return list;
 	}
 }

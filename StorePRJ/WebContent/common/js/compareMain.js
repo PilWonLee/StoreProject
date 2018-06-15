@@ -343,12 +343,8 @@ $(document)
 													});
 									$('#selectNationDrop').html(contents);
 									addClickEventNation();
-								},
-								error : function(request, status, error) {
-									alert("code:" + request.status + "\n"
-											+ "message:" + request.responseText
-											+ "\n" + "error:" + error);
 								}
+								
 							});
 
 					// 시,도 드랍다운에 이벤트 추가 함수
@@ -393,19 +389,8 @@ $(document)
 																			"시,군,구 선택");
 															addClickEventCity();
 
-														},
-														error : function(
-																request,
-																status, error) {
-															alert("code:"
-																	+ request.status
-																	+ "\n"
-																	+ "message:"
-																	+ request.responseText
-																	+ "\n"
-																	+ "error:"
-																	+ error);
 														}
+														
 													});
 										});
 					}

@@ -1,34 +1,35 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
 
 
 <!-- Bootstrap core CSS -->
-<link href="/bootstrap/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="/bootstrap/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Custom fonts for this template -->
-<link
-	href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
-<link
-	href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
 
 <!-- Custom styles for this template -->
 <link href="/bootstrap/css/business-casual.css" rel="stylesheet">
 
-<!-- Custom styles for this template -->
-<link href="/bootstrap/css/myStyle.css" rel="stylesheet">
+
+<!-- 리스트스타일 -->
+<link rel="icon" type="image/png" href="tableStyle/images/icons/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="tableStyle/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="tableStyle/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="tableStyle/vendor/animate/animate.css">
+<link rel="stylesheet" type="text/css" href="tableStyle/vendor/select2/select2.min.css">
+<link rel="stylesheet" type="text/css" href="tableStyle/vendor/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet" type="text/css" href="tableStyle/css/util.css">
+<link rel="stylesheet" type="text/css" href="tableStyle/css/main.css">
 <style>
 #floatingCirclesG{
 	position:relative;
@@ -41,7 +42,6 @@
 		-webkit-transform:scale(0.6);
 		-moz-transform:scale(0.6);
 }
-
 .f_circleG{
 	position:absolute;
 	background-color:rgb(255,255,255);
@@ -73,7 +73,6 @@
 		-webkit-animation-direction:normal;
 		-moz-animation-direction:normal;
 }
-
 #frotateG_01{
 	left:0;
 	top:51px;
@@ -83,7 +82,6 @@
 		-webkit-animation-delay:0.45s;
 		-moz-animation-delay:0.45s;
 }
-
 #frotateG_02{
 	left:15px;
 	top:15px;
@@ -93,7 +91,6 @@
 		-webkit-animation-delay:0.6s;
 		-moz-animation-delay:0.6s;
 }
-
 #frotateG_03{
 	left:51px;
 	top:0;
@@ -103,7 +100,6 @@
 		-webkit-animation-delay:0.75s;
 		-moz-animation-delay:0.75s;
 }
-
 #frotateG_04{
 	right:15px;
 	top:15px;
@@ -113,7 +109,6 @@
 		-webkit-animation-delay:0.9s;
 		-moz-animation-delay:0.9s;
 }
-
 #frotateG_05{
 	right:0;
 	top:51px;
@@ -123,7 +118,6 @@
 		-webkit-animation-delay:1.05s;
 		-moz-animation-delay:1.05s;
 }
-
 #frotateG_06{
 	right:15px;
 	bottom:15px;
@@ -133,7 +127,6 @@
 		-webkit-animation-delay:1.2s;
 		-moz-animation-delay:1.2s;
 }
-
 #frotateG_07{
 	left:51px;
 	bottom:0;
@@ -143,7 +136,6 @@
 		-webkit-animation-delay:1.35s;
 		-moz-animation-delay:1.35s;
 }
-
 #frotateG_08{
 	left:15px;
 	bottom:15px;
@@ -153,54 +145,42 @@
 		-webkit-animation-delay:1.5s;
 		-moz-animation-delay:1.5s;
 }
-
-
-
 @keyframes f_fadeG{
 	0%{
 		background-color:rgba(22,56,224,0.98);
 	}
-
 	100%{
 		background-color:rgb(255,255,255);
 	}
 }
-
 @-o-keyframes f_fadeG{
 	0%{
 		background-color:rgba(22,56,224,0.98);
 	}
-
 	100%{
 		background-color:rgb(255,255,255);
 	}
 }
-
 @-ms-keyframes f_fadeG{
 	0%{
 		background-color:rgba(22,56,224,0.98);
 	}
-
 	100%{
 		background-color:rgb(255,255,255);
 	}
 }
-
 @-webkit-keyframes f_fadeG{
 	0%{
 		background-color:rgba(22,56,224,0.98);
 	}
-
 	100%{
 		background-color:rgb(255,255,255);
 	}
 }
-
 @-moz-keyframes f_fadeG{
 	0%{
 		background-color:rgba(22,56,224,0.98);
 	}
-
 	100%{
 		background-color:rgb(255,255,255);
 	}
@@ -213,62 +193,50 @@ h2.flh {
   line-height: 0.75;
   margin-top:50px;
 }
-
 #good {
   color : green
 }
-
 #normal{
   margin-top:20px;
   margin-bottom:20px;
   color : gold;
 }
-
 #bad{
   color : red
 }
-
 .flh>span {
   display: block;
 }
-
 .flh>span:not(.light) {
   opacity: 0;
   animation: flashText .5s ease-out alternate infinite;
 }
-
 .flh>span.light {
   position: relative;
   display: inline-block;
 }
   
-
 @keyframes flash{
   to {
     opacity: 1;
   }
 }
-
 @keyframes flashText {
   to {
     opacity: 0.15;
   }
 }
-
-
 .map_wrap, .map_wrap * {
 	margin: 0;
 	padding: 0;
 	font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
 	font-size: 12px;
 }
-
 .map_wrap {
 	position: relative;
 	width: 100%;
 	height: 350px;
 }
-
 #category {
 	position: absolute;
 	top: 10px;
@@ -280,7 +248,6 @@ h2.flh {
 	overflow: hidden;
 	z-index: 2;
 }
-
 #category li {
 	float: left;
 	list-style: none;
@@ -290,70 +257,56 @@ h2.flh {
 	text-align: center;
 	cursor: pointer;
 }
-
 #category li.on {
 	background: #eee;
 }
-
 #category li:hover {
 	background: #ffe6e6;
 	border-left: 1px solid #acacac;
 	margin-left: -1px;
 }
-
 #category li:last-child {
 	margin-right: 0;
 	border-right: 0;
 }
-
 #category li span {
 	display: block;
 	margin: 0 auto 3px;
 	width: 27px;
 	height: 28px;
 }
-
 #category li .category_bg {
 	background:
 		url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png)
 		no-repeat;
 }
-
 #category li .bank {
 	background-position: -10px 0;
 }
-
 #category li .mart {
 	background-position: -10px -36px;
 }
-
 #category li .pharmacy {
 	background-position: -10px -72px;
 }
-
 #category li .oil {
 	background-position: -10px -108px;
 }
-
 #category li .cafe {
 	background-position: -10px -144px;
 }
-
 #category li .store {
 	background-position: -10px -180px;
 }
-
 #category li.on .category_bg {
 	background-position-x: -46px;
 }
-
 .placeinfo_wrap {
 	position: absolute;
 	bottom: 28px;
 	left: -150px;
 	width: 300px;
 }
-
 .placeinfo {
 	position: relative;
 	width: 100%;
@@ -363,12 +316,10 @@ h2.flh {
 	padding-bottom: 10px;
 	background: #fff;
 }
-
 .placeinfo:nth-of-type(n) {
 	border: 0;
 	box-shadow: 0px 1px 2px #888;
 }
-
 .placeinfo_wrap .after {
 	content: '';
 	position: relative;
@@ -379,25 +330,21 @@ h2.flh {
 	background:
 		url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
 }
-
 .placeinfo a, .placeinfo a:hover, .placeinfo a:active {
 	color: #fff;
 	text-decoration: none;
 }
-
 .placeinfo a, .placeinfo span {
 	display: block;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
 }
-
 .placeinfo span {
 	margin: 5px 5px 0 5px;
 	cursor: default;
 	font-size: 13px;
 }
-
 .placeinfo .title {
 	font-weight: bold;
 	font-size: 14px;
@@ -410,25 +357,62 @@ h2.flh {
 		url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png)
 		no-repeat right 14px center;
 }
-
 .placeinfo .tel {
 	color: #0f7833;
 }
-
 .placeinfo .jibun {
 	color: #999;
 	font-size: 11px;
 	margin-top: 0;
 }
+.row100.body.content{
+	display:none;	
+}
+	
+.column1{
+	width:13%;
+}
 
+.column2{
+	padding-left:3%;
+	width:25%;
+}
+
+.column3{
+	width:13%;
+}
+.modify{
+	margin:5px;
+}
+.delete{
+	margin:5px;
+}
+span:hover{
+	cursor:pointer;
+}
+.content{
+    vertical-align: middle;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    align: center;
+    height:130px;
+}
+
+.content.top{
+	vertical-align:top;
+}	
 </style>
+
+<!-- Custom styles for this template -->
+<link href="/bootstrap/css/myStyle.css" rel="stylesheet">
+
+
 <script src="/common/js/jquery-3.3.1.min.js" charset="utf-8"></script>
 <script src="/common/js/Chart.bundle.js"></script>
 <script src="/common/js/utils.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=42ff495b96a0548bc815a587a9e4fd80&libraries=services,clusterer,drawing"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=42ff495b96a0548bc815a587a9e4fd80&libraries=services,clusterer,drawing"></script>
 <script>
 	$(function() {
 		var analysisCategory = document
@@ -864,58 +848,127 @@ h2.flh {
 								el.className = 'on';
 							}
 						}
+						
+						
+						getList(locName);
+						resize();
+						
+						function resize(){
+							$('.js-pscroll').each(function() {
+								var ps = new PerfectScrollbar(this);
+								$(window).on('resize', function() {
+									ps.update();
+								})
+							}); 
+						}
+						
+						// 클릭하면 내용 보여주기
+						$(document).on("click", ".row100.body",function(event){
+							var unpureId = $(this).attr("id");
+							var pureId = unpureId.substring(1,unpureId.length);
+							console.log(pureId);
+							$("#"+pureId).toggle();
+							$('.js-pscroll').each(function() {
+								var ps = new PerfectScrollbar(this);
+								$(window).on('resize', function() {
+									ps.update();
+								})
+							}); 
+						});
 					});
+	
+	//게시판 리스트 불러오기
+	 function getList(locName){
+			var contents ="";
+			$.ajax({
+				url:"getDetailRcdList.do",
+				data:{locName:locName},
+				method:'POST',
+				dataType:"json",
+				success:function(data){
+					var dataLength = data.length;
+					$.each(data,function(key,value){
+						contents +="<tr class='row100 body' id='A"+value.rcdNo+"' >";
+						contents +="<td class='cell100 column1'>"+value.rcdNo+"</td>";
+						contents +="<td class='cell100 column2'>"+value.title+"</td>";
+						contents +="<td class='cell100 column3'>"+value.sigunguName+"</td>";
+						contents +="<td class='cell100 column4'>"+value.indsName+"</td>";
+						contents +="<td class='cell100 column5'>"+value.regDate+"</td>";
+						contents +="</tr>";
+						contents +="<tr class='row100 body content' id='"+value.rcdNo+"'>";
+						contents +="<td class='content' colspan='3'><span>";
+						contents += value.content+"</span></td><td class='content top' colspan='2' id='"+value.rcdNo+"'>";
+						contents += "<span><b>작성자</b>  : "+value.email+"</span>";
+						contents += "</td></tr>";
+					})
+					
+					
+					$('.table100-body.js-pscroll tbody').html(contents);
+					
+					
+					location.href='#list';
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+			
+		} 	
 
 </script>
 <link rel="stylesheet" href="/bootstrap/css/jqcloud.css">
 <script>
 
 var words = new Array;
-var locName = "<%=(String)request.getAttribute("locName")%>";
-var midName = "<%=(String)request.getAttribute("midName")%>";
-var contents = ''; 
- $(function() {
-	 $('#couldStart').mouseover(function(event){
-			$(this).css('cursor','pointer');
+var locName = "<%=(String) request.getAttribute("locName")%>";
+var midName = "<%=(String) request.getAttribute("midName")%>";
+	var contents = '';
+	$(function() {
+		$('#couldStart').mouseover(function(event) {
+			$(this).css('cursor', 'pointer');
 		})
-		contents =  '<div id="floatingCirclesG">';
-	 	contents +='<div class="f_circleG" id="frotateG_01"></div>';
-	 	contents +='<div class="f_circleG" id="frotateG_02"></div>';
-	 	contents +='<div class="f_circleG" id="frotateG_03"></div>';
-	 	contents +='<div class="f_circleG" id="frotateG_04"></div>';
-	 	contents +='<div class="f_circleG" id="frotateG_05"></div>';
-	 	contents +='<div class="f_circleG" id="frotateG_06"></div>';
-	 	contents +='<div class="f_circleG" id="frotateG_07"></div>';
-	 	contents +='<div class="f_circleG" id="frotateG_08"></div>';
-	 	contents +='</div>';
-		
-	 $('#couldStart').click(function(){
-		 $("#keywords").html(contents);
-		 $.ajax({
-				url:"getCrawling.do",
-				data:{locName : locName, midName: midName},
-				type:'POST',
-				dataType:"json",
-				success:function(data){
-					 $("#keywords").html('');
-					$.each(data,function(key,value){
-						var pushData = {text: key, weight: value};
+		contents = '<div id="floatingCirclesG">';
+		contents += '<div class="f_circleG" id="frotateG_01"></div>';
+		contents += '<div class="f_circleG" id="frotateG_02"></div>';
+		contents += '<div class="f_circleG" id="frotateG_03"></div>';
+		contents += '<div class="f_circleG" id="frotateG_04"></div>';
+		contents += '<div class="f_circleG" id="frotateG_05"></div>';
+		contents += '<div class="f_circleG" id="frotateG_06"></div>';
+		contents += '<div class="f_circleG" id="frotateG_07"></div>';
+		contents += '<div class="f_circleG" id="frotateG_08"></div>';
+		contents += '</div>';
+
+		$('#couldStart').click(function() {
+			$("#keywords").html(contents);
+			$.ajax({
+				url : "getCrawling.do",
+				data : {
+					locName : locName,
+					midName : midName
+				},
+				type : 'POST',
+				dataType : "json",
+				success : function(data) {
+					$("#keywords").html('');
+					$.each(data, function(key, value) {
+						var pushData = {
+							text : key,
+							weight : value
+						};
 						words.push(pushData);
 					});
 					console.log(words);
 					$("#keywords").jQCloud(words, {
-						width:600,
-						height:300
+						width : 600,
+						height : 300
 					});
 				}
 			});
-	 })
-	
-});       
-   
- 
+		})
+
+	});
 </script>
-<script src="/common/js/mainJs.js"></script>
+<!-- <script src="/common/js/mainJs.js"></script> -->
 
 <title>우리 동네 상권 분석</title>
 </head>
@@ -924,93 +977,77 @@ var contents = '';
 	<!-- Navigation -->
 	<%@include file="/common/nav.jsp"%>
 
-	<section class="page-section clearfix" style="height:2500px">
+	<section class="page-section clearfix" style="height:2800px">
 	<div class="container">
 		<div class="intro">
 			<!-- <img class="intro-img img-fluid mb-3 mb-lg-0 rounded"
 				src="" alt=""> -->
-			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp"
-				style="height: 430px">
+			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp" style="height: 430px">
 				<h2>선택한 지역</h2>
 				<div id="map" style="width: 100%; height: 300px;"></div>
 			</div>
-			
-			<div
-				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
-				style="height: 430px; width: 70%;">
-				<h2><%=request.getParameter("locName") %> 인구 현황</h2>
+
+			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp cust" style="height: 430px; width: 70%;">
+				<h2><%=request.getParameter("locName")%>
+					인구 현황
+				</h2>
 				<canvas id="barChart" width="600" height="270"></canvas>
 
 			</div>
-			
-			
+
+
 		</div>
 
 		<div class="intro" style="margin-top: 5%">
-			<div
-				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
-				style="height: 500px; width: 70%; margin: auto;">
+			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp cust" style="height: 500px; width: 70%; margin: auto;">
 				<h2>주요 상권</h2>
 				<div class="map_wrap">
-					<div id="map2"
-						style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
+					<div id="map2" style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
 					<ul id="category">
-						<li id="BK9" data-order="0"><span class="category_bg bank"></span>
-							은행</li>
-						<li id="MT1" data-order="1"><span class="category_bg mart"></span>
-							마트</li>
-						<li id="PM9" data-order="2"><span
-							class="category_bg pharmacy"></span> 약국</li>
-						<li id="OL7" data-order="3"><span class="category_bg oil"></span>
-							주유소</li>
-						<li id="CE7" data-order="4"><span class="category_bg cafe"></span>
-							카페</li>
-						<li id="CS2" data-order="5"><span class="category_bg store"></span>
-							편의점</li>
+						<li id="BK9" data-order="0"><span class="category_bg bank"></span> 은행</li>
+						<li id="MT1" data-order="1"><span class="category_bg mart"></span> 마트</li>
+						<li id="PM9" data-order="2"><span class="category_bg pharmacy"></span> 약국</li>
+						<li id="OL7" data-order="3"><span class="category_bg oil"></span> 주유소</li>
+						<li id="CE7" data-order="4"><span class="category_bg cafe"></span> 카페</li>
+						<li id="CS2" data-order="5"><span class="category_bg store"></span> 편의점</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		
 
-		<div class="intro" style="margin-top: 5%;margin-left:0px">
-			<div
-				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
-				style="width:600px;height: 600px;margin-left:0px">
-				<h3><%=(String)request.getAttribute("midName")%>업종 비율</h3>
+
+		<div class="intro" style="margin-top: 5%; margin-left: 0px">
+			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp cust" style="width: 600px; height: 600px; margin-left: 0px">
+				<h3><%=(String) request.getAttribute("midName")%>업종 비율
+				</h3>
 				<div id="rateChart">
-				<canvas id="myChart" width="100%" height="100%"></canvas>
+					<canvas id="myChart" width="100%" height="100%"></canvas>
 				</div>
 			</div>
-			
-			
-			<div
-				class="intro-text left-0 text-center bg-faded p-5 rounded disp cust"
-				style="width: 65%; height: 600px">
+
+
+			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp cust" style="width: 65%; height: 600px">
 				<h3 style="padding-bottom: 2em;">
-				<%=request.getParameter("locName") %> 
-				<%=(String)request.getAttribute("midName")%><br>
-				검색결과 WordCloud
+					<%=request.getParameter("locName")%>
+					<%=(String) request.getAttribute("midName")%><br> 검색결과 WordCloud
 				</h3>
 				<div id="keywords" style="width: 100%; height: 100%">
-				<span id='couldStart' style="color:blue;margin-top:3rem"><h3>내용 보기</h3></span>
+					<span id='couldStart' style="color: blue; margin-top: 3rem"><h3>내용 보기</h3></span>
 				</div>
 
 			</div>
 		</div>
 
-		
+
 
 		<div class="intro">
 			<!-- <img class="intro-img img-fluid mb-3 mb-lg-0 rounded"
 				src="" alt=""> -->
-			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp"
-				style="width: 28%; height: 430px">
+			<div class="intro-text left-0 text-center bg-faded p-5 rounded disp" style="width: 28%; height: 430px;margin-left:auto;margin-right:auto">
 				<h2>상권 활성도</h2>
 
 				<h2 class="flh">
-					<span id="good">좋음</span> <span id="normal">보통</span> <span
-						id="bad">나쁨</span>
+					<span id="good">좋음</span> <span id="normal">보통</span> <span id="bad">나쁨</span>
 				</h2>
 
 
@@ -1018,14 +1055,41 @@ var contents = '';
 
 		</div>
 
+		<div class="intro">
+				<div class="table100 ver1 m-b-110" style="margin-top: 3%">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1"><b>글번호</b></th>
+									<th class="cell100 column2"><b>제목</b></th>
+									<th class="cell100 column3"><b>지역</b></th>
+									<th class="cell100 column4"><b>업종</b></th>
+									<th class="cell100 column5"><b>등록일</b></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
 
+					<div class="table100-body js-pscroll">
+						<table>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+		</div>
 
 	</div>
 	</section>
 
 
 
-
+	<!-- 리스트폼 -->
+	<script src="tableStyle/vendor/bootstrap/js/popper.js"></script>
+	<script src="tableStyle/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="tableStyle/vendor/select2/select2.min.js"></script>
+	<script src="tableStyle/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<!-- Bootstrap core JavaScript -->
 	<script src="bootstrap/vendor/jquery/jquery.min.js"></script>
 	<script src="bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

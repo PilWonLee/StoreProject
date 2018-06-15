@@ -88,6 +88,7 @@ span:hover{
 <title>우리 동네 상권 분석</title>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
+var start = 0;
 	$(function() {
 		var recommendCategory = document.getElementById("recommendCategory");
 		recommendCategory.className = "nav-item px-lg-4 active"; // 카테고리
@@ -263,7 +264,7 @@ span:hover{
 		}); 
 		
 		
-		var start = 0;
+		start = 0;
 		//더보기
 		$(document).on("click","#add",function() {
 			start += 7;
@@ -371,6 +372,7 @@ span:hover{
 	
 	//게시판 리스트 불러오기
 	 function getList(){
+			start =0;
 			var contents ="";
 			$.ajax({
 				url:"getRcdList.do",

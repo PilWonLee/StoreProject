@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.store.dto.RecommendDTO;
 import com.store.dto.apiDTO;
 import com.store.dto.apiWrappedDTO;
 import com.store.service.ICompareService;
@@ -184,6 +185,18 @@ public class CompareController {
 		System.out.println("importantStoreCnt : "+importantStoreCnt);
 		System.out.println("importantStoreCnt2 : "+importantStoreCnt2);
 		return a;
+	}
+	
+	@RequestMapping(value="getCompareRcdList")
+	public @ResponseBody List<RecommendDTO> getCompareRcdList(
+			HttpServletRequest request, HttpServletResponse response,
+			HttpSession session, ModelMap model,@RequestParam("locName")String locName,
+			@RequestParam("locName2")String locName2)
+		throws Exception{
+		log.info("come into getDetailRcdList");
+		log.info(locName);
+		List<RecommendDTO> list = compareService.getList(locName,locName2);
+		return list;
 	}
 	
 	@RequestMapping(value = "getStoreInfoCompare", method = RequestMethod.POST)

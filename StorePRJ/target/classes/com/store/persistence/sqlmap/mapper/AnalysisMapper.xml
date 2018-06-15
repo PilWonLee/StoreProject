@@ -20,5 +20,13 @@ INSERT INTO pil_db.`HISTORY` VALUES(
 )
 </insert>
 
+<select id="getList" parameterType="String" resultType="RecommendDTO">
+SELECT RCD_NO AS rcdNo, REG_USER_NO AS regUserNo, TITLE, CONTENT, SIDO, SIGUNGU, 
+INDS_NAME AS indsName, A.REG_DATE AS regDate, SIDO_NAME AS sidoName,SIGUNGU_NAME AS sigunguName, 
+INDS_CD AS indsCd, EMAIL FROM pil_db.`RECOMMEND` A, pil_db.`USER_INFO` B 
+WHERE B.USER_NO = A.REG_USER_NO
+AND SIGUNGU_NAME = #{locName}
+ORDER BY A.REG_DATE DESC LIMIT 7
+</select>
 
 </mapper>

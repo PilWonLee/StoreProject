@@ -260,10 +260,7 @@ var MidNameArr = new Array;
 							});
 							$('#selectNationDrop').html(contents);
 							addClickEventNation();
-						},	
-						error: function(request,status,error){
-				        		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-				       	}
+						}
 				}); 
 			
 			
@@ -289,10 +286,7 @@ var MidNameArr = new Array;
 			
 						
 							
-						},	
-						error: function(request,status,error){
-				        		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-				       	}
+						}
 					}); 
 				});
 			}
@@ -410,10 +404,7 @@ var MidNameArr = new Array;
 					});
 					$('#selectBigIndsDrop').html(contents);
 					addClickEventBigInds();
-				},	
-				error: function(request,status,error){
-		        		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		       	}
+				}
 		}); 
 		
 	});		

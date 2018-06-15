@@ -11,7 +11,15 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-
+<!-- 리스트스타일 -->
+<link rel="icon" type="image/png" href="tableStyle/images/icons/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="tableStyle/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="tableStyle/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="tableStyle/vendor/animate/animate.css">
+<link rel="stylesheet" type="text/css" href="tableStyle/vendor/select2/select2.min.css">
+<link rel="stylesheet" type="text/css" href="tableStyle/vendor/perfect-scrollbar/perfect-scrollbar.css">
+<link rel="stylesheet" type="text/css" href="tableStyle/css/util.css">
+<link rel="stylesheet" type="text/css" href="tableStyle/css/main.css">
 <!-- Bootstrap core CSS -->
 <link href="/bootstrap/vendor/bootstrap/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -433,6 +441,43 @@ h2.flh {
 	font-size: 11px;
 	margin-top: 0;
 }
+.row100.body.content{
+	display:none;	
+}
+	
+.column1{
+	width:13%;
+}
+
+.column2{
+	padding-left:3%;
+	width:25%;
+}
+
+.column3{
+	width:13%;
+}
+.modify{
+	margin:5px;
+}
+.delete{
+	margin:5px;
+}
+span:hover{
+	cursor:pointer;
+}
+.content{
+    vertical-align: middle;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    align: center;
+    height:130px;
+}
+
+.content.top{
+	vertical-align:top;
+}	
 
 </style>
 <script src="/common/js/jquery-3.3.1.min.js" charset="utf-8"></script>
@@ -799,7 +844,70 @@ h2.flh {
 						// 지도에 원을 표시합니다 
 						circle.setMap(map);
 						
+						
+						getList(locName,locName2);
+						resize();
+						
+						function resize(){
+							$('.js-pscroll').each(function() {
+								var ps = new PerfectScrollbar(this);
+								$(window).on('resize', function() {
+									ps.update();
+								})
+							}); 
+						}
+						
+						// 클릭하면 내용 보여주기
+						$(document).on("click", ".row100.body",function(event){
+							var unpureId = $(this).attr("id");
+							var pureId = unpureId.substring(1,unpureId.length);
+							console.log(pureId);
+							$("#"+pureId).toggle();
+							$('.js-pscroll').each(function() {
+								var ps = new PerfectScrollbar(this);
+								$(window).on('resize', function() {
+									ps.update();
+								})
+							}); 
+						});
 					});
+	//게시판 리스트 불러오기
+	 function getList(locName,locName2){
+			var contents ="";
+			$.ajax({
+				url:"getCompareRcdList.do",
+				data:{locName:locName,locName2:locName2},
+				method:'POST',
+				dataType:"json",
+				success:function(data){
+					var dataLength = data.length;
+					$.each(data,function(key,value){
+						contents +="<tr class='row100 body' id='A"+value.rcdNo+"' >";
+						contents +="<td class='cell100 column1'>"+value.rcdNo+"</td>";
+						contents +="<td class='cell100 column2'>"+value.title+"</td>";
+						contents +="<td class='cell100 column3'>"+value.sigunguName+"</td>";
+						contents +="<td class='cell100 column4'>"+value.indsName+"</td>";
+						contents +="<td class='cell100 column5'>"+value.regDate+"</td>";
+						contents +="</tr>";
+						contents +="<tr class='row100 body content' id='"+value.rcdNo+"'>";
+						contents +="<td class='content' colspan='3'><span>";
+						contents += value.content+"</span></td><td class='content top' colspan='2' id='"+value.rcdNo+"'>";
+						contents += "<span><b>작성자</b>  : "+value.email+"</span>";
+						contents += "</td></tr>";
+					})
+					
+					
+					$('.table100-body.js-pscroll tbody').html(contents);
+					
+					
+					location.href='#list';
+				},
+				error:function(error){
+					console.log(error);
+				}
+			});
+			
+		} 
 
 </script>
 <link rel="stylesheet" href="/bootstrap/css/jqcloud.css">
@@ -943,14 +1051,42 @@ var contents = '';
 			</div>
 
 		</div>
+		
+		<div class="intro">
+				<div class="table100 ver1 m-b-110" style="margin-top: 3%">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1"><b>글번호</b></th>
+									<th class="cell100 column2"><b>제목</b></th>
+									<th class="cell100 column3"><b>지역</b></th>
+									<th class="cell100 column4"><b>업종</b></th>
+									<th class="cell100 column5"><b>등록일</b></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
 
+					<div class="table100-body js-pscroll">
+						<table>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+		</div>
 
 
 	</div>
 	</section>
 
 
-
+	<!-- 리스트폼 -->
+	<script src="tableStyle/vendor/bootstrap/js/popper.js"></script>
+	<script src="tableStyle/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="tableStyle/vendor/select2/select2.min.js"></script>
+	<script src="tableStyle/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
 	<!-- Bootstrap core JavaScript -->
 	<script src="bootstrap/vendor/jquery/jquery.min.js"></script>
